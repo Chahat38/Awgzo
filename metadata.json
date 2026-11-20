@@ -1,0 +1,6 @@
+{
+  "name": "AWGZO — Tech & Marketing Wizards",
+  "description": "AWGZO is a dynamic digital marketing and creative technology agency specializing in AR Development, TikTok Effects, Digital Marketing, Website & E-commerce Development, Software Development, and Business Consulting.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

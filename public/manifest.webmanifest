@@ -1,0 +1,17 @@
+{
+  "name": "AWGZO — AR & VR Marketing Agency",
+  "short_name": "AWGZO",
+  "description": "AWGZO builds AR experiences, TikTok effects, websites, software and digital marketing that help brands grow.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#E86C22",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

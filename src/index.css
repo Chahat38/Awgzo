@@ -1,0 +1,227 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+@layer base {
+  html {
+    background-color: var(--awgzo-black);
+    color: var(--awgzo-white);
+    font-family: var(--font-sans);
+    scroll-behavior: auto;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--awgzo-black);
+    color: var(--awgzo-white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono-tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #E86C22;
+  outline-offset: 3px;
+}
+
+/* Split-letter roll effect on overlay menu links */
+.nav-roll-link {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.25;
+}
+.nav-roll-link .nav-roll-inner {
+  display: block;
+  transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-roll-link .nav-roll-clone {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  color: #E86C22;
+}
+.nav-roll-link:hover .nav-roll-inner,
+.nav-roll-link:focus-visible .nav-roll-inner {
+  transform: translateY(-100%);
+}
+
+/* Underline draw link animation */
+.text-link-draw {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.text-link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: #E86C22;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.text-link-draw:hover::after,
+.text-link-draw:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Subtle AR scan-line pattern */
+.ar-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+@keyframes awgzo-scroll-dot {
+  0% { transform: translateY(0); opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { transform: translateY(28px); opacity: 0; }
+}
+.animate-scroll-dot {
+  animation: awgzo-scroll-dot 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes awgzo-scan-sweep {
+  0% { transform: translateY(-100%); opacity: 0; }
+  20% { opacity: 0.85; }
+  80% { opacity: 0.85; }
+  100% { transform: translateY(500%); opacity: 0; }
+}
+.ar-laser-sweep {
+  animation: awgzo-scan-sweep 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Services rail + testimonial dots active states */
+.svc-rail button.on {
+  background: #e86c22;
+  box-shadow: 0 0 14px #e86c22;
+  transform: scale(1.7);
+}
+.ts-dots button.on {
+  background: #ff9a55;
+  box-shadow: 0 0 12px #ff9a55;
+  transform: scale(1.5);
+}
+
+/* Team section: orbit, marquee and spotlight content swap */
+@keyframes awgzo-team-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.team-orbit {
+  animation: awgzo-team-orbit 24s linear infinite;
+}
+
+@keyframes awgzo-team-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.team-marquee {
+  animation: awgzo-team-marquee 28s linear infinite;
+}
+
+@keyframes awgzo-team-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.team-fade {
+  animation: awgzo-team-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll-dot,
+  .ar-laser-sweep,
+  .team-orbit,
+  .team-marquee,
+  .team-fade {
+    animation: none;
+  }
+  .nav-roll-link .nav-roll-inner {
+    transition: none;
+  }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #080808; }
+::-webkit-scrollbar-thumb { background: #242424; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #E86C22; }
+
+/* V5 Hand-Controlled UI Target Hover & Click Feedback */
+[data-hand-target] {
+  position: relative;
+  transition:
+    transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+[data-hand-hover="true"] {
+  border-color: #E86C22 !important;
+  box-shadow:
+    0 0 0 2px rgba(232, 108, 34, 0.55),
+    0 0 28px rgba(232, 108, 34, 0.38),
+    inset 0 0 18px rgba(232, 108, 34, 0.16) !important;
+  transform: scale(1.045);
+}
+
+[data-hand-hover="true"]::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(to right, #E86C22 2px, transparent 2px) 0 0 / 12px 12px no-repeat,
+    linear-gradient(to bottom, #E86C22 2px, transparent 2px) 0 0 / 12px 12px no-repeat,
+    linear-gradient(to left, #E86C22 2px, transparent 2px) 100% 0 / 12px 12px no-repeat,
+    linear-gradient(to bottom, #E86C22 2px, transparent 2px) 100% 0 / 12px 12px no-repeat,
+    linear-gradient(to right, #E86C22 2px, transparent 2px) 0 100% / 12px 12px no-repeat,
+    linear-gradient(to top, #E86C22 2px, transparent 2px) 0 100% / 12px 12px no-repeat,
+    linear-gradient(to left, #E86C22 2px, transparent 2px) 100% 100% / 12px 12px no-repeat,
+    linear-gradient(to top, #E86C22 2px, transparent 2px) 100% 100% / 12px 12px no-repeat;
+}
+
+@keyframes awgzo-hand-pulse {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+[data-hand-clicked="true"] {
+  animation: awgzo-hand-pulse 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-hand-clicked="true"] {
+    animation: none;
+  }
+}
