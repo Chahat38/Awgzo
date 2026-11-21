@@ -41,6 +41,7 @@ const SERVICES = [
 const pad = (value: number) => String(value).padStart(2, '0');
 const TAU = Math.PI * 2;
 const OBJECT_SCALE = 0.72;
+const MOBILE_OBJECT_SCALE = 0.62;
 
 type Shape = (index: number) => number[];
 
@@ -269,8 +270,10 @@ export function ServicesSection() {
       const halfHeight = Math.tan(0.3927) * 9;
       const halfWidth = halfHeight * camera.aspect;
       if (isMobile) {
-        points.position.set(0, halfHeight * 0.42, 0);
-        points.scale.setScalar(Math.min(0.8, (halfWidth * 0.92) / 2.6) * OBJECT_SCALE);
+        points.position.set(0, halfHeight * 0.22, 0);
+        points.scale.setScalar(
+          Math.min(0.8, (halfWidth * 0.92) / 2.6) * OBJECT_SCALE * MOBILE_OBJECT_SCALE
+        );
       } else {
         const centerX = halfWidth * 0.4;
         const scale = Math.min(1.2, (halfWidth * 0.95 - centerX) / 2.5, (halfHeight * 0.9) / 2.5);
