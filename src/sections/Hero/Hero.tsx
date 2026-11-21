@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Calendar } from 'lucide-react';
+import { Glasses } from 'lucide-react';
 import { useReality } from '../../context/RealityContext';
 import { AWGZO_SITE } from '../../data/site';
 import { MagneticCta } from '../../components/ui/Glass';
@@ -73,12 +73,10 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
           <div className="mt-7 flex flex-wrap items-center gap-4">
             <MagneticCta
               variant="orange"
-              cursorLabel="BOOK"
-              onClick={() =>
-                window.open(AWGZO_SITE.contact.calendlyUrl, '_blank', 'noopener,noreferrer')
-              }
+              cursorLabel="OPEN"
+              onClick={() => scrollToSection('reality-lab')}
             >
-              <Calendar className="h-4 w-4" /> Book an AR VR XR Call
+              <Glasses className="h-4 w-4" /> Open AR / VR Lab
             </MagneticCta>
 
             <button
