@@ -50,14 +50,14 @@ export const AWGZO_PORTAL_HOTSPOTS: PanoHotspot[] = [
   {
     id: 'book-call',
     label: 'Book a Call',
-    description: 'Schedule a free discovery session on Calendly to plan your AR, VR, or web project.',
+    description: 'Schedule a free discovery session on Calendly to plan your AR or web project.',
     position: [5.2, 2.2, 6.2],
     action: 'book',
   },
   {
     id: 'enter-vr',
-    label: 'Enter VR',
-    description: 'Step into an immersive headset WebXR experience or explore the 360° horizon right in your browser.',
+    label: 'Enter 360° View',
+    description: 'Explore the 360° studio horizon right in your browser — no headset needed.',
     position: [-5.5, 1.8, 6.5],
     action: 'enter-vr',
   },

@@ -86,7 +86,7 @@ export default function WebXROverlay() {
         renderer.render(scene, camera);
       });
     } catch {
-      setErrorMsg('Could not open headset VR session. Use the 360° browser room instead.');
+      setErrorMsg('Could not open the immersive session. Use the 360° browser room instead.');
       setVrSupported(false);
     }
   };
@@ -104,7 +104,7 @@ export default function WebXROverlay() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3B82F6]">
-              WebXR Comfort Room · VR Entry
+              WebXR Comfort Room · 360° View
             </span>
             <h2 id="webxr-modal-title" className="mt-1 font-display text-2xl font-bold text-white">
               Enter Virtual Room
@@ -113,7 +113,7 @@ export default function WebXROverlay() {
           <button
             type="button"
             onClick={() => setVrOverlayOpen(false)}
-            aria-label="Exit VR dialog"
+            aria-label="Exit 360° view dialog"
             className="rounded-full border border-white/15 bg-white/5 p-2 text-white transition hover:border-[#E86C22] hover:bg-[#E86C22] hover:text-[#080808] cursor-pointer"
           >
             <X className="h-4 w-4" />
@@ -136,12 +136,12 @@ export default function WebXROverlay() {
         {vrSupported === true && (
           <div className="mt-6 space-y-4">
             <p className="text-sm text-white/90">
-              WebXR <code className="font-mono-tabular text-[#E86C22]">immersive-vr</code> hardware detected.
+              WebXR immersive view hardware detected.
             </p>
             <div className="flex flex-wrap gap-3">
               <MagneticCta variant="orange" onClick={startHeadsetSession}>
                 <Glasses className="h-4 w-4" />
-                {inSession ? 'VR Session Active' : 'Launch Headset VR'}
+                {inSession ? '360° Session Active' : 'Launch 360° View'}
               </MagneticCta>
               <MagneticCta
                 variant="glass"
@@ -159,7 +159,7 @@ export default function WebXROverlay() {
         {vrSupported === false && (
           <div className="mt-6 space-y-4">
             <div className="rounded-xl border border-[#3B82F6]/30 bg-[#3B82F6]/10 p-4 text-sm text-white">
-              VR headset not detected — explore in 360 instead.
+              Headset not detected — explore in 360° instead.
             </div>
             {errorMsg && <p className="text-xs text-[#E86C22]">{errorMsg}</p>}
             <div className="flex flex-wrap gap-3">

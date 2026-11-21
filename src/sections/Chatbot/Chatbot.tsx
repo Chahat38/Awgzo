@@ -17,8 +17,8 @@ const QUICK_CHIPS = [
   'AR try-on',
   'Get a quote',
   'What is AR?',
-  'What is VR?',
-  'AR vs VR for my business',
+  'WebAR without an app',
+  'TikTok effects',
   'Book a call',
   'Contact',
 ];
@@ -28,7 +28,7 @@ function getSectionPrompt(section: string): string {
     case 'portfolio':
       return 'Curious about our work?';
     case 'reality-lab':
-      return 'Test AR or 360° VR?';
+      return 'Try the AR Lab?';
     case 'team':
       return 'Meet the team?';
     default:
@@ -212,7 +212,7 @@ export function Chatbot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about services, AR/VR, hours…"
+              placeholder="Ask about AR, WebAR, TikTok effects or booking a call…"
               aria-label="Ask AWGZO a question"
               className="flex-1 rounded-full border border-white/15 bg-[#080808]/80 px-4 py-2 text-xs text-white placeholder:text-white/40 focus:border-[#E86C22] focus:outline-none"
             />

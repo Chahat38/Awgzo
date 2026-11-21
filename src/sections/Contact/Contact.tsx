@@ -118,7 +118,9 @@ export function Contact() {
       });
       if (!res.ok) throw new Error('Request failed');
       setStatusTone('success');
-      setStatusMessage('Message sent! Thank you for contacting AWGZO.');
+      setStatusMessage(
+        'Thanks — your brief is with us. We’ll reply by email shortly. Need an answer sooner? Book a free call.'
+      );
       setName('');
       setEmail('');
       setMessage('');
@@ -156,10 +158,11 @@ export function Contact() {
                 Contact
               </span>
               <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
-                Let&apos;s build something immersive
+                Let’s Build Your Next AR Experience
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-[#A0A0A0]">
-                Tell us about your project and we&apos;ll get back to you.
+                Tell us about your goal and we’ll suggest the right mix of AR, web, software and
+                marketing. Prefer to talk now? Book a free consultation and pick a time that suits you.
               </p>
             </div>
 
@@ -268,7 +271,7 @@ export function Contact() {
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Full name"
+                      placeholder="e.g., Ahmad Khan"
                       className="mt-2 w-full rounded-xl border border-white/15 bg-[#080808]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#E86C22] focus:outline-none"
                     />
                   </div>
@@ -290,7 +293,7 @@ export function Contact() {
 
                 <div>
                   <label htmlFor="contact-service" className="block font-mono-tabular text-xs font-medium text-white/85">
-                    Service Interest
+                    Service You're Interested In
                   </label>
                   <select
                     id="contact-service"
@@ -308,7 +311,7 @@ export function Contact() {
 
                 <div>
                   <label htmlFor="contact-message" className="block font-mono-tabular text-xs font-medium text-white/85">
-                    Project Brief
+                    Tell Us About Your Project
                   </label>
                   <textarea
                     id="contact-message"
@@ -316,7 +319,7 @@ export function Contact() {
                     required
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Share what you want to build — AR try-on, TikTok effects, website, software, or marketing..."
+                    placeholder="Share your goal — AR try-on, TikTok effects, website, software or marketing..."
                     className="mt-2 w-full rounded-xl border border-white/15 bg-[#080808]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#E86C22] focus:outline-none"
                   />
                 </div>
@@ -338,9 +341,9 @@ export function Contact() {
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
-                  <MagneticCta type="submit" variant="orange" disabled={submitting} cursorLabel="SEND">
+                  <MagneticCta type="submit" variant="orange" disabled={submitting} cursorLabel="BOOK">
                     <Send className="h-4 w-4" />
-                    {submitting ? 'Sending…' : 'Send Inquiry'}
+                    {submitting ? 'Sending…' : 'Request a Free Consultation'}
                   </MagneticCta>
                   <span className="font-mono-tabular text-[11px] text-[#A0A0A0]">
                     Or book directly via Calendly

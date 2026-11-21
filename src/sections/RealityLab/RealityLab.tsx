@@ -110,7 +110,7 @@ export function RealityLab() {
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState<'none' | 'denied' | 'not-found' | 'in-use' | 'unavailable'>('none');
   const [cameraStatus, setCameraStatus] = useState(
-    'Camera off. Enable tracking to operate the entire AR/VR console hands-free.'
+    'Camera off. Enable tracking to explore the AR lab hands-free.'
   );
   const [raiseHandVisible, setRaiseHandVisible] = useState(false);
   const [dwellEnabled, setDwellEnabled] = useState(true);
@@ -832,14 +832,15 @@ export function RealityLab() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22]">
-              Interactive Experience Lab
+              Interactive AR Lab
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
-              Hand-Controlled <span className="text-[#E86C22]">AR</span> &amp; VR Console
+              Hand-Controlled <span className="text-[#E86C22]">AR</span> Experience Lab
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-[#A0A0A0]">
-              Turn on local camera tracking to operate every button, 360° hotspot, and radial menu
-              with air-pinch or dwell gestures — or keep using mouse, touch, and keyboard seamlessly.
+              Try WebAR product viewing, AR business cards and TikTok effect concepts in one
+              interactive lab. Turn on local camera tracking to explore hands-free, or stay with
+              mouse, touch and keyboard.
             </p>
           </div>
 
@@ -868,7 +869,7 @@ export function RealityLab() {
                     : 'text-white/80 hover:bg-white/10'
                 }`}
               >
-                VR Portal
+                WebAR View
               </button>
             </div>
           </div>
@@ -1184,7 +1185,7 @@ export function RealityLab() {
             >
               <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-[#3B82F6]">
                 <span className="inline-flex items-center gap-2 font-semibold">
-                  <Compass className="h-4 w-4" /> PANEL 02 · 360° VR PORTAL
+                  <Compass className="h-4 w-4" /> PANEL 02 · 360° VIEW
                 </span>
                 <span className="text-[11px] text-[#A0A0A0]">
                   Pinch Drag, Open Palm Look, or Swipe Left/Right
@@ -1208,7 +1209,7 @@ export function RealityLab() {
                   data-hand-target="ctrl-enter-vr"
                   className="inline-flex min-h-[72px] min-w-[152px] items-center justify-center gap-2 rounded-2xl border border-[#3B82F6]/60 bg-[#3B82F6]/20 px-5 text-sm font-semibold text-white hover:bg-[#3B82F6]/35 cursor-pointer"
                 >
-                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Enter Headset VR
+                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Open 360° View
                 </button>
 
                 <button

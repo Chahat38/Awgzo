@@ -11,7 +11,7 @@ const BASE_NAV_ITEMS: { label: string; target: string; section: ActiveSectionId 
   { label: 'Home', target: 'hero', section: 'hero' },
   { label: 'Services', target: 'services', section: 'services' },
   { label: 'Work', target: 'portfolio', section: 'portfolio' },
-  { label: 'AR / VR Lab', target: 'reality-lab', section: 'reality-lab' },
+  { label: 'AR Lab', target: 'reality-lab', section: 'reality-lab' },
   { label: 'Team', target: 'team', section: 'team' },
   { label: 'Contact', target: 'contact', section: 'contact' },
 ];

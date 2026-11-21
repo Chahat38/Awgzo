@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Glasses } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { useReality } from '../../context/RealityContext';
 import { AWGZO_SITE } from '../../data/site';
 import { MagneticCta } from '../../components/ui/Glass';
@@ -58,18 +58,36 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
             <span className="text-[#E86C22]">Marketing Wizards</span>
           </h1>
 
-          <p className="mt-6 max-w-[60ch] text-base leading-relaxed text-[#A0A0A0] sm:text-lg">
+          <p className="mt-4 max-w-[60ch] text-sm font-medium uppercase tracking-[0.14em] text-[#FF9A55] sm:text-base">
+            {AWGZO_SITE.badge}
+          </p>
+
+          <p className="mt-2 max-w-[60ch] text-base font-semibold text-white sm:text-lg">
+            {AWGZO_SITE.heroSubheadline}
+          </p>
+
+          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-[#A0A0A0] sm:text-lg">
             {AWGZO_SITE.intro}
           </p>
 
-          <div className="mt-7">
+          <div className="mt-7 flex flex-wrap items-center gap-4">
             <MagneticCta
               variant="orange"
-              cursorLabel="VR"
-              onClick={() => scrollToSection('reality-lab')}
+              cursorLabel="BOOK"
+              onClick={() =>
+                window.open(AWGZO_SITE.contact.calendlyUrl, '_blank', 'noopener,noreferrer')
+              }
             >
-              <Glasses className="h-4 w-4" /> Enter VR
+              <Calendar className="h-4 w-4" /> Book a Free Consultation
             </MagneticCta>
+
+            <button
+              type="button"
+              onClick={() => scrollToSection('portfolio')}
+              className="text-sm font-semibold text-white underline-offset-4 hover:text-[#E86C22] hover:underline"
+            >
+              See Our AR Work
+            </button>
           </div>
         </div>
       </div>

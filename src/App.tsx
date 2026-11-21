@@ -22,6 +22,10 @@ function AppShell() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    document.querySelectorAll('[data-static-seo]').forEach((element) => element.remove());
+  }, []);
+
+  useEffect(() => {
     if (typeof window === 'undefined') return;
     const cleanup = initSmoothScroll(({ progress, velocity }) => {
       sceneStateRef.current.scrollProgress = progress;

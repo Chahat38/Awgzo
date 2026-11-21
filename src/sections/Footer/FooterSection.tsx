@@ -413,7 +413,7 @@ export function FooterSection() {
             onPointerLeave={handleCtaLeave}
             className="mt-5 inline-block rounded-full bg-gradient-to-br from-[#E86C22] to-[#FF9A55] px-6 py-[12px] font-bold text-[#10191f] no-underline"
           >
-            BOOK Free APPOINTMENT ⟶
+            Book a Free Consultation →
           </a>
         </div>
 
@@ -448,15 +448,18 @@ export function FooterSection() {
             <div className="fcol">
               <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Quick Links</h4>
               <a href="#hero" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Home</a>
-              <a href="#team" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">About</a>
               <a href="#services" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Services</a>
+              <a href="#portfolio" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Work</a>
+              <a href="#reality-lab" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">AR Lab</a>
+              <a href="#team" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Team</a>
               <a href="#contact" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Contact</a>
             </div>
 
             <div className="fcol">
               <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Newsletter</h4>
               <p className="text-sm leading-relaxed text-[#A7AFB3]">
-                Stay up to date with our latest news, receive exclusive deals, and more.
+                Short, useful notes on AR marketing, WebAR and web builds from our Islamabad studio.
+                No spam.
               </p>
               <form onSubmit={handleNewsletter} className="mt-2 flex gap-2">
                 <input
@@ -464,15 +467,15 @@ export function FooterSection() {
                   required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder="Enter your email address"
-                  aria-label="Email"
+                  placeholder="you@company.com"
+                  aria-label="Email address for AWGZO updates"
                   className="min-w-0 flex-1 rounded-full border border-white/[0.18] bg-white/[0.06] px-[14px] py-[11px] text-sm text-white outline-none transition-all duration-300 placeholder:text-white/40 focus:border-[#FF9A55] focus:shadow-[0_0_0_4px_rgba(232,109,34,0.22)]"
                 />
                 <button
                   type="submit"
                   className="rounded-full border-0 bg-[#E86C22] px-4 py-[11px] text-sm font-bold text-[#10191f]"
                 >
-                  subscribe ⟶
+                  Subscribe
                 </button>
               </form>
               {status && <p className="mt-2 text-xs text-[#FF9A55]">{status}</p>}
@@ -480,7 +483,7 @@ export function FooterSection() {
           </div>
 
           <p className="mt-[24px] text-center text-xs text-[#A7AFB3]">
-            © Awgzo. All rights reserved. Powered by Wizards
+            © {new Date().getFullYear()} AWGZO. All rights reserved. Powered by Wizards
           </p>
         </div>
       </div>

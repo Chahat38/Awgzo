@@ -10,7 +10,7 @@ const BASE_SECTIONS = [
   { id: 'hero', label: '01 · Hero', owner: 'Part A' },
   { id: 'services', label: '02 · Services (Particle Morph)', owner: 'Merged v9' },
   { id: 'portfolio', label: '03 · Portfolio (Curved Cylinder Gallery)', owner: 'Part A' },
-  { id: 'reality-lab', label: '04 · RealityLab (AR Mirror & 360° VR Portal)', owner: 'Part A' },
+  { id: 'reality-lab', label: '04 · RealityLab (AR Mirror & 360° View)', owner: 'Part A' },
   { id: 'team', label: '05 · Team (Crew Dossier)', owner: 'Part A' },
   { id: 'testimonials', label: '06 · Testimonials (3D Fly-through)', owner: 'Merged v9' },
   { id: 'python-lab', label: '07 · <PythonLibSlot />', owner: 'Part B Slot' },
@@ -77,10 +77,10 @@ export default function PreviewPage() {
 
               <div className="mt-5 flex flex-wrap gap-3">
                 <MagneticCta variant="orange" onClick={() => navigate('/?section=reality-lab')}>
-                  <Layers className="h-4 w-4" /> Open AR / VR Lab
+                  <Layers className="h-4 w-4" /> Open AR Lab
                 </MagneticCta>
                 <MagneticCta variant="glass" onClick={() => setVrOverlayOpen(true)}>
-                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Test WebXR VR
+                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Test 360° View
                 </MagneticCta>
                 <MagneticCta variant="glass" onClick={() => setPanoOpen(true)}>
                   <Layers className="h-4 w-4" /> Open 360° Horizon

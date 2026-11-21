@@ -6,27 +6,27 @@ import { gsap, registerMotionPlugins, ScrollTrigger } from '../../lib/scroll';
 const SERVICES = [
   {
     title: 'AR Development',
-    body: 'Immersive AR experiences for mobile, web and iOS that make your brand stand out and boost conversions.',
+    body: 'We build mobile, web and iOS AR experiences that let customers preview products, scan print and play with your brand before they buy. As an AR development company in Pakistan, we make immersive ideas practical, fast to load and easy to launch.',
   },
   {
     title: 'TikTok Effects',
-    body: 'Custom effects that help businesses go viral and connect with a wider audience.',
+    body: 'Custom TikTok AR effects give creators a reason to film, react and share. We design face tracking, gesture triggers and brand overlays in Effect House so your campaign feels native to the feed and stays lightweight on mobile.',
   },
   {
     title: 'Digital Marketing & Branding',
-    body: 'Data-driven strategies that drive traffic, increase engagement and generate leads.',
+    body: 'Clear positioning, useful content and focused campaigns help the right people find you. As a digital marketing agency in Islamabad, we connect brand identity, search and social activity so every touchpoint supports the same growth goal.',
   },
   {
     title: 'Website & E-commerce',
-    body: 'High-performing, mobile-responsive, conversion-driven websites and online stores.',
+    body: 'Fast, responsive sites turn visitors into enquiries and shoppers. Our e-commerce website development in Pakistan covers clean product pages, simple checkout paths and mobile-first layouts that keep your brand clear from first click to final order.',
   },
   {
     title: 'Software Development',
-    body: 'Scalable web, mobile and AI-powered software that automates processes.',
+    body: 'We design web, mobile and AI-powered platforms that remove repetitive work and support real decisions. As a software development company in Islamabad, we scope carefully, build in stages and hand over tools your team can actually use.',
   },
   {
     title: 'Business Consulting & Strategy',
-    body: 'Market analysis and digital transformation plans to scale smart and stay ahead.',
+    body: 'Good ideas need a plan that fits your market, budget and team. Our business consulting in Pakistan turns messy challenges into clear priorities, practical roadmaps and steady support, so technology spend connects to outcomes you can explain.',
   },
 ];
 
@@ -365,8 +365,12 @@ export function ServicesSection() {
           What we do
         </span>
         <h2 className="font-display text-[clamp(2.4rem,6vw,4.2rem)] leading-none tracking-[0.03em]">
-          How can we help you?
+          Digital services built for attention and action
         </h2>
+        <p className="mx-auto mt-3 max-w-xl text-sm text-[#A0A0A0] sm:text-base">
+          From AR try-on to custom software, we combine creative technology and practical
+          strategy to help Islamabad brands stand out and convert.
+        </p>
       </div>
 
       <div
@@ -401,7 +405,7 @@ export function ServicesSection() {
           <button
             key={service.title}
             type="button"
-            aria-label={`Go to ${service.title}`}
+            aria-label={`Learn about ${service.title}`}
             className={`h-2.5 w-2.5 rounded-full bg-white/20 transition-all duration-300 hover:bg-[#E86C22] ${
               index === 0 ? 'scale-[1.7] bg-[#E86C22] shadow-[0_0_14px_#E86C22]' : ''
             }`}

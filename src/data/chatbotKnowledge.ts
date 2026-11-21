@@ -7,33 +7,72 @@ export interface KnowledgeMatch {
 }
 
 export const CHATBOT_WELCOME =
-  "Hi, I'm the AWGZO assistant. Ask about our AR & VR work, services or booking a call.";
+  "Hi, I'm the AWGZO assistant. Ask about our AR work, WebAR, TikTok effects or booking a call.";
 
 export function matchChatbotReply(input: string): KnowledgeMatch {
   const q = input.trim().toLowerCase();
 
-  if (q.includes('ar vs vr') || (q.includes('ar') && q.includes('vr'))) {
+  if (
+    q.includes('where') ||
+    q.includes('located') ||
+    q.includes('address') ||
+    q.includes('location') ||
+    q.includes('g-11') ||
+    q.includes('islamabad')
+  ) {
     return {
-      answer:
-        'AR layers digital 3D objects onto the real world through a camera—ideal for product try-on, TikTok effects, and AR business cards. VR places viewers inside an immersive 360° virtual environment. Book a quick call and we can recommend the right format for your campaign.',
+      answer: `We're in Islamabad: ${AWGZO_SITE.contact.address}. Want to visit or book a call?`,
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
 
-  if (q.includes('what is vr') || q === 'vr' || q.includes('virtual reality')) {
+  if (
+    q.includes('tiktok') ||
+    q.includes('filter') ||
+    q.includes('effect house') ||
+    q.includes('face tracking')
+  ) {
     return {
       answer:
-        'Virtual Reality (VR) immerses audiences in a simulated 3D or 360° environment explored via headsets or browser viewers. Book a consultation to scope an interactive VR room or product showcase.',
+        'We build custom TikTok AR effects in Effect House with face tracking, gestures and branded overlays. Want one for your campaign?',
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
 
-  if (q.includes('what is ar') || q.includes('try-on') || q.includes('try on') || q.includes('tiktok')) {
+  if (
+    q.includes('webar') ||
+    q.includes('without an app') ||
+    q.includes('browser ar') ||
+    q.includes('scan')
+  ) {
     return {
       answer:
-        'AWGZO builds augmented reality experiences for mobile, web, and iOS—including AR try-on for e-commerce, scannable AR business cards, and custom TikTok AR effects.',
+        'Yes, WebAR works in the mobile browser. We build product viewers, AR try-on and scannable AR cards without an app download.',
+      actionLabel: 'Book a Free Call',
+      actionHref: AWGZO_SITE.contact.calendlyUrl,
+    };
+  }
+
+  if (q.includes('vr') || q.includes('virtual reality')) {
+    return {
+      answer:
+        'AWGZO focuses on AR, WebAR and TikTok effects rather than VR builds. Want to see what AR can do for your campaign?',
+      actionLabel: 'Book a Free Call',
+      actionHref: AWGZO_SITE.contact.calendlyUrl,
+    };
+  }
+
+  if (
+    q.includes('what is ar') ||
+    q.includes('try-on') ||
+    q.includes('try on') ||
+    q.includes('augmented reality')
+  ) {
+    return {
+      answer:
+        'AWGZO builds augmented reality for mobile, web and iOS — AR try-on, WebAR viewers, scannable AR cards and custom TikTok effects.',
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
@@ -41,7 +80,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   if (q.includes('service') || q.includes('what do you do') || q.includes('offer')) {
     return {
-      answer: `Our core services include ${AWGZO_SITE.servicesVerified.join(', ')}, and AR & VR Experiences—tailored by our Kohat-based digital marketing, design, and engineering team.`,
+      answer: `Our services include ${AWGZO_SITE.servicesVerified.join(', ')}, plus WebAR experiences and AR try-on. We're based in Islamabad. Book a call to scope yours.`,
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
@@ -50,7 +89,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
   if (q.includes('quote') || q.includes('price') || q.includes('cost') || q.includes('pricing')) {
     return {
       answer:
-        'Every campaign and software build is scoped to your goals, so we prepare custom quotes after a short discovery call or project brief.',
+        'Every build is scoped to your goals, so we share a custom quote after a short discovery call or project brief.',
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
@@ -66,8 +105,6 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   if (
     q.includes('contact') ||
-    q.includes('address') ||
-    q.includes('location') ||
     q.includes('phone') ||
     q.includes('email') ||
     q.includes('whatsapp')
@@ -81,7 +118,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   return {
     answer:
-      'I can share verified details about AWGZO’s AR development, TikTok effects, web & e-commerce builds, software, marketing services, and studio hours. Ready to start a project?',
+      'I can share details about AWGZO’s AR development, TikTok effects, WebAR, web & e-commerce builds, software and marketing services. Ready to start?',
     actionLabel: 'Book a Free Call',
     actionHref: AWGZO_SITE.contact.calendlyUrl,
   };

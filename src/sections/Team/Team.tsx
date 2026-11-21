@@ -99,8 +99,7 @@ export function Team() {
               04 · The crew / no superheroes
             </span>
             <h2 className="mt-3 font-display text-[clamp(2.25rem,7vw,5.75rem)] font-extrabold leading-[0.98] tracking-[-0.04em] text-white max-sm:text-[clamp(2rem,9vw,2.6rem)]">
-              The people
-              <br className="hidden sm:block" /> behind <span className="text-[#E86C22]">AWGZO</span>
+              Meet the <span className="text-[#E86C22]">AWGZO</span> Crew
             </h2>
           </div>
 
@@ -118,8 +117,8 @@ export function Team() {
           data-team-head
           className="mt-5 max-w-xl text-sm leading-relaxed text-[#A0A0A0] md:text-base"
         >
-          Strategy, code, pixels and camera tricks — the specialists who turn a brief into
-          something people actually feel.
+          Our AR developers, web engineers, designers and marketers work as one studio in
+          Islamabad. We keep the process clear, collaborative and focused on work that feels useful.
         </p>
 
         <div className="mt-9 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
@@ -149,7 +148,7 @@ export function Team() {
                     <img
                       key={active.photo}
                       src={active.photo}
-                      alt={active.name}
+                      alt={`${active.name} – ${active.role} at AWGZO`}
                       className="team-fade h-full w-full object-cover grayscale-[20%] contrast-[1.06]"
                     />
                     <div

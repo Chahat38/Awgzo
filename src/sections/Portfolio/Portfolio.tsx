@@ -65,7 +65,8 @@ function ProjectMediaCard({
             loop
             playsInline
             preload="none"
-            aria-label={`${project.title} preview video`}
+            title={project.videoTitle}
+            aria-label={project.videoDescription ?? `${project.title} preview video`}
             onError={() => setVideoFailed(true)}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
@@ -73,7 +74,7 @@ function ProjectMediaCard({
           <SmartImage
             src={project.poster}
             fallbackSrc={project.fallbackPoster}
-            alt={project.title}
+            alt={project.altText}
             title={project.title}
             width={project.posterWidth}
             height={project.posterHeight}
@@ -215,11 +216,15 @@ export function Portfolio() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22]">
-              Portfolio · Case Studies
+              Selected Work
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
-              Selected AR &amp; Web Work
+              AR &amp; Web Projects by AWGZO
             </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#A0A0A0] sm:text-base">
+              A closer look at AR marketing, WebAR product viewers, TikTok effects and
+              responsive web builds created by AWGZO in Islamabad.
+            </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">

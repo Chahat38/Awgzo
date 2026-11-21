@@ -9,6 +9,44 @@ import { SmartImage } from '../components/common/SmartImage';
 import { PanoViewport } from '../components/xr/PanoViewer';
 import { FooterSlot } from '../components/slots/TeammateSlots';
 
+const PROJECT_META: Record<string, { title: string; description: string }> = {
+  '3d-ar-ecommerce': {
+    title: 'AR Try-On for E-Commerce | AWGZO',
+    description:
+      "Explore AWGZO's WebAR product viewer with 3D try-on and mobile placement built for e-commerce stores in Pakistan.",
+  },
+  'ar-bowling-game': {
+    title: 'Interactive AR Bowling Game | AWGZO',
+    description:
+      "See AWGZO's surface-tracked AR bowling game, a mobile activation that turns real tables into a playable lane.",
+  },
+  'tiktok-ar-effects': {
+    title: 'TikTok AR Effects & Filters | AWGZO',
+    description:
+      'Custom TikTok AR effects with face tracking, gestures and branded overlays, built in Effect House by AWGZO.',
+  },
+  'ar-business-card': {
+    title: 'AR Business Card | AWGZO WebAR',
+    description:
+      'Turn a printed card into an interactive WebAR showcase with 3D visuals and direct links, built by AWGZO.',
+  },
+  'maajik-website-build': {
+    title: 'Maajik Web Platform | E-Commerce Website Pakistan',
+    description:
+      'See Maajik, a responsive e-commerce website by AWGZO with clean product browsing for mobile and desktop users.',
+  },
+  'multi-device-web-launch': {
+    title: 'Multi-Device Website Showcase | AWGZO',
+    description:
+      'A responsive launch website by AWGZO with clear layouts and CTAs across laptop, tablet and phone screens.',
+  },
+  'brand-web-experience': {
+    title: 'Conversion Brand Website | AWGZO',
+    description:
+      'A focused brand landing site and social visuals by AWGZO, built to turn campaign attention into clear enquiries.',
+  },
+};
+
 export default function ProjectDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -17,6 +55,7 @@ export default function ProjectDetailPage() {
   const index = AWGZO_PROJECTS.findIndex((p) => p.slug === slug);
   const project = index >= 0 ? AWGZO_PROJECTS[index] : AWGZO_PROJECTS[0];
   const nextProject = AWGZO_PROJECTS[(Math.max(0, index) + 1) % AWGZO_PROJECTS.length];
+  const meta = PROJECT_META[project.slug];
 
   useEffect(() => {
     setActiveSection('detail');
@@ -29,8 +68,40 @@ export default function ProjectDetailPage() {
   return (
     <>
       <Helmet>
-        <title>{project.title} | AWGZO</title>
-        <meta name="description" content={project.shortDescription} />
+        <title>{meta?.title ?? `${project.title} | AWGZO`}</title>
+        <meta name="description" content={meta?.description ?? project.shortDescription} />
+        <link rel="canonical" href={`https://awgzo.com/work/${project.slug}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://awgzo.com/work/${project.slug}`} />
+        <meta property="og:title" content={meta?.title ?? `${project.title} | AWGZO`} />
+        <meta
+          property="og:description"
+          content={meta?.description ?? project.shortDescription}
+        />
+        <meta
+          property="og:image"
+          content={
+            project.poster.startsWith('http')
+              ? project.poster
+              : 'https://awgzo.com/wp-content/uploads/2025/04/Awgzo-logo-3-e1743884108133.webp'
+          }
+        />
+        <meta property="og:image:alt" content={project.altText} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={meta?.title ?? `${project.title} | AWGZO`} />
+        <meta
+          name="twitter:description"
+          content={meta?.description ?? project.shortDescription}
+        />
+        <meta
+          name="twitter:image"
+          content={
+            project.poster.startsWith('http')
+              ? project.poster
+              : 'https://awgzo.com/wp-content/uploads/2025/04/Awgzo-logo-3-e1743884108133.webp'
+          }
+        />
+        <meta name="twitter:image:alt" content={project.altText} />
       </Helmet>
 
       <main className="relative z-10 min-h-screen pt-28 pb-20">
@@ -58,7 +129,7 @@ export default function ProjectDetailPage() {
             <div className="flex flex-wrap gap-3">
               {project.hasArLaunch && (
                 <MagneticCta variant="orange" onClick={() => navigate('/?section=reality-lab')}>
-                  <Compass className="h-4 w-4" /> Try in AR / VR Lab
+                  <Compass className="h-4 w-4" /> Try in AR Lab
                 </MagneticCta>
               )}
               {project.has360View && (
@@ -79,7 +150,8 @@ export default function ProjectDetailPage() {
                   muted
                   playsInline
                   preload="none"
-                  aria-label={`${project.title} demonstration video`}
+                  title={project.videoTitle}
+                  aria-label={project.videoDescription ?? `${project.title} demonstration video`}
                   className="max-h-[480px] w-full object-cover"
                 />
               ) : project.has360View ? (
@@ -88,7 +160,7 @@ export default function ProjectDetailPage() {
                 <SmartImage
                   src={project.poster}
                   fallbackSrc={project.fallbackPoster}
-                  alt={`${project.title} — ${project.category}`}
+                  alt={project.altText}
                   title={project.title}
                   width={project.posterWidth}
                   height={project.posterHeight}
