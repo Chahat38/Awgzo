@@ -88,7 +88,7 @@ export function TestimonialsSection() {
     const trigger = ScrollTrigger.create({
       trigger: el,
       start: 'top top',
-      end: '+=300%',
+      end: '+=240%',
       pin: true,
       scrub: true,
       anticipatePin: 1,
