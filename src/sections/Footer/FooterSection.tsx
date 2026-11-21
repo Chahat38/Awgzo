@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { AWGZO_SITE } from '../../data/site';
+import { SocialIcon } from '../../components/ui/SocialIcon';
 import { useReality } from '../../context/RealityContext';
 import { gsap, registerMotionPlugins, ScrollTrigger } from '../../lib/scroll';
 
@@ -434,20 +435,14 @@ export function FooterSection() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-xl border border-white/[0.18] bg-white/[0.06] px-[13px] py-[9px] text-xs text-white no-underline transition-transform duration-300 hover:[transform:perspective(500px)_rotateX(-22deg)_translateZ(14px)] hover:shadow-[0_14px_22px_-8px_#E86C22]"
+                    aria-label={social.label}
+                    title={social.label}
+                    className="grid h-10 w-10 place-items-center rounded-xl border border-white/[0.18] bg-white/[0.06] text-white no-underline transition-transform duration-300 hover:[transform:perspective(500px)_rotateX(-22deg)_translateZ(14px)] hover:shadow-[0_14px_22px_-8px_#E86C22]"
                   >
-                    {social.label}
+                    <SocialIcon label={social.label} className="h-4 w-4" />
                   </a>
                 ))}
               </div>
-            </div>
-
-            <div className="fcol">
-              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Working Hours</h4>
-              <p className="text-sm leading-relaxed text-[#A7AFB3]">Monday – Friday</p>
-              <p className="text-sm leading-relaxed text-[#A7AFB3]">Morning: 09:00 am – 04:00 pm</p>
-              <p className="text-sm leading-relaxed text-[#A7AFB3]">Evening: 07:00 pm – 02:00 am</p>
-              <p className="text-sm leading-relaxed text-[#A7AFB3]">Saturday – Sunday – Closed</p>
             </div>
 
             <div className="fcol">

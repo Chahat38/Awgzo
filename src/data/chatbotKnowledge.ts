@@ -58,7 +58,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   if (q.includes('book') || q.includes('call') || q.includes('meeting') || q.includes('calendly')) {
     return {
-      answer: `Book a free strategy call on Calendly, or reach us during studio hours (${AWGZO_SITE.contact.hoursWeekdays}, ${AWGZO_SITE.contact.hoursWeekends}).`,
+      answer: `Book a free strategy call on Calendly, or email ${AWGZO_SITE.contact.email}.`,
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
@@ -66,7 +66,6 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   if (
     q.includes('contact') ||
-    q.includes('hour') ||
     q.includes('address') ||
     q.includes('location') ||
     q.includes('phone') ||
@@ -74,7 +73,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
     q.includes('whatsapp')
   ) {
     return {
-      answer: `Studio: ${AWGZO_SITE.contact.address} · Phone: ${AWGZO_SITE.contact.phone} · Email: ${AWGZO_SITE.contact.email} · Hours: ${AWGZO_SITE.contact.hoursWeekdays} (${AWGZO_SITE.contact.hoursWeekends}).`,
+      answer: `Studio: ${AWGZO_SITE.contact.address} · Phone: ${AWGZO_SITE.contact.phone} · Email: ${AWGZO_SITE.contact.email}.`,
       actionLabel: 'WhatsApp Community',
       actionHref: AWGZO_SITE.contact.whatsappCommunityUrl,
     };

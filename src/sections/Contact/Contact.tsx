@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Calendar, Clock, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react';
+import { Calendar, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react';
 import { AWGZO_SITE } from '../../data/site';
 import { useReality } from '../../context/RealityContext';
 import { GlassCard, MagneticCta } from '../../components/ui/Glass';
+import { SocialIcon } from '../../components/ui/SocialIcon';
 import { gsap } from '../../lib/scroll';
 
 const SERVICE_OPTIONS = [
@@ -192,14 +193,6 @@ export function Contact() {
                     <span className="font-medium text-white">{AWGZO_SITE.contact.address}</span>
                   </div>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[#E86C22]" />
-                  <div>
-                    <div className="font-mono-tabular text-[11px] uppercase text-[#A0A0A0]">Hours</div>
-                    <p className="font-medium text-white">{AWGZO_SITE.contact.hoursWeekdays}</p>
-                    <p className="text-xs text-[#A0A0A0]">{AWGZO_SITE.contact.hoursWeekends}</p>
-                  </div>
-                </li>
               </ul>
 
               <div className="mt-6 flex flex-wrap gap-3 border-t border-white/10 pt-5">
@@ -221,16 +214,18 @@ export function Contact() {
                 </a>
               </div>
 
-              <div className="mt-5 flex flex-wrap gap-3 text-xs text-[#A0A0A0]">
+              <div className="mt-5 flex flex-wrap gap-3">
                 {AWGZO_SITE.socials.map((soc) => (
                   <a
                     key={soc.label}
                     href={soc.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-link-draw hover:text-white"
+                    aria-label={soc.label}
+                    title={soc.label}
+                    className="grid h-9 w-9 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition hover:border-[#E86C22] hover:text-[#E86C22]"
                   >
-                    {soc.label}
+                    <SocialIcon label={soc.label} className="h-4 w-4" />
                   </a>
                 ))}
               </div>
