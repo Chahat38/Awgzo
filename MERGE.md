@@ -12,7 +12,7 @@ This codebase implements **Part A ONLY** of the AWGZO website so **Part B (teamm
 - **Portfolio** (`src/sections/Portfolio/Portfolio.tsx` & `src/pages/ProjectDetailPage.tsx`) — Curved Cylinder Gallery, `All | AR | VR | Web` filters, centered-card muted video autoplay, `/work/:slug` case-study route.
 - **RealityLab** (`src/sections/RealityLab/RealityLab.tsx`) — Placed cleanly **between Portfolio and Team** (`#reality-lab`), combining an opt-in local MediaPipe AR Mirror and interactive 360° VR Portal.
 - **Team** (`src/sections/Team/Team.tsx`) — Rotating Helix Tower using strictly placeholder records from `src/data/team.ts`, switching from AR outer helix to VR inside-out ring.
-- **Contact** (`src/sections/Contact/Contact.tsx`) — Iris Reveal Portal with verified Kohat studio info, validation, honeypot `_gotcha`, and honest `VITE_FORM_ENDPOINT` submission handling.
+- **Contact** (`src/sections/Contact/Contact.tsx`) — Iris Reveal Portal with verified Islamabad studio info, validation, honeypot `_gotcha`, and honest `VITE_FORM_ENDPOINT` submission handling.
 - **Chatbot** (`src/sections/Chatbot/Chatbot.tsx`) — Scroll-Aware Glass Orb reading verified facts from `src/data/chatbotKnowledge.ts`, automatically suppressing when Contact form inputs are focused.
 - **Inspection & Utilities** — `/preview` (`src/pages/PreviewPage.tsx`), Global Glass UI (`src/components/ui/Glass.tsx`), Global `AR | MIX | VR` State (`src/context/RealityContext.tsx`), and lazy XR modals (`src/components/xr/*`).
 

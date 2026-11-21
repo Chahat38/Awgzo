@@ -119,7 +119,7 @@ export function Contact() {
       if (!res.ok) throw new Error('Request failed');
       setStatusTone('success');
       setStatusMessage(
-        'Thanks — your brief is with us. We’ll reply by email shortly. Need an answer sooner? Book a free call.'
+        'Thanks — your brief is with us. We’ll reply by email shortly. Need a faster answer? Book a call.'
       );
       setName('');
       setEmail('');
@@ -158,11 +158,11 @@ export function Contact() {
                 Contact
               </span>
               <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
-                Let’s Build Your Next AR Experience
+                Let’s Build Your Next AR VR XR Experience
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-[#A0A0A0]">
-                Tell us about your goal and we’ll suggest the right mix of AR, web, software and
-                marketing. Prefer to talk now? Book a free consultation and pick a time that suits you.
+                Tell us your goal and we’ll suggest the right mix of AR, VR, WebXR, web and
+                marketing. Prefer to talk now? Book a free call.
               </p>
             </div>
 
@@ -205,7 +205,7 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-[#E86C22] px-4 py-2 text-xs font-semibold text-[#080808] hover:bg-[#FD9800]"
                 >
-                  <Calendar className="h-3.5 w-3.5" /> Book a Free Call
+                  <Calendar className="h-3.5 w-3.5" /> Book an AR VR XR Call
                 </a>
                 <a
                   href={AWGZO_SITE.contact.whatsappCommunityUrl}
@@ -319,7 +319,7 @@ export function Contact() {
                     required
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Share your goal — AR try-on, TikTok effects, website, software or marketing..."
+                    placeholder="Share your goal — AR try-on, VR experience, WebXR, website or marketing..."
                     className="mt-2 w-full rounded-xl border border-white/15 bg-[#080808]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#E86C22] focus:outline-none"
                   />
                 </div>
@@ -343,7 +343,7 @@ export function Contact() {
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
                   <MagneticCta type="submit" variant="orange" disabled={submitting} cursorLabel="BOOK">
                     <Send className="h-4 w-4" />
-                    {submitting ? 'Sending…' : 'Request a Free Consultation'}
+                    {submitting ? 'Sending…' : 'Send an AR VR XR Brief'}
                   </MagneticCta>
                   <span className="font-mono-tabular text-[11px] text-[#A0A0A0]">
                     Or book directly via Calendly

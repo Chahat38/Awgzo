@@ -12,6 +12,15 @@ const MARQUEE_ITEMS = [
   'Visual Systems',
 ];
 
+const getInitials = (name: string) =>
+  name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0))
+    .join('')
+    .toUpperCase();
+
 export function Team() {
   const members = useMemo(() => getTeamMembers(), []);
   const { setActiveSection, sceneStateRef } = useReality();
@@ -99,7 +108,7 @@ export function Team() {
               04 · The crew / no superheroes
             </span>
             <h2 className="mt-3 font-display text-[clamp(2.25rem,7vw,5.75rem)] font-extrabold leading-[0.98] tracking-[-0.04em] text-white max-sm:text-[clamp(2rem,9vw,2.6rem)]">
-              Meet the <span className="text-[#E86C22]">AWGZO</span> Crew
+              Meet the <span className="text-[#E86C22]">AR VR XR</span> Team
             </h2>
           </div>
 
@@ -117,8 +126,7 @@ export function Team() {
           data-team-head
           className="mt-5 max-w-xl text-sm leading-relaxed text-[#A0A0A0] md:text-base"
         >
-          Our AR developers, web engineers, designers and marketers work as one studio in
-          Islamabad. We keep the process clear, collaborative and focused on work that feels useful.
+          Our AR, VR and WebXR builders, web devs and marketers work as one Islamabad studio.
         </p>
 
         <div className="mt-9 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
@@ -144,17 +152,13 @@ export function Team() {
 
               <div className="relative mt-8 flex justify-center">
                 <div className="relative aspect-square w-36 sm:w-56">
-                  <div className="absolute inset-0 overflow-hidden rounded-full border border-white/15 bg-[#1A1A1A]">
-                    <img
-                      key={active.photo}
-                      src={active.photo}
-                      alt={`${active.name} – ${active.role} at AWGZO`}
-                      className="team-fade h-full w-full object-cover grayscale-[20%] contrast-[1.06]"
-                    />
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 bg-gradient-to-t from-[#080808]/75 via-transparent to-[#E86C22]/10"
-                    />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full border border-white/15 bg-[#151515]">
+                    <span className="font-display text-4xl font-bold tracking-tight text-[#E86C22] sm:text-6xl">
+                      {getInitials(active.name)}
+                    </span>
+                    <span className="mt-1 font-mono-tabular text-[9px] uppercase tracking-[0.2em] text-white/35">
+                      AWGZO
+                    </span>
                   </div>
                   <div
                     aria-hidden="true"
@@ -229,8 +233,8 @@ export function Team() {
                     >
                       {member.index}
                     </span>
-                    <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border border-white/15 sm:h-11 sm:w-11">
-                      <img src={member.photo} alt="" className="h-full w-full object-cover" />
+                    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#151515] font-mono-tabular text-[10px] font-semibold text-[#E86C22] sm:h-11 sm:w-11 sm:text-xs">
+                      {getInitials(member.name)}
                     </span>
                     <span
                       className={`font-display text-lg font-semibold leading-tight transition-colors duration-300 sm:text-2xl ${

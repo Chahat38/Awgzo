@@ -78,7 +78,7 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
                 window.open(AWGZO_SITE.contact.calendlyUrl, '_blank', 'noopener,noreferrer')
               }
             >
-              <Calendar className="h-4 w-4" /> Book a Free Consultation
+              <Calendar className="h-4 w-4" /> Book an AR VR XR Call
             </MagneticCta>
 
             <button

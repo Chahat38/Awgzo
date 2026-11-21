@@ -5,24 +5,23 @@ import { gsap, registerMotionPlugins, ScrollTrigger } from '../../lib/scroll';
 const TESTIMONIALS = [
   {
     quote:
-      'They did an excellent job in website development, delivering high-quality results with great attention to detail. Their strong communication skills and solid business understanding make them a valuable asset.',
+      'Excellent website development with attention to detail, clear communication and strong business understanding.',
     name: 'M. Shaoor',
     role: 'Manager, Zawiya Academy',
   },
   {
     quote:
-      'I wholeheartedly recommend Ahmad Waleed to any company looking for a talented digital marketer, consultant or augmented reality (AR) developer. His growth-oriented mindset makes him an asset to any team.',
+      'A talented digital marketer, consultant and augmented reality developer with a growth-oriented mindset.',
     name: 'Saeed Anwar',
     role: 'CEO, Maktek',
   },
   {
-    quote:
-      'Great job, Waleed. Proud of you. I appreciate your professionalism and thank you for your continued support and help.',
+    quote: 'Professional, supportive and a pleasure to work with.',
     name: 'Shahryar Lodhi',
     role: 'Chairman',
   },
   {
-    quote: 'The website is outstanding, and every option and feature works well.',
+    quote: 'The website is outstanding and every option and feature works well.',
     name: 'Tayyaba',
     role: 'Marketing Manager',
   },
@@ -124,7 +123,7 @@ export function TestimonialsSection() {
       className="relative z-10 h-[100svh] min-h-[620px] overflow-hidden border-t border-white/[0.08] bg-[#080808]"
     >
       <h2 className="absolute inset-x-0 top-[9vh] z-[110] text-center font-display text-[clamp(2.4rem,6vw,4.2rem)] leading-none tracking-[0.03em]">
-        What Clients Say About AWGZO
+        Client Feedback
       </h2>
 
       <div

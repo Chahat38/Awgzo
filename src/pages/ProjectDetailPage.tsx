@@ -11,39 +11,39 @@ import { FooterSlot } from '../components/slots/TeammateSlots';
 
 const PROJECT_META: Record<string, { title: string; description: string }> = {
   '3d-ar-ecommerce': {
-    title: 'AR Try-On for E-Commerce | AWGZO',
+    title: '3D AR E-Commerce Showcase | AWGZO',
     description:
-      "Explore AWGZO's WebAR product viewer with 3D try-on and mobile placement built for e-commerce stores in Pakistan.",
+      'WebAR product viewer with 3D AR try-on and mobile placement for online stores. Built by AWGZO in Islamabad.',
   },
   'ar-bowling-game': {
     title: 'Interactive AR Bowling Game | AWGZO',
     description:
-      "See AWGZO's surface-tracked AR bowling game, a mobile activation that turns real tables into a playable lane.",
+      'Surface-tracked AR bowling game that turns any table into a playable lane. Built by AWGZO in Islamabad.',
   },
   'tiktok-ar-effects': {
-    title: 'TikTok AR Effects & Filters | AWGZO',
+    title: 'TikTok AR Effects | AWGZO',
     description:
-      'Custom TikTok AR effects with face tracking, gestures and branded overlays, built in Effect House by AWGZO.',
+      'Face-tracked TikTok AR effects and branded filters made for sharing. Built by AWGZO in Islamabad.',
   },
   'ar-business-card': {
-    title: 'AR Business Card | AWGZO WebAR',
+    title: 'AR Business Card | AWGZO',
     description:
-      'Turn a printed card into an interactive WebAR showcase with 3D visuals and direct links, built by AWGZO.',
+      'Printed card that opens a WebAR showcase with 3D visuals and direct links. Built by AWGZO.',
   },
   'maajik-website-build': {
-    title: 'Maajik Web Platform | E-Commerce Website Pakistan',
+    title: 'Maajik Web Platform | AWGZO',
     description:
-      'See Maajik, a responsive e-commerce website by AWGZO with clean product browsing for mobile and desktop users.',
+      'Responsive e-commerce site with clean product browsing on mobile and desktop. Built by AWGZO.',
   },
   'multi-device-web-launch': {
     title: 'Multi-Device Website Showcase | AWGZO',
     description:
-      'A responsive launch website by AWGZO with clear layouts and CTAs across laptop, tablet and phone screens.',
+      'Launch site with consistent layout and CTAs across laptop, tablet and phone. Built by AWGZO.',
   },
   'brand-web-experience': {
     title: 'Conversion Brand Website | AWGZO',
     description:
-      'A focused brand landing site and social visuals by AWGZO, built to turn campaign attention into clear enquiries.',
+      'Focused landing page and social visuals built to turn campaign attention into enquiries. By AWGZO.',
   },
 };
 

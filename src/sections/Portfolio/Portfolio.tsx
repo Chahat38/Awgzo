@@ -222,8 +222,8 @@ export function Portfolio() {
               AR &amp; Web Projects by AWGZO
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#A0A0A0] sm:text-base">
-              A closer look at AR marketing, WebAR product viewers, TikTok effects and
-              responsive web builds created by AWGZO in Islamabad.
+              A closer look at AR, WebAR product viewers, TikTok effects and responsive web
+              builds created by AWGZO in Islamabad.
             </p>
           </div>
 

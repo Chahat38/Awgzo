@@ -413,7 +413,7 @@ export function FooterSection() {
             onPointerLeave={handleCtaLeave}
             className="mt-5 inline-block rounded-full bg-gradient-to-br from-[#E86C22] to-[#FF9A55] px-6 py-[12px] font-bold text-[#10191f] no-underline"
           >
-            Book a Free Consultation →
+            Book an AR VR XR Call →
           </a>
         </div>
 
@@ -458,8 +458,7 @@ export function FooterSection() {
             <div className="fcol">
               <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Newsletter</h4>
               <p className="text-sm leading-relaxed text-[#A7AFB3]">
-                Short, useful notes on AR marketing, WebAR and web builds from our Islamabad studio.
-                No spam.
+                Short notes on AR, VR, WebXR and web builds from our Islamabad studio. No spam.
               </p>
               <form onSubmit={handleNewsletter} className="mt-2 flex gap-2">
                 <input
@@ -483,7 +482,7 @@ export function FooterSection() {
           </div>
 
           <p className="mt-[24px] text-center text-xs text-[#A7AFB3]">
-            © {new Date().getFullYear()} AWGZO. All rights reserved. Powered by Wizards
+            © {new Date().getFullYear()} AWGZO. All rights reserved.
           </p>
         </div>
       </div>

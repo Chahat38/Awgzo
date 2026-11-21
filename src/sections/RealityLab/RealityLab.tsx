@@ -832,15 +832,14 @@ export function RealityLab() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22]">
-              Interactive AR Lab
+              Interactive AR VR XR Lab
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
-              Hand-Controlled <span className="text-[#E86C22]">AR</span> Experience Lab
+              <span className="text-[#E86C22]">WebXR</span> Reality Lab
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-[#A0A0A0]">
-              Try WebAR product viewing, AR business cards and TikTok effect concepts in one
-              interactive lab. Turn on local camera tracking to explore hands-free, or stay with
-              mouse, touch and keyboard.
+              Explore AR, VR and WebXR ideas in one place. Try WebAR product viewing, AR cards and
+              immersive controls, then book a call to scope your own build.
             </p>
           </div>
 
@@ -869,7 +868,7 @@ export function RealityLab() {
                     : 'text-white/80 hover:bg-white/10'
                 }`}
               >
-                WebAR View
+                WebXR View
               </button>
             </div>
           </div>
@@ -1209,7 +1208,7 @@ export function RealityLab() {
                   data-hand-target="ctrl-enter-vr"
                   className="inline-flex min-h-[72px] min-w-[152px] items-center justify-center gap-2 rounded-2xl border border-[#3B82F6]/60 bg-[#3B82F6]/20 px-5 text-sm font-semibold text-white hover:bg-[#3B82F6]/35 cursor-pointer"
                 >
-                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Open 360° View
+                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Open AR VR XR Lab
                 </button>
 
                 <button

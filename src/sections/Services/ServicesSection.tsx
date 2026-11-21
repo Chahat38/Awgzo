@@ -6,27 +6,35 @@ import { gsap, registerMotionPlugins, ScrollTrigger } from '../../lib/scroll';
 const SERVICES = [
   {
     title: 'AR Development',
-    body: 'We build mobile, web and iOS AR experiences that let customers preview products, scan print and play with your brand before they buy. As an AR development company in Pakistan, we make immersive ideas practical, fast to load and easy to launch.',
+    body: 'AR development in Pakistan: AR try-on, AR business cards and WebAR product viewers that open in any phone browser.',
+  },
+  {
+    title: 'VR Experiences',
+    body: 'We build VR experiences for demos, training and immersive brand moments — scoped as a new build in Pakistan.',
+  },
+  {
+    title: 'XR (WebXR) Development',
+    body: 'WebXR development for browser-based AR and VR. We create immersive XR solutions that run on phones and headsets.',
   },
   {
     title: 'TikTok Effects',
-    body: 'Custom TikTok AR effects give creators a reason to film, react and share. We design face tracking, gesture triggers and brand overlays in Effect House so your campaign feels native to the feed and stays lightweight on mobile.',
+    body: 'TikTok AR effects with face tracking and branded overlays, made for creators and campaigns in Pakistan.',
   },
   {
     title: 'Digital Marketing & Branding',
-    body: 'Clear positioning, useful content and focused campaigns help the right people find you. As a digital marketing agency in Islamabad, we connect brand identity, search and social activity so every touchpoint supports the same growth goal.',
+    body: 'AR marketing and brand strategy for Islamabad businesses: clear positioning, content, search and social campaigns.',
   },
   {
     title: 'Website & E-commerce',
-    body: 'Fast, responsive sites turn visitors into enquiries and shoppers. Our e-commerce website development in Pakistan covers clean product pages, simple checkout paths and mobile-first layouts that keep your brand clear from first click to final order.',
+    body: 'Fast websites and online stores with clear CTAs, mobile-first layouts and simple checkout paths.',
   },
   {
     title: 'Software Development',
-    body: 'We design web, mobile and AI-powered platforms that remove repetitive work and support real decisions. As a software development company in Islamabad, we scope carefully, build in stages and hand over tools your team can actually use.',
+    body: 'Web and mobile software that removes repetitive work and supports better decisions.',
   },
   {
     title: 'Business Consulting & Strategy',
-    body: 'Good ideas need a plan that fits your market, budget and team. Our business consulting in Pakistan turns messy challenges into clear priorities, practical roadmaps and steady support, so technology spend connects to outcomes you can explain.',
+    body: 'Practical XR strategy and digital roadmaps that turn a short brief into clear build priorities.',
   },
 ];
 
@@ -365,11 +373,11 @@ export function ServicesSection() {
           What we do
         </span>
         <h2 className="font-display text-[clamp(2.4rem,6vw,4.2rem)] leading-none tracking-[0.03em]">
-          Digital services built for attention and action
+          AR VR XR Services
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-[#A0A0A0] sm:text-base">
-          From AR try-on to custom software, we combine creative technology and practical
-          strategy to help Islamabad brands stand out and convert.
+          We build AR try-on, VR experiences, WebXR, TikTok effects, websites, software and
+          marketing from Islamabad.
         </p>
       </div>
 

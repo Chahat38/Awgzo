@@ -15,12 +15,12 @@ interface ChatMessage {
 const QUICK_CHIPS = [
   'Services',
   'AR try-on',
+  'VR experiences',
+  'WebXR',
   'Get a quote',
-  'What is AR?',
   'WebAR without an app',
   'TikTok effects',
   'Book a call',
-  'Contact',
 ];
 
 function getSectionPrompt(section: string): string {
@@ -28,7 +28,7 @@ function getSectionPrompt(section: string): string {
     case 'portfolio':
       return 'Curious about our work?';
     case 'reality-lab':
-      return 'Try the AR Lab?';
+      return 'Try the AR VR XR Lab?';
     case 'team':
       return 'Meet the team?';
     default:
@@ -212,7 +212,7 @@ export function Chatbot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about AR, WebAR, TikTok effects or booking a call…"
+              placeholder="Ask about AR, VR, WebXR or booking a call…"
               aria-label="Ask AWGZO a question"
               className="flex-1 rounded-full border border-white/15 bg-[#080808]/80 px-4 py-2 text-xs text-white placeholder:text-white/40 focus:border-[#E86C22] focus:outline-none"
             />

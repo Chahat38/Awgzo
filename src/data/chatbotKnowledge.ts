@@ -7,7 +7,7 @@ export interface KnowledgeMatch {
 }
 
 export const CHATBOT_WELCOME =
-  "Hi, I'm the AWGZO assistant. Ask about our AR work, WebAR, TikTok effects or booking a call.";
+  "Hi, I’m AWGZO’s assistant. Ask about AR, VR, WebXR or booking a call.";
 
 export function matchChatbotReply(input: string): KnowledgeMatch {
   const q = input.trim().toLowerCase();
@@ -35,7 +35,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
   ) {
     return {
       answer:
-        'We build custom TikTok AR effects in Effect House with face tracking, gestures and branded overlays. Want one for your campaign?',
+        'We build custom TikTok AR effects with face tracking and branded overlays for creators and campaigns in Pakistan. Want one for your brand?',
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
@@ -58,7 +58,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
   if (q.includes('vr') || q.includes('virtual reality')) {
     return {
       answer:
-        'AWGZO focuses on AR, WebAR and TikTok effects rather than VR builds. Want to see what AR can do for your campaign?',
+        'We build VR experiences as a service. Want to scope one with our Islamabad team?',
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
@@ -80,7 +80,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   if (q.includes('service') || q.includes('what do you do') || q.includes('offer')) {
     return {
-      answer: `Our services include ${AWGZO_SITE.servicesVerified.join(', ')}, plus WebAR experiences and AR try-on. We're based in Islamabad. Book a call to scope yours.`,
+      answer: `Our services: ${AWGZO_SITE.servicesVerified.join(', ')}. Based in Islamabad. Book a call.`,
       actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
@@ -118,7 +118,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   return {
     answer:
-      'I can share details about AWGZO’s AR development, TikTok effects, WebAR, web & e-commerce builds, software and marketing services. Ready to start?',
+      'I can share details about AWGZO’s AR Development, VR Experiences, WebXR, TikTok effects, web, software and marketing services. Ready to start?',
     actionLabel: 'Book a Free Call',
     actionHref: AWGZO_SITE.contact.calendlyUrl,
   };
