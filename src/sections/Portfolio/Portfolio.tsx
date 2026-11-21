@@ -20,7 +20,6 @@ function ProjectMediaCard({
   sectionVisible: boolean;
   onSelect: () => void;
 }) {
-  const { setPanoOpen } = useReality();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [videoFailed, setVideoFailed] = useState(false);
 
@@ -35,8 +34,6 @@ function ProjectMediaCard({
     }
   }, [isCentered, sectionVisible, videoFailed]);
 
-  const showVrMode = project.kind === 'VR';
-
   return (
     <GlassCard
       role="article"
@@ -49,17 +46,16 @@ function ProjectMediaCard({
         }
       }}
       tone={project.kind === 'AR' ? 'orange' : 'neutral'}
-      className="group relative flex h-[420px] w-full shrink-0 flex-col justify-between overflow-hidden p-5 sm:h-[450px] lg:h-[450px] lg:w-[320px] xl:w-[370px] cursor-pointer"
+      className="group relative flex h-[360px] w-full shrink-0 flex-col overflow-hidden p-5 sm:h-[380px] lg:h-[400px] lg:w-[320px] xl:w-[370px] cursor-pointer"
       data-cursor="INSPECT"
     >
-      <div className="flex items-center justify-between gap-2 font-mono-tabular text-[11px]">
+      <div className="font-mono-tabular text-[11px]">
         <span className="text-[#E86C22] font-semibold">
           {project.indexLabel} · {project.kind}
         </span>
-        <span className="truncate text-white/65">{project.category}</span>
       </div>
 
-      <div className="relative my-3 h-[215px] overflow-hidden rounded-xl border border-white/12 bg-[#080808]">
+      <div className="relative my-3 h-[170px] shrink-0 overflow-hidden rounded-xl border border-white/12 bg-[#080808] sm:h-[190px]">
         {project.videoUrl && !videoFailed ? (
           <video
             ref={videoRef}
@@ -77,64 +73,22 @@ function ProjectMediaCard({
           <SmartImage
             src={project.poster}
             fallbackSrc={project.fallbackPoster}
-            alt={`${project.title} — ${project.category}`}
+            alt={project.title}
             title={project.title}
             width={project.posterWidth}
             height={project.posterHeight}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
         )}
-
-        {showVrMode ? (
-          <div className="pointer-events-none absolute inset-0 flex items-end justify-between bg-gradient-to-t from-black/75 via-transparent to-transparent p-3 opacity-90">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#3B82F6]/50 bg-black/70 px-2.5 py-1 font-mono-tabular text-[10px] text-white">
-              <Compass
-                className="h-3 w-3 text-[#3B82F6] animate-spin"
-                style={{ animationDuration: '8s' }}
-              />
-              360° Preview Ready
-            </span>
-          </div>
-        ) : (
-          <div className="pointer-events-none absolute inset-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span className="absolute left-0 top-0 h-3 w-3 border-l-2 border-t-2 border-[#E86C22]" />
-            <span className="absolute right-0 top-0 h-3 w-3 border-r-2 border-t-2 border-[#E86C22]" />
-            <span className="absolute bottom-0 left-0 h-3 w-3 border-b-2 border-l-2 border-[#E86C22]" />
-            <span className="absolute bottom-0 right-0 h-3 w-3 border-b-2 border-r-2 border-[#E86C22]" />
-            {project.videoUrl && !videoFailed && !isCentered && (
-              <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-black/75 px-2 py-0.5 font-mono-tabular text-[10px] text-[#E86C22]">
-                <Play className="h-2.5 w-2.5" /> CENTER TO PLAY
-              </span>
-            )}
-          </div>
-        )}
       </div>
 
-      <div>
-        <h3 className="font-display text-lg font-bold tracking-tight text-white">
+      <div className="mt-auto border-t border-white/10 pt-3">
+        <h3 className="font-display text-lg font-bold tracking-tight text-white sm:text-xl">
           {project.title}
         </h3>
-        <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-[#A0A0A0]">
-          {project.shortDescription}
-        </p>
-
-        <div className="mt-4 flex items-center justify-between gap-2 border-t border-white/10 pt-3">
-          <span className="inline-flex items-center gap-1 text-xs font-semibold text-white group-hover:text-[#E86C22]">
-            View Case Study <ArrowUpRight className="h-3.5 w-3.5" />
-          </span>
-          {project.has360View && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setPanoOpen(true);
-              }}
-              className="inline-flex items-center gap-1 rounded-full border border-[#3B82F6]/50 bg-[#3B82F6]/15 px-2.5 py-1 font-mono-tabular text-[10px] font-semibold text-white hover:bg-[#3B82F6] cursor-pointer"
-            >
-              <Compass className="h-3 w-3" /> Open 360°
-            </button>
-          )}
-        </div>
+        <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-white group-hover:text-[#E86C22]">
+          View Case Study <ArrowUpRight className="h-3.5 w-3.5" />
+        </span>
       </div>
     </GlassCard>
   );
