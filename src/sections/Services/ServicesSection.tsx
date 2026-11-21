@@ -352,7 +352,7 @@ export function ServicesSection() {
       id="services"
       ref={sectionRef}
       aria-label="Services section"
-      className="relative z-10 h-screen min-h-[640px] overflow-hidden border-t border-white/[0.08]"
+      className="relative z-10 h-[100svh] min-h-[640px] overflow-hidden border-t border-white/[0.08]"
       style={{
         background:
           'radial-gradient(800px 520px at 72% 50%, rgba(232,109,34,0.13), transparent 60%), #080808',
@@ -371,7 +371,7 @@ export function ServicesSection() {
 
       <div
         ref={textRef}
-        className="absolute left-[clamp(18px,6vw,90px)] top-1/2 z-10 h-[300px] w-[min(460px,88vw)] -translate-y-1/2 max-[700px]:bottom-[7vh] max-[700px]:left-[6vw] max-[700px]:top-auto max-[700px]:h-[230px] max-[700px]:translate-y-0"
+        className="absolute left-[clamp(18px,6vw,90px)] top-1/2 z-10 h-[300px] w-[min(460px,88vw)] -translate-y-1/2 max-[700px]:bottom-[5vh] max-[700px]:left-[6vw] max-[700px]:top-auto max-[700px]:h-[280px] max-[700px]:translate-y-0"
       >
         {SERVICES.map((service, index) => (
           <div
@@ -379,14 +379,14 @@ export function ServicesSection() {
             className="absolute left-0 top-0 w-full"
             style={{ opacity: index === 0 ? 1 : 0 }}
           >
-            <span className="font-mono-tabular block text-[1.6rem] text-[#E86C22]">{pad(index + 1)}</span>
-            <h3 className="mt-1 font-display text-[clamp(2.8rem,6.2vw,5.2rem)] leading-[0.92] max-[700px]:text-[2.6rem]">
+            <span className="font-mono-tabular block text-[1.6rem] text-[#E86C22] max-[700px]:text-[1.25rem]">{pad(index + 1)}</span>
+            <h3 className="mt-1 font-display text-[clamp(2.8rem,6.2vw,5.2rem)] leading-[0.92] max-[700px]:text-[clamp(2rem,8.5vw,2.35rem)]">
               {service.title}
             </h3>
-            <p className="mt-3 max-w-[400px] text-[0.98rem] leading-relaxed text-[#A0A0A0] max-[700px]:text-[0.85rem]">
+            <p className="mt-3 max-w-[400px] text-[0.98rem] leading-relaxed text-[#A0A0A0] max-[700px]:mt-2 max-[700px]:text-[0.8rem] max-[700px]:leading-[1.5]">
               {service.body}
             </p>
-            <a href="#contact" className="mt-4 inline-block font-semibold text-[#FF9A55]">
+            <a href="#contact" className="mt-4 inline-block font-semibold text-[#FF9A55] max-[700px]:mt-3">
               Learn more →
             </a>
           </div>

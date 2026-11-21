@@ -127,7 +127,7 @@ export function Chatbot() {
           role="dialog"
           aria-modal="false"
           aria-label="AWGZO Assistant"
-          className="flex h-[460px] w-[min(92vw,380px)] flex-col overflow-hidden p-4 sm:p-5"
+          className="flex h-[460px] max-h-[calc(100svh-40px)] w-[min(92vw,380px)] flex-col overflow-hidden p-4 sm:p-5"
         >
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>

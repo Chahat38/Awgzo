@@ -133,7 +133,7 @@ export function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative z-10 overflow-hidden border-t border-white/[0.08] py-24"
+      className="relative z-10 overflow-hidden border-t border-white/[0.08] py-16 sm:py-24"
     >
       <div
         ref={irisLayerRef}

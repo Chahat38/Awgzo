@@ -255,9 +255,10 @@ export function FooterSection() {
       camera.aspect = width / Math.max(1, height);
       camera.updateProjectionMatrix();
       const wide = window.innerWidth > 900;
+      const compact = window.innerWidth < 700;
       logoX = wide ? 3 : 0;
-      logoY = wide ? 0.1 : 2.3;
-      logoScale = wide ? 1 : 0.6;
+      logoY = wide ? 0.1 : compact ? 1.5 : 1.9;
+      logoScale = wide ? 1 : compact ? 0.5 : 0.7;
     };
     resize();
     window.addEventListener('resize', resize);
@@ -418,7 +419,7 @@ export function FooterSection() {
         <div>
           <div
             ref={colsRef}
-            className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[24px] border-t border-white/[0.18] pt-[26px]"
+            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-[22px] border-t border-white/[0.18] pt-[24px] sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:gap-[24px] sm:pt-[26px]"
           >
             <div className="fcol">
               <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Visit Us</h4>

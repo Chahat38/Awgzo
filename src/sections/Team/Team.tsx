@@ -75,7 +75,7 @@ export function Team() {
     <section
       id="team"
       ref={sectionRef}
-      className="relative z-10 overflow-hidden border-t border-white/[0.08] py-24 sm:py-28 lg:py-32"
+      className="relative z-10 overflow-hidden border-t border-white/[0.08] py-16 sm:py-24 lg:py-28"
     >
       {/* Blueprint grid + warm ambient glow */}
       <div
@@ -98,7 +98,7 @@ export function Team() {
             <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.24em] text-[#E86C22]">
               04 · The crew / no superheroes
             </span>
-            <h2 className="mt-3 font-display text-[clamp(2.6rem,7vw,5.75rem)] font-extrabold leading-[0.94] tracking-[-0.045em] text-white">
+            <h2 className="mt-3 font-display text-[clamp(2.25rem,7vw,5.75rem)] font-extrabold leading-[0.98] tracking-[-0.04em] text-white max-sm:text-[clamp(2rem,9vw,2.6rem)]">
               The people
               <br className="hidden sm:block" /> behind <span className="text-[#E86C22]">AWGZO</span>
             </h2>
@@ -122,10 +122,10 @@ export function Team() {
           something people actually feel.
         </p>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
+        <div className="mt-9 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
           {/* Interactive spotlight / dossier */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="relative min-h-[430px] overflow-hidden rounded-[28px] border border-white/[0.12] bg-[#0D0D0D]/90 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.45)] sm:p-9">
+            <div className="relative min-h-[380px] overflow-hidden rounded-[28px] border border-white/[0.12] bg-[#0D0D0D]/90 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.45)] sm:min-h-[430px] sm:p-9">
               <div
                 aria-hidden="true"
                 className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#E86C22]/25 blur-[90px]"
@@ -144,7 +144,7 @@ export function Team() {
               </div>
 
               <div className="relative mt-8 flex justify-center">
-                <div className="relative aspect-square w-44 sm:w-56">
+                <div className="relative aspect-square w-36 sm:w-56">
                   <div className="absolute inset-0 overflow-hidden rounded-full border border-white/15 bg-[#1A1A1A]">
                     <img
                       key={active.photo}
@@ -270,7 +270,7 @@ export function Team() {
         </div>
 
         {/* Discipline ticker */}
-        <div aria-hidden="true" className="relative mt-14 overflow-hidden border-y border-white/10 py-4">
+        <div aria-hidden="true" className="relative mt-10 overflow-hidden border-y border-white/10 py-4 sm:mt-14">
           <div className="team-marquee flex w-max">
             {[0, 1].map((group) => (
               <div key={group} className="flex shrink-0 items-center gap-10 pr-10">
