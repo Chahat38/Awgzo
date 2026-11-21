@@ -127,9 +127,10 @@ export function Chatbot() {
           role="dialog"
           aria-modal="false"
           aria-label="AWGZO Assistant"
+          contentClassName="flex h-full flex-col"
           className="flex h-[460px] max-h-[calc(100svh-40px)] w-[min(92vw,380px)] flex-col overflow-hidden p-4 sm:p-5"
         >
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="flex shrink-0 items-center justify-between border-b border-white/10 pb-3">
             <div>
               <div className="flex items-center gap-2 font-mono-tabular text-[11px] font-semibold text-[#E86C22]">
                 <Sparkles className="h-3.5 w-3.5" /> AWGZO ASSISTANT
@@ -150,7 +151,7 @@ export function Chatbot() {
           <div
             ref={scrollBoxRef}
             aria-live="polite"
-            className="my-3 flex-1 space-y-3 overflow-y-auto pr-1 text-xs leading-relaxed"
+            className="my-3 min-h-0 flex-1 space-y-3 overflow-y-auto pr-1 text-xs leading-relaxed"
           >
             {messages.map((m) => (
               <div
@@ -187,7 +188,7 @@ export function Chatbot() {
             )}
           </div>
 
-          <div className="mb-2.5 flex flex-wrap gap-1.5">
+          <div className="mb-2.5 flex shrink-0 flex-wrap gap-1.5">
             {QUICK_CHIPS.map((chip, idx) => (
               <button
                 key={chip}
@@ -206,7 +207,7 @@ export function Chatbot() {
               e.preventDefault();
               submitQuery(input);
             }}
-            className="flex items-center gap-2"
+            className="flex shrink-0 items-center gap-2"
           >
             <input
               type="text"

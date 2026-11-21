@@ -14,6 +14,7 @@ export interface GlassCardProps extends HTMLAttributes<HTMLDivElement> {
   depth?: 'low' | 'high';
   interactiveGlow?: boolean;
   className?: string;
+  contentClassName?: string;
 }
 
 export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(function GlassCard(
@@ -23,6 +24,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(function Gla
     depth = 'high',
     interactiveGlow = true,
     className = '',
+    contentClassName = '',
     ...rest
   },
   forwardedRef
@@ -74,7 +76,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(function Gla
     >
       {interactiveGlow && <div aria-hidden="true" className="awgzo-glass-spotlight" />}
       <div aria-hidden="true" className="awgzo-glass-grain" />
-      <div className="relative z-[2]">{children}</div>
+      <div className={`relative z-[2] ${contentClassName}`}>{children}</div>
     </div>
   );
 });
