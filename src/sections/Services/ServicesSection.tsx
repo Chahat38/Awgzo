@@ -41,7 +41,7 @@ const SERVICES = [
 const pad = (value: number) => String(value).padStart(2, '0');
 const TAU = Math.PI * 2;
 const OBJECT_SCALE = 0.72;
-const MOBILE_OBJECT_SCALE = 0.62;
+const MOBILE_OBJECT_SCALE = 0.5;
 
 type Shape = (index: number) => number[];
 
