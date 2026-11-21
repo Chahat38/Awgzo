@@ -49,7 +49,7 @@ function ProjectMediaCard({
         }
       }}
       tone={project.kind === 'AR' ? 'orange' : 'neutral'}
-      className="group relative flex h-[450px] w-[320px] shrink-0 flex-col justify-between overflow-hidden p-5 sm:w-[370px] cursor-pointer"
+      className="group relative flex h-[420px] w-full shrink-0 flex-col justify-between overflow-hidden p-5 sm:h-[450px] lg:h-[450px] lg:w-[320px] xl:w-[370px] cursor-pointer"
       data-cursor="INSPECT"
     >
       <div className="flex items-center justify-between gap-2 font-mono-tabular text-[11px]">
@@ -298,7 +298,7 @@ export function Portfolio() {
         <div className="mt-10">
           <div
             ref={trackRef}
-            className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory lg:overflow-visible lg:pl-[28vw]"
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:flex lg:gap-6 lg:overflow-visible lg:pb-0 lg:pl-[28vw] lg:snap-x lg:snap-mandatory"
           >
             {filteredProjects.map((project, idx) => (
               <div
@@ -319,7 +319,7 @@ export function Portfolio() {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center gap-4">
+        <div className="mt-6 hidden items-center gap-4 lg:flex">
           <div className="h-[2px] flex-1 overflow-hidden rounded-full bg-white/10">
             <div
               className="h-full bg-[#E86C22] transition-all duration-150"

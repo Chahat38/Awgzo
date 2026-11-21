@@ -845,7 +845,7 @@ export function RealityLab() {
 
           <div className="flex flex-wrap items-center gap-4">
             {/* Mobile Panel Switcher (>=72x72px targets) */}
-            <div className="inline-flex gap-2 rounded-2xl border border-white/15 bg-white/5 p-1.5 lg:hidden">
+            <div className="inline-flex gap-2 rounded-2xl border border-white/15 bg-white/5 p-1.5 md:hidden">
               <button
                 type="button"
                 onClick={() => setMobileTab('AR')}
@@ -951,11 +951,11 @@ export function RealityLab() {
           )}
 
           {/* Dual Panel Grid: Left AR Mirror + Right 360° VR Portal */}
-          <div className="relative grid grid-cols-1 lg:grid-cols-12">
+          <div className="relative grid grid-cols-1 md:grid-cols-12">
             {/* PANEL 01: AR MIRROR */}
             <div
-              className={`lg:col-span-5 p-5 sm:p-7 ${
-                mobileTab === 'VR' ? 'hidden lg:block' : 'block'
+              className={`md:col-span-5 p-5 sm:p-7 ${
+                mobileTab === 'VR' ? 'hidden md:block' : 'block'
               }`}
             >
               <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-[#E86C22]">
@@ -1169,7 +1169,7 @@ export function RealityLab() {
             <div
               ref={dividerRef}
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-[41.666%] hidden w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#E86C22] to-transparent lg:block"
+              className="pointer-events-none absolute inset-y-0 left-[41.666%] hidden w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#E86C22] to-transparent md:block"
             >
               <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#E86C22] bg-[#080808] font-mono-tabular text-[10px] font-bold text-[#E86C22] shadow-[0_0_20px_rgba(232,108,34,0.65)]">
                 XR
@@ -1178,8 +1178,8 @@ export function RealityLab() {
 
             {/* PANEL 02: 360° VR PORTAL */}
             <div
-              className={`lg:col-span-7 bg-gradient-to-br from-[#0b1024]/70 via-[#080808] to-[#111111] p-5 sm:p-7 ${
-                mobileTab === 'AR' ? 'hidden lg:block' : 'block'
+              className={`md:col-span-7 bg-gradient-to-br from-[#0b1024]/70 via-[#080808] to-[#111111] p-5 sm:p-7 ${
+                mobileTab === 'AR' ? 'hidden md:block' : 'block'
               }`}
             >
               <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-[#3B82F6]">
