@@ -59,8 +59,8 @@ export const AWGZO_TEAM: TeamMember[] = [
     id: 'member-05',
     index: '05',
     name: 'Fatima Huma',
-    role: 'Content Writer',
-    bio: 'Content writer making AR, VR and XR ideas clear across service and campaign pages.',
+    role: 'Digital Marketing Specialist',
+    bio: 'Digital marketing specialist supporting campaigns and content for AR, VR and web services.',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
@@ -70,8 +70,8 @@ export const AWGZO_TEAM: TeamMember[] = [
     id: 'member-06',
     index: '06',
     name: 'Mohid',
-    role: 'Digital Marketing Specialist',
-    bio: 'Digital marketing specialist connecting search, social and AR marketing campaigns.',
+    role: 'Lead Generation Specialist',
+    bio: 'Lead generation specialist finding and qualifying enquiries for AR, VR and web services.',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
