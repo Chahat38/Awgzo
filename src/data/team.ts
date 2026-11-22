@@ -4,6 +4,9 @@ export interface TeamMember {
   name: string;
   role: string;
   bio: string;
+  // Optional real photo. Drop files in /public/assets/team/ and set e.g. '/assets/team/ahmad.jpg'.
+  // When omitted, the holographic card falls back to initials.
+  photo?: string;
   links: {
     linkedin: string;
     instagram: string;

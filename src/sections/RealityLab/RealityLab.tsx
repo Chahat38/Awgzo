@@ -1178,15 +1178,15 @@ export function RealityLab() {
 
             {/* PANEL 02: 360° VR PORTAL */}
             <div
-              className={`md:col-span-7 bg-gradient-to-br from-black/70 via-black to-black p-5 sm:p-7 ${
+              className={`md:col-span-7 bg-gradient-to-br from-[#0b1024]/70 via-[#080808] to-[#111111] p-5 sm:p-7 ${
                 mobileTab === 'AR' ? 'hidden md:block' : 'block'
               }`}
             >
-              <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-orange">
+              <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-[#3B82F6]">
                 <span className="inline-flex items-center gap-2 font-semibold">
                   <Compass className="h-4 w-4" /> PANEL 02 · 360° VIEW
                 </span>
-                <span className="text-[11px] text-white/60">
+                <span className="text-[11px] text-[#A0A0A0]">
                   Pinch Drag, Open Palm Look, or Swipe Left/Right
                 </span>
               </div>
@@ -1206,9 +1206,9 @@ export function RealityLab() {
                   type="button"
                   onClick={() => setVrOverlayOpen(true)}
                   data-hand-target="ctrl-enter-vr"
-                  className="inline-flex min-h-[72px] min-w-[152px] items-center justify-center gap-2 rounded-2xl border border-orange/60 bg-orange/20 px-5 text-sm font-semibold text-white hover:bg-orange/35 cursor-pointer"
+                  className="inline-flex min-h-[72px] min-w-[152px] items-center justify-center gap-2 rounded-2xl border border-[#3B82F6]/60 bg-[#3B82F6]/20 px-5 text-sm font-semibold text-white hover:bg-[#3B82F6]/35 cursor-pointer"
                 >
-                  <Glasses className="h-4 w-4 text-orange" /> Open AR VR XR Lab
+                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Open AR VR XR Lab
                 </button>
 
                 <button
@@ -1218,9 +1218,9 @@ export function RealityLab() {
                     showToast('360° View Reset');
                   }}
                   data-hand-target="ctrl-reset-view"
-                  className="inline-flex min-h-[72px] min-w-[120px] items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-orange cursor-pointer"
+                  className="inline-flex min-h-[72px] min-w-[120px] items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-[#E86C22] cursor-pointer"
                 >
-                  <RotateCcw className="h-4 w-4 text-orange" /> Reset View
+                  <RotateCcw className="h-4 w-4 text-[#E86C22]" /> Reset View
                 </button>
 
               </div>

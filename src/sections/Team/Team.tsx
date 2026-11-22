@@ -1,16 +1,21 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { getTeamMembers } from '../../data/team';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type TouchEvent as ReactTouchEvent,
+} from 'react';
+import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { getTeamMembers, type TeamMember } from '../../data/team';
 import { useReality } from '../../context/RealityContext';
-import { gsap } from '../../lib/scroll';
+import { gsap, ScrollTrigger, registerMotionPlugins } from '../../lib/scroll';
+import './team.css';
 
-const MARQUEE_ITEMS = [
-  'AR / WebAR',
-  'Snap AR Effects',
-  'Web Platforms',
-  'Growth Strategy',
-  'Visual Systems',
-];
+const HERO_VIDEO = '/assets/video/man-interacting-with-virtual-hologram.mp4';
+const PARTICLES = Array.from({ length: 18 }, (_, i) => i);
 
 const getInitials = (name: string) =>
   name
@@ -21,269 +26,511 @@ const getInitials = (name: string) =>
     .join('')
     .toUpperCase();
 
+const clampTilt = (value: number) => Math.max(-12, Math.min(12, value));
+
+function Avatar({ member, className = '' }: { member: TeamMember; className?: string }) {
+  return (
+    <span className={`hc-avatar ${className}`}>
+      {member.photo ? (
+        <img src={member.photo} alt={`${member.name}, ${member.role}`} loading="lazy" />
+      ) : (
+        <span aria-hidden="true">{getInitials(member.name)}</span>
+      )}
+    </span>
+  );
+}
+
 export function Team() {
   const members = useMemo(() => getTeamMembers(), []);
+  const count = members.length;
+  const step = 360 / count;
+
   const { setActiveSection, sceneStateRef } = useReality();
   const sectionRef = useRef<HTMLElement | null>(null);
-  const listRef = useRef<HTMLDivElement | null>(null);
+  const pinRef = useRef<HTMLDivElement | null>(null);
+  const ringRef = useRef<HTMLDivElement | null>(null);
+  const bgRef = useRef<HTMLDivElement | null>(null);
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const numberRef = useRef<HTMLDivElement | null>(null);
+  const nameRef = useRef<HTMLHeadingElement | null>(null);
+  const progressRef = useRef<HTMLSpanElement | null>(null);
+  const particlesRef = useRef<HTMLDivElement | null>(null);
+  const cursorRef = useRef<HTMLDivElement | null>(null);
+  const pinTriggerRef = useRef<ScrollTrigger | null>(null);
+  const activeIndexRef = useRef(0);
+  const sectionActiveRef = useRef(false);
+  const touchStartX = useRef(0);
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const [cursorVisible, setCursorVisible] = useState(false);
   const active = members[activeIndex] ?? members[0];
 
+  /* Keep the global XR scene aware that the crew section is in view. */
   useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || typeof window === 'undefined') return;
+    const section = sectionRef.current;
+    if (!section || typeof window === 'undefined') return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
+        const visible = Boolean(entry?.isIntersecting);
+        sectionActiveRef.current = visible;
+        if (visible) {
           setActiveSection('team');
           sceneStateRef.current.section = 'team';
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.12 }
     );
 
-    observer.observe(el);
+    observer.observe(section);
     return () => observer.disconnect();
   }, [sceneStateRef, setActiveSection]);
 
+  const goTo = useCallback(
+    (index: number) => {
+      const next = Math.max(0, Math.min(count - 1, index));
+      const trigger = pinTriggerRef.current;
+
+      if (!trigger) {
+        activeIndexRef.current = next;
+        setActiveIndex(next);
+        return;
+      }
+
+      const target = trigger.start + ((next + 0.04) / count) * (trigger.end - trigger.start);
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    },
+    [count]
+  );
+
+  /* Pinned scroll carousel: 700vh desktop, compact stack on phones, fade list for reduced motion. */
   useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || typeof window === 'undefined') return;
+    const section = sectionRef.current;
+    const pin = pinRef.current;
+    if (!section || !pin || typeof window === 'undefined') return;
 
-    const media = gsap.matchMedia();
+    registerMotionPlugins();
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const created: Array<{ kill: () => void }> = [];
+    const ring = ringRef.current;
+    if (ring) gsap.set(ring, { rotateY: 0, scale: 0.3, opacity: 0 });
+
     const ctx = gsap.context(() => {
-      media.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.from('[data-team-head]', {
-          y: 30,
-          opacity: 0,
-          duration: 0.85,
-          stagger: 0.09,
-          ease: 'awgzoOut',
-          scrollTrigger: { trigger: el, start: 'top 75%' },
-        });
+      const trigger = ScrollTrigger.create({
+        id: 'hc-team-pin',
+        trigger: section,
+        start: 'top top',
+        end: '+=700%',
+        pin,
+        pinSpacing: true,
+        scrub: 1,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const next = Math.min(count - 1, Math.floor(progress * count));
 
-        gsap.from('[data-team-row]', {
-          y: 22,
-          opacity: 0,
-          duration: 0.65,
-          stagger: 0.075,
-          ease: 'awgzoOut',
-          scrollTrigger: { trigger: listRef.current, start: 'top 85%' },
-        });
+          if (next !== activeIndexRef.current) {
+            activeIndexRef.current = next;
+            setActiveIndex(next);
+            if (ring) {
+              gsap.to(ring, {
+                rotateY: -next * step,
+                duration: 0.85,
+                ease: 'power3.inOut',
+                overwrite: 'auto',
+              });
+            }
+          }
+
+          if (progressRef.current) {
+            gsap.set(progressRef.current, { scaleX: Math.max(0.001, progress) });
+          }
+          if (bgRef.current) {
+            gsap.set(bgRef.current, { yPercent: -15 * progress });
+          }
+          if (particlesRef.current) {
+            const drift = gsap.utils.clamp(-48, 48, self.getVelocity() / 45);
+            gsap.to(particlesRef.current, {
+              x: drift,
+              yPercent: -8 * progress,
+              duration: 0.45,
+              ease: 'power2.out',
+              overwrite: 'auto',
+            });
+          }
+
+          /* Exit: collapse the ring as the next section approaches. */
+          const exit = progress > 0.92 ? (progress - 0.92) / 0.08 : 0;
+          if (ring) {
+            gsap.set(ring, { scale: 1 - exit * 0.3, opacity: 1 - exit });
+          }
+          gsap.set(pin, { opacity: 1 - exit * 0.35 });
+        },
       });
-    }, el);
+      pinTriggerRef.current = trigger;
+      created.push(trigger);
+
+      /* Entry: oversized heading settles to the top while the ring zooms in from depth. */
+      const intro = gsap.timeline({
+        scrollTrigger: { trigger: section, start: 'top 85%', end: 'top top', scrub: 1 },
+      });
+      intro
+        .fromTo(
+          headingRef.current,
+          { scale: 1.85, y: 90, opacity: 0 },
+          { scale: 1, y: 0, opacity: 1, ease: 'power3.out', duration: 1 },
+          0
+        )
+        .fromTo(
+          ring,
+          { scale: 0.3, opacity: 0 },
+          { scale: 1, opacity: 1, ease: 'power3.out', duration: 1 },
+          0
+        );
+      created.push(intro);
+    }, section);
 
     return () => {
-      media.revert();
+      created.forEach((item) => item.kill());
       ctx.revert();
+      pinTriggerRef.current = null;
     };
-  }, []);
+  }, [count, step]);
+
+  /* Number flip, masked name reveal, bio fade and active-card scan sweep. */
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const animations: gsap.core.Tween[] = [];
+    if (numberRef.current) {
+      animations.push(
+        gsap.fromTo(
+          numberRef.current,
+          { yPercent: 70, opacity: 0, clipPath: 'inset(0 0 100% 0)' },
+          {
+            yPercent: 0,
+            opacity: 1,
+            clipPath: 'inset(0 0 0% 0)',
+            duration: 0.62,
+            ease: 'power3.out',
+          }
+        )
+      );
+    }
+    if (nameRef.current) {
+      animations.push(
+        gsap.fromTo(
+          nameRef.current,
+          { yPercent: 45, opacity: 0, clipPath: 'inset(0 0 100% 0)' },
+          {
+            yPercent: 0,
+            opacity: 1,
+            clipPath: 'inset(0 0 0% 0)',
+            duration: 0.7,
+            ease: 'power3.out',
+          }
+        )
+      );
+    }
+    const scan = pinRef.current?.querySelector<HTMLElement>(
+      `[data-card-index="${activeIndex}"] .hc-scan`
+    );
+    if (scan) {
+      animations.push(
+        gsap.fromTo(
+          scan,
+          { yPercent: -110, opacity: 1 },
+          { yPercent: 110, opacity: 0, duration: 0.8, ease: 'power2.inOut' }
+        )
+      );
+    }
+
+    return () => animations.forEach((tween) => tween.kill());
+  }, [activeIndex]);
+
+  /* Keyboard navigation while the pinned section owns the viewport. */
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!sectionActiveRef.current) return;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        goTo(activeIndexRef.current + 1);
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        goTo(activeIndexRef.current - 1);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [goTo]);
+
+  const handleParticlePointer = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!cursorRef.current) return;
+    gsap.set(cursorRef.current, { x: event.clientX, y: event.clientY });
+  };
+
+  const handleCardTilt = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const inner = event.currentTarget.querySelector<HTMLElement>('.hc-card-inner');
+    if (!inner) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const rotateX = clampTilt(
+      -((event.clientY - (rect.top + rect.height / 2)) / rect.height) * 24
+    );
+    const rotateY = clampTilt(((event.clientX - (rect.left + rect.width / 2)) / rect.width) * 24);
+    gsap.to(inner, { rotateX, rotateY, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+  };
+
+  const resetCardTilt = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const inner = event.currentTarget.querySelector<HTMLElement>('.hc-card-inner');
+    if (!inner) return;
+    gsap.to(inner, { rotateX: 0, rotateY: 0, duration: 0.5, ease: 'power3.out' });
+  };
+
+  const handleMagneticMove = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    const el = event.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const x = ((event.clientX - (rect.left + rect.width / 2)) / rect.width) * 18;
+    const y = ((event.clientY - (rect.top + rect.height / 2)) / rect.height) * 18;
+    gsap.to(el, { x, y, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+  };
+
+  const resetMagnetic = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    gsap.to(event.currentTarget, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+  };
+
+  const handleTouchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? 0;
+  };
+
+  const handleTouchEnd = (event: ReactTouchEvent<HTMLDivElement>) => {
+    const delta = (event.changedTouches[0]?.clientX ?? 0) - touchStartX.current;
+    if (Math.abs(delta) < 48) return;
+    goTo(activeIndexRef.current + (delta < 0 ? 1 : -1));
+  };
 
   return (
     <section
       id="team"
       ref={sectionRef}
-      className="relative z-10 overflow-hidden border-t border-white/[0.08] py-16 sm:py-24 lg:py-28"
+      className="hc-team"
+      aria-labelledby="hc-team-title"
+      tabIndex={-1}
     >
-      {/* Blueprint grid + warm ambient glow */}
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-60 [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(247,248,247,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(247,248,247,0.035) 1px, transparent 1px)',
-          backgroundSize: '72px 72px',
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-32 top-1/4 h-[420px] w-[420px] rounded-full bg-orange/[0.07] blur-[130px]"
-      />
+        ref={pinRef}
+        className="hc-pin"
+        onPointerMove={handleParticlePointer}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Parallax headset hero + perspective grid floor */}
+        <div ref={bgRef} className="hc-bg" aria-hidden="true">
+          <video className="hc-bg-video" src={HERO_VIDEO} autoPlay muted loop playsInline preload="metadata" />
+          <div className="hc-grid-floor" />
+          <div className="hc-vignette" />
+        </div>
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 lg:px-12">
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div data-team-head>
-            <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.24em] text-orange">
-              04 · The crew / no superheroes
-            </span>
-            <h2 className="mt-3 font-display text-[clamp(2.25rem,7vw,5.75rem)] font-extrabold leading-[0.98] tracking-[-0.04em] text-white max-sm:text-[clamp(2rem,9vw,2.6rem)]">
-              Meet the <span className="text-orange">AR VR XR</span> Team
+        <div ref={particlesRef} className="hc-particles" aria-hidden="true">
+          {PARTICLES.map((i) => (
+            <i key={i} style={{ '--p': i } as CSSProperties} />
+          ))}
+        </div>
+
+        <div className="hc-stage">
+          <header className="hc-header">
+            <span className="hc-mono hc-kicker">04 · The crew / Holographic index</span>
+            <h2 id="hc-team-title" ref={headingRef} className="hc-title">
+              Meet the <em>AR VR XR</em> Team
             </h2>
+            <p className="hc-intro">Seven disciplines. One Islamabad studio. Scroll to rotate the crew.</p>
+          </header>
+
+          <div className="hc-number" ref={numberRef} key={`number-${active.id}`}>
+            <span className="hc-number-current">{active.index}</span>
+            <span className="hc-number-sep">/</span>
+            <span className="hc-number-total">{String(count).padStart(2, '0')}</span>
           </div>
 
-          <div data-team-head className="font-mono-tabular md:pb-2">
-            <span className="block text-right text-3xl font-semibold leading-none text-white sm:text-4xl">
-              0{members.length}
-            </span>
-            <span className="mt-2 block text-right text-[10px] uppercase tracking-[0.2em] text-white/40">
-              disciplines · one studio
-            </span>
-          </div>
-        </div>
-
-        <p
-          data-team-head
-          className="mt-5 max-w-xl text-sm leading-relaxed text-white/60 md:text-base"
-        >
-          Our AR, VR and WebXR builders, web devs and marketers work as one Islamabad studio.
-        </p>
-
-        <div className="mt-9 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
-          {/* Interactive spotlight / dossier */}
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="relative min-h-[380px] overflow-hidden rounded-[28px] border border-white/[0.12] bg-black/90 p-6 shadow-[0_30px_90px_rgba(16,25,31,0.45)] sm:min-h-[430px] sm:p-9">
-              <div
-                aria-hidden="true"
-                className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-orange/25 blur-[90px]"
-              />
-              <div aria-hidden="true" className="ar-scanlines absolute inset-0 opacity-50" />
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/[0.04]"
-              />
-
-              <div className="relative flex items-center justify-between font-mono-tabular text-[10px] uppercase tracking-[0.22em] text-white/45">
-                <span>Selected discipline</span>
-                <span className="text-orange">
-                  {active.index} / 0{members.length}
-                </span>
-              </div>
-
-              <div className="relative mt-8 flex justify-center">
-                <div className="relative aspect-square w-36 sm:w-56">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full border border-white/15 bg-black">
-                    <span className="font-display text-4xl font-bold tracking-tight text-orange sm:text-6xl">
-                      {getInitials(active.name)}
+          {/* Desktop / tablet: CSS 3D holographic carousel */}
+          <div className="hc-ring-wrap">
+            <div ref={ringRef} className="hc-ring">
+              {members.map((member, index) => (
+                <button
+                  key={member.id}
+                  type="button"
+                  data-card-index={index}
+                  data-active={index === activeIndex}
+                  aria-label={`Show ${member.name}, ${member.role}`}
+                  aria-pressed={index === activeIndex}
+                  onClick={() => goTo(index)}
+                  onPointerEnter={() => setCursorVisible(true)}
+                  onPointerLeave={() => {
+                    setCursorVisible(false);
+                    resetCardTilt({
+                      currentTarget: document.querySelector<HTMLButtonElement>(
+                        `[data-card-index="${index}"]`
+                      )!,
+                    } as ReactPointerEvent<HTMLButtonElement>);
+                  }}
+                  onPointerMove={handleCardTilt}
+                  className="hc-card"
+                  style={
+                    {
+                      '--angle': `${index * step}deg`,
+                      '--stack-offset': index - activeIndex,
+                    } as CSSProperties
+                  }
+                >
+                  <span className="hc-card-inner">
+                    <span className="hc-card-top hc-mono">
+                      <span>NODE {member.index}</span>
+                      <span className="hc-live-dot" />
                     </span>
-                    <span className="mt-1 font-mono-tabular text-[9px] uppercase tracking-[0.2em] text-white/35">
-                      AWGZO
+                    <Avatar member={member} className="hc-card-avatar" />
+                    <span className="hc-card-name">{member.name}</span>
+                    <span className="hc-card-role hc-mono">{member.role}</span>
+                    <span className="hc-scan" />
+                    <span className="hc-brackets" aria-hidden="true">
+                      <i />
+                      <i />
+                      <i />
+                      <i />
                     </span>
-                  </div>
-                  <div
-                    aria-hidden="true"
-                    className="team-orbit pointer-events-none absolute inset-3 rounded-full border border-dashed border-orange/45"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="absolute -bottom-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-orange shadow-[0_0_20px_#e86d22]"
-                  />
-                  <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/85 px-3 py-1 font-mono-tabular text-[10px] font-semibold tracking-[0.2em] text-orange ring-1 ring-orange/40">
-                    {active.index}
                   </span>
-                </div>
-              </div>
-
-              <div key={active.id} className="team-fade relative mt-8">
-                <p className="font-mono-tabular text-[11px] uppercase tracking-[0.18em] text-orange">
-                  {active.role}
-                </p>
-                <h3 className="mt-2 font-display text-2xl font-bold leading-tight text-white sm:text-3xl">
-                  {active.name}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{active.bio}</p>
-
-                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-5">
-                  <a
-                    href={active.links.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-link-draw inline-flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-orange"
-                  >
-                    LinkedIn <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                  <a
-                    href={active.links.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-link-draw inline-flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-orange"
-                  >
-                    Instagram <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                </div>
-              </div>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Crew ledger */}
-          <div ref={listRef} className="relative">
-            <div className="mb-4 flex items-center justify-between font-mono-tabular text-[10px] uppercase tracking-[0.22em] text-white/35">
-              <span>Choose a discipline</span>
-              <span>Hover / tap to explore</span>
-            </div>
-
-            <div>
-              {members.map((member, idx) => {
-                const isActive = idx === activeIndex;
-                return (
-                  <button
-                    key={member.id}
-                    data-team-row
-                    type="button"
-                    aria-pressed={isActive}
-                    onMouseEnter={() => setActiveIndex(idx)}
-                    onFocus={() => setActiveIndex(idx)}
-                    onClick={() => setActiveIndex(idx)}
-                    className="group relative flex w-full items-center gap-3 border-t border-white/10 py-5 text-left transition-colors duration-300 last:border-b sm:gap-5 sm:py-6"
-                  >
-                    <span
-                      className={`font-mono-tabular text-xs transition-colors sm:text-sm ${
-                        isActive ? 'text-orange' : 'text-white/30 group-hover:text-orange'
-                      }`}
-                    >
-                      {member.index}
-                    </span>
-                    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-black font-mono-tabular text-[10px] font-semibold text-orange sm:h-11 sm:w-11 sm:text-xs">
-                      {getInitials(member.name)}
-                    </span>
-                    <span
-                      className={`font-display text-lg font-semibold leading-tight transition-colors duration-300 sm:text-2xl ${
-                        isActive ? 'text-white' : 'text-white/55 group-hover:text-white'
-                      }`}
-                    >
-                      {member.name}
-                    </span>
-                    <span className="ml-auto hidden max-w-[10rem] text-right text-[11px] leading-snug text-white/40 transition-colors group-hover:text-white/70 md:block">
-                      {member.role}
-                    </span>
-                    <span
-                      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border transition-all duration-300 ${
-                        isActive
-                          ? 'border-orange bg-orange text-black'
-                          : 'border-white/15 text-white/40 group-hover:border-orange group-hover:text-orange'
-                      }`}
-                    >
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className={`absolute bottom-0 left-0 h-px w-full origin-left bg-orange transition-transform duration-500 ${
-                        isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                      }`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="mt-8 flex items-center gap-3 font-mono-tabular text-[10px] uppercase tracking-[0.2em] text-white/35">
-              <span className="h-px w-10 bg-orange" /> Built by people, not prompts
-            </div>
+          {/* Mobile: sticky-feel vertical stack (no 3D ring) */}
+          <div className="hc-mobile-stack">
+            {members.map((member, index) => (
+              <button
+                key={member.id}
+                type="button"
+                className="hc-stack-card"
+                data-active={index === activeIndex}
+                style={{ '--stack-offset': index - activeIndex } as CSSProperties}
+                aria-label={`Show ${member.name}, ${member.role}`}
+                onClick={() => goTo(index)}
+              >
+                <Avatar member={member} className="hc-stack-avatar" />
+                <span className="hc-stack-copy">
+                  <span className="hc-mono">{member.index} / {member.role}</span>
+                  <strong>{member.name}</strong>
+                </span>
+              </button>
+            ))}
           </div>
-        </div>
 
-        {/* Discipline ticker */}
-        <div aria-hidden="true" className="relative mt-10 overflow-hidden border-y border-white/10 py-4 sm:mt-14">
-          <div className="team-marquee flex w-max">
-            {[0, 1].map((group) => (
-              <div key={group} className="flex shrink-0 items-center gap-10 pr-10">
-                {MARQUEE_ITEMS.map((item) => (
-                  <span key={item} className="flex items-center gap-10 whitespace-nowrap font-mono-tabular text-[11px] uppercase tracking-[0.28em] text-white/30">
-                    {item}
-                    <span className="text-orange">✳</span>
+          <div className="hc-details">
+            <div className="hc-details-inner" key={active.id}>
+              <span className="hc-mono hc-role">{active.role}</span>
+              <h3 className="hc-name" ref={nameRef}>
+                {Array.from(active.name).map((letter, i) => (
+                  <span className="hc-char-mask" key={`${active.id}-${i}`}>
+                    <span className="hc-char" style={{ '--char': i } as CSSProperties}>
+                      {letter === ' ' ? '\u00a0' : letter}
+                    </span>
                   </span>
                 ))}
+              </h3>
+              <p className="hc-bio">{active.bio}</p>
+
+              <div className="hc-socials">
+                <a
+                  href={active.links.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${active.name} on LinkedIn`}
+                  onPointerMove={handleMagneticMove}
+                  onPointerLeave={resetMagnetic}
+                >
+                  LinkedIn <ArrowUpRight aria-hidden="true" />
+                </a>
+                <a
+                  href={active.links.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${active.name} on Instagram`}
+                  onPointerMove={handleMagneticMove}
+                  onPointerLeave={resetMagnetic}
+                >
+                  Instagram <ArrowUpRight aria-hidden="true" />
+                </a>
               </div>
+            </div>
+          </div>
+
+          <div className="hc-controls">
+            <button
+              type="button"
+              className="hc-arrow"
+              aria-label="Previous team member"
+              onClick={() => goTo(activeIndex - 1)}
+            >
+              <ChevronLeft aria-hidden="true" />
+            </button>
+
+            <div className="hc-progress" role="group" aria-label="Team member progress">
+              <span className="hc-progress-track">
+                <span ref={progressRef} className="hc-progress-fill" />
+              </span>
+              <span className="hc-dots">
+                {members.map((member, index) => (
+                  <button
+                    key={member.id}
+                    type="button"
+                    className="hc-dot"
+                    data-active={index === activeIndex}
+                    aria-label={`Jump to ${member.name}`}
+                    aria-current={index === activeIndex ? 'true' : undefined}
+                    onClick={() => goTo(index)}
+                  />
+                ))}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              className="hc-arrow"
+              aria-label="Next team member"
+              onClick={() => goTo(activeIndex + 1)}
+            >
+              <ChevronRight aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+
+        {/* AR focus-bracket cursor */}
+        <div ref={cursorRef} className={`hc-cursor ${cursorVisible ? 'is-visible' : ''}`} aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+          <span>+</span>
+        </div>
+      </div>
+
+      {/* prefers-reduced-motion fallback: accessible, simple fade list */}
+      <div className="hc-reduced-list">
+        <div className="hc-reduced-inner">
+          <span className="hc-mono hc-kicker">04 · The crew</span>
+          <h2 id="hc-team-title-reduced" className="hc-title">Meet the <em>AR VR XR</em> Team</h2>
+          <div className="hc-reduced-grid">
+            {members.map((member) => (
+              <article key={member.id} className="hc-reduced-card">
+                <Avatar member={member} />
+                <h3>{member.name}</h3>
+                <span className="hc-mono">{member.role}</span>
+                <p>{member.bio}</p>
+                <a href={member.links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href={member.links.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+              </article>
             ))}
           </div>
         </div>
