@@ -17,8 +17,8 @@ const SERVICES = [
     body: 'WebXR development for browser-based AR and VR. We create immersive XR solutions that run on phones and headsets.',
   },
   {
-    title: 'TikTok Effects',
-    body: 'TikTok AR effects with face tracking and branded overlays, made for creators and campaigns in Pakistan.',
+    title: 'Snap AR Effects',
+    body: 'Snap AR effects with face tracking and branded overlays, made for creators and campaigns in Pakistan.',
   },
   {
     title: 'Digital Marketing & Branding',
@@ -367,20 +367,20 @@ export function ServicesSection() {
       className="relative z-10 h-[100svh] min-h-[640px] overflow-hidden border-t border-white/[0.08]"
       style={{
         background:
-          'radial-gradient(800px 520px at 72% 50%, rgba(232,109,34,0.13), transparent 60%), #080808',
+          'radial-gradient(800px 520px at 72% 50%, rgba(232,109,34,0.13), transparent 60%), #10191f',
       }}
     >
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />
 
       <div className="pointer-events-none absolute inset-x-0 top-[6vh] z-10 text-center">
-        <span className="font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-[#FF9A55]">
+        <span className="font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-orange">
           What we do
         </span>
         <h2 className="font-display text-[clamp(2.4rem,6vw,4.2rem)] leading-none tracking-[0.03em]">
           AR VR XR Services
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm text-[#A0A0A0] sm:text-base">
-          We build AR try-on, VR experiences, WebXR, TikTok effects, websites, software and
+        <p className="mx-auto mt-3 max-w-xl text-sm text-white/60 sm:text-base">
+          We build AR try-on, VR experiences, WebXR, Snap AR effects, websites, software and
           marketing from Islamabad.
         </p>
       </div>
@@ -395,14 +395,14 @@ export function ServicesSection() {
             className="absolute left-0 top-0 w-full"
             style={{ opacity: index === 0 ? 1 : 0 }}
           >
-            <span className="font-mono-tabular block text-[1.6rem] text-[#E86C22] max-[700px]:text-[1.25rem]">{pad(index + 1)}</span>
+            <span className="font-mono-tabular block text-[1.6rem] text-orange max-[700px]:text-[1.25rem]">{pad(index + 1)}</span>
             <h3 className="mt-1 font-display text-[clamp(2.8rem,6.2vw,5.2rem)] leading-[0.92] max-[700px]:text-[clamp(2rem,8.5vw,2.35rem)]">
               {service.title}
             </h3>
-            <p className="mt-3 max-w-[400px] text-[0.98rem] leading-relaxed text-[#A0A0A0] max-[700px]:mt-2 max-[700px]:text-[0.8rem] max-[700px]:leading-[1.5]">
+            <p className="mt-3 max-w-[400px] text-[0.98rem] leading-relaxed text-white/60 max-[700px]:mt-2 max-[700px]:text-[0.8rem] max-[700px]:leading-[1.5]">
               {service.body}
             </p>
-            <a href="#contact" className="mt-4 inline-block font-semibold text-[#FF9A55] max-[700px]:mt-3">
+            <a href="#contact" className="mt-4 inline-block font-semibold text-orange max-[700px]:mt-3">
               Learn more →
             </a>
           </div>
@@ -418,8 +418,8 @@ export function ServicesSection() {
             key={service.title}
             type="button"
             aria-label={`Learn about ${service.title}`}
-            className={`h-2.5 w-2.5 rounded-full bg-white/20 transition-all duration-300 hover:bg-[#E86C22] ${
-              index === 0 ? 'scale-[1.7] bg-[#E86C22] shadow-[0_0_14px_#E86C22]' : ''
+            className={`h-2.5 w-2.5 rounded-full bg-white/20 transition-all duration-300 hover:bg-orange ${
+              index === 0 ? 'scale-[1.7] bg-orange shadow-[0_0_14px_#e86d22]' : ''
             }`}
           />
         ))}
@@ -427,7 +427,7 @@ export function ServicesSection() {
 
       <div
         ref={countRef}
-        className="absolute bottom-[5vh] right-[clamp(12px,3vw,40px)] z-20 font-mono-tabular text-[0.8rem] tracking-[0.25em] text-[#FF9A55] max-[700px]:hidden"
+        className="absolute bottom-[5vh] right-[clamp(12px,3vw,40px)] z-20 font-mono-tabular text-[0.8rem] tracking-[0.25em] text-orange max-[700px]:hidden"
       >
         01 / 06
       </div>

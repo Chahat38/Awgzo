@@ -1,24 +1,30 @@
-:root {
-  /* Brand Colors (Shared between Part A & Teammate Part B) */
-  --awgzo-orange: #E86C22;
-  --awgzo-orange-bright: #FD9800;
-  --awgzo-black: #080808;
-  --awgzo-charcoal: #111111;
-  --awgzo-dark-grey: #1A1A1A;
-  --awgzo-white: #FFFFFF;
-  --awgzo-muted: #A0A0A0;
-  --awgzo-vr-indigo: #3B82F6;
+@theme {
+  --color-orange: #e86d22;
+  --color-black: #10191f;
+  --color-white: #f7f8f7;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-sans: 'Poppins', sans-serif;
+  --font-mono: 'Poppins', sans-serif;
+}
 
-  /* Typography (2 webfont families: Sora & Inter + system mono) */
-  --font-display: 'Sora', system-ui, sans-serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+:root {
+  /* Brand Colors */
+  --awgzo-orange: var(--color-orange);
+  --awgzo-orange-bright: var(--color-orange);
+  --awgzo-black: var(--color-black);
+  --awgzo-charcoal: var(--color-black);
+  --awgzo-dark-grey: var(--color-black);
+  --awgzo-white: var(--color-white);
+  --awgzo-muted: rgba(247, 248, 247, 0.6);
+  --awgzo-vr-indigo: var(--color-orange);
+
+  /* Typography: headings = Bebas Neue, everything else = Poppins */
 
   /* Glass System Defaults */
-  --glass-bg-start: rgba(255, 255, 255, 0.1);
-  --glass-bg-end: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.14);
-  --glass-inset-highlight: rgba(255, 255, 255, 0.25);
+  --glass-bg-start: rgba(247,248,247, 0.1);
+  --glass-bg-end: rgba(247,248,247, 0.03);
+  --glass-border: rgba(247,248,247, 0.14);
+  --glass-inset-highlight: rgba(247,248,247, 0.25);
   --glass-blur-high: 18px;
   --glass-blur-low: 12px;
 }
@@ -32,7 +38,7 @@
   backdrop-filter: blur(var(--glass-blur-high)) saturate(150%);
   border: 1px solid var(--glass-border);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 20px 60px rgba(16,25,31, 0.45),
     inset 0 1px 0 var(--glass-inset-highlight);
   --mx: 50%;
   --my: 50%;
@@ -43,16 +49,16 @@
   -webkit-backdrop-filter: blur(var(--glass-blur-low)) saturate(140%);
   backdrop-filter: blur(var(--glass-blur-low)) saturate(140%);
   box-shadow:
-    0 12px 36px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 12px 36px rgba(16,25,31, 0.35),
+    inset 0 1px 0 rgba(247,248,247, 0.2);
 }
 
 .awgzo-glass--orange {
-  background: linear-gradient(135deg, rgba(232, 108, 34, 0.2), rgba(232, 108, 34, 0.06));
-  border-color: rgba(232, 108, 34, 0.38);
+  background: linear-gradient(135deg, rgba(232,109,34, 0.2), rgba(232,109,34, 0.06));
+  border-color: rgba(232,109,34, 0.38);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(253, 152, 0, 0.35);
+    0 20px 60px rgba(16,25,31, 0.45),
+    inset 0 1px 0 rgba(232,109,34, 0.35);
 }
 
 /* Specular Top-Left Gradient Edge Border */
@@ -64,12 +70,12 @@
   padding: 1px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.38) 0%,
-    rgba(232, 108, 34, 0.28) 38%,
-    rgba(255, 255, 255, 0.06) 72%,
-    rgba(255, 255, 255, 0.02) 100%
+    rgba(247,248,247, 0.38) 0%,
+    rgba(232,109,34, 0.28) 38%,
+    rgba(247,248,247, 0.06) 72%,
+    rgba(247,248,247, 0.02) 100%
   );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#f7f8f7 0 0) content-box, linear-gradient(#f7f8f7 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -83,7 +89,7 @@
   border-radius: inherit;
   background: radial-gradient(
     320px circle at var(--mx) var(--my),
-    rgba(232, 108, 34, 0.18),
+    rgba(232,109,34, 0.18),
     transparent 65%
   );
   pointer-events: none;
@@ -115,6 +121,6 @@
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .awgzo-glass {
-    background: rgba(26, 26, 26, 0.85);
+    background: rgba(16,25,31, 0.85);
   }
 }

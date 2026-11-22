@@ -53,16 +53,16 @@ export default function WebXROverlay() {
       hostRef.current.appendChild(renderer.domElement);
 
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color('#080808');
+      scene.background = new THREE.Color('#10191f');
       const camera = new THREE.PerspectiveCamera(70, 16 / 9, 0.1, 100);
       camera.position.set(0, 1.6, 0);
 
       // Stand-still comfort room: orange horizon reticle + subtle pedestal + grid
-      const grid = new THREE.GridHelper(24, 24, '#E86C22', '#262626');
+      const grid = new THREE.GridHelper(24, 24, '#e86d22', '#10191f');
       scene.add(grid);
       const ring = new THREE.Mesh(
         new THREE.TorusGeometry(2.2, 0.03, 16, 64),
-        new THREE.MeshBasicMaterial({ color: '#E86C22' })
+        new THREE.MeshBasicMaterial({ color: '#e86d22' })
       );
       ring.position.set(0, 1.6, -4);
       scene.add(ring);
@@ -103,7 +103,7 @@ export default function WebXROverlay() {
       <GlassCard className="w-full max-w-xl p-6 sm:p-8">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3B82F6]">
+            <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.2em] text-orange">
               WebXR Comfort Room · 360° View
             </span>
             <h2 id="webxr-modal-title" className="mt-1 font-display text-2xl font-bold text-white">
@@ -114,14 +114,14 @@ export default function WebXROverlay() {
             type="button"
             onClick={() => setVrOverlayOpen(false)}
             aria-label="Exit 360° view dialog"
-            className="rounded-full border border-white/15 bg-white/5 p-2 text-white transition hover:border-[#E86C22] hover:bg-[#E86C22] hover:text-[#080808] cursor-pointer"
+            className="rounded-full border border-white/15 bg-white/5 p-2 text-white transition hover:border-orange hover:bg-orange hover:text-black cursor-pointer"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="mt-4 flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-xs text-[#A0A0A0]">
-          <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-[#E86C22]" />
+        <div className="mt-4 flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-xs text-white/60">
+          <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
           <span>
             Comfort notice: stand-still horizon space with vignette stabilization. If you feel uncomfortable, exit anytime.
           </span>
@@ -130,7 +130,7 @@ export default function WebXROverlay() {
         <div ref={hostRef} className="sr-only" />
 
         {vrSupported === null && (
-          <p className="mt-5 text-sm text-[#A0A0A0]">Checking WebXR headset capabilities…</p>
+          <p className="mt-5 text-sm text-white/60">Checking WebXR headset capabilities…</p>
         )}
 
         {vrSupported === true && (
@@ -158,10 +158,10 @@ export default function WebXROverlay() {
 
         {vrSupported === false && (
           <div className="mt-6 space-y-4">
-            <div className="rounded-xl border border-[#3B82F6]/30 bg-[#3B82F6]/10 p-4 text-sm text-white">
+            <div className="rounded-xl border border-orange/30 bg-orange/10 p-4 text-sm text-white">
               Headset not detected — explore in 360° instead.
             </div>
-            {errorMsg && <p className="text-xs text-[#E86C22]">{errorMsg}</p>}
+            {errorMsg && <p className="text-xs text-orange">{errorMsg}</p>}
             <div className="flex flex-wrap gap-3">
               <MagneticCta
                 variant="orange"

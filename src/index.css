@@ -29,7 +29,7 @@
 }
 
 :focus-visible {
-  outline: 2px solid #E86C22;
+  outline: 2px solid #e86d22;
   outline-offset: 3px;
 }
 
@@ -48,7 +48,7 @@
   position: absolute;
   left: 0;
   top: 100%;
-  color: #E86C22;
+  color: #e86d22;
 }
 .nav-roll-link:hover .nav-roll-inner,
 .nav-roll-link:focus-visible .nav-roll-inner {
@@ -69,7 +69,7 @@
   bottom: -2px;
   width: 100%;
   height: 1px;
-  background: #E86C22;
+  background: #e86d22;
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
@@ -84,8 +84,8 @@
 .ar-scanlines {
   background-image: repeating-linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.03) 0px,
-    rgba(255, 255, 255, 0.03) 1px,
+    rgba(247,248,247, 0.03) 0px,
+    rgba(247,248,247, 0.03) 1px,
     transparent 1px,
     transparent 4px
   );
@@ -113,13 +113,13 @@
 
 /* Services rail + testimonial dots active states */
 .svc-rail button.on {
-  background: #e86c22;
-  box-shadow: 0 0 14px #e86c22;
+  background: #e86d22;
+  box-shadow: 0 0 14px #e86d22;
   transform: scale(1.7);
 }
 .ts-dots button.on {
-  background: #ff9a55;
-  box-shadow: 0 0 12px #ff9a55;
+  background: #e86d22;
+  box-shadow: 0 0 12px #e86d22;
   transform: scale(1.5);
 }
 
@@ -170,9 +170,9 @@
 }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #080808; }
-::-webkit-scrollbar-thumb { background: #242424; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #E86C22; }
+::-webkit-scrollbar-track { background: #10191f; }
+::-webkit-scrollbar-thumb { background: #10191f; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #e86d22; }
 
 /* V5 Hand-Controlled UI Target Hover & Click Feedback */
 [data-hand-target] {
@@ -185,11 +185,11 @@
 }
 
 [data-hand-hover="true"] {
-  border-color: #E86C22 !important;
+  border-color: #e86d22 !important;
   box-shadow:
-    0 0 0 2px rgba(232, 108, 34, 0.55),
-    0 0 28px rgba(232, 108, 34, 0.38),
-    inset 0 0 18px rgba(232, 108, 34, 0.16) !important;
+    0 0 0 2px rgba(232,109,34, 0.55),
+    0 0 28px rgba(232,109,34, 0.38),
+    inset 0 0 18px rgba(232,109,34, 0.16) !important;
   transform: scale(1.045);
 }
 
@@ -200,14 +200,14 @@
   pointer-events: none;
   border-radius: inherit;
   background:
-    linear-gradient(to right, #E86C22 2px, transparent 2px) 0 0 / 12px 12px no-repeat,
-    linear-gradient(to bottom, #E86C22 2px, transparent 2px) 0 0 / 12px 12px no-repeat,
-    linear-gradient(to left, #E86C22 2px, transparent 2px) 100% 0 / 12px 12px no-repeat,
-    linear-gradient(to bottom, #E86C22 2px, transparent 2px) 100% 0 / 12px 12px no-repeat,
-    linear-gradient(to right, #E86C22 2px, transparent 2px) 0 100% / 12px 12px no-repeat,
-    linear-gradient(to top, #E86C22 2px, transparent 2px) 0 100% / 12px 12px no-repeat,
-    linear-gradient(to left, #E86C22 2px, transparent 2px) 100% 100% / 12px 12px no-repeat,
-    linear-gradient(to top, #E86C22 2px, transparent 2px) 100% 100% / 12px 12px no-repeat;
+    linear-gradient(to right, #e86d22 2px, transparent 2px) 0 0 / 12px 12px no-repeat,
+    linear-gradient(to bottom, #e86d22 2px, transparent 2px) 0 0 / 12px 12px no-repeat,
+    linear-gradient(to left, #e86d22 2px, transparent 2px) 100% 0 / 12px 12px no-repeat,
+    linear-gradient(to bottom, #e86d22 2px, transparent 2px) 100% 0 / 12px 12px no-repeat,
+    linear-gradient(to right, #e86d22 2px, transparent 2px) 0 100% / 12px 12px no-repeat,
+    linear-gradient(to top, #e86d22 2px, transparent 2px) 0 100% / 12px 12px no-repeat,
+    linear-gradient(to left, #e86d22 2px, transparent 2px) 100% 100% / 12px 12px no-repeat,
+    linear-gradient(to top, #e86d22 2px, transparent 2px) 100% 100% / 12px 12px no-repeat;
 }
 
 @keyframes awgzo-hand-pulse {

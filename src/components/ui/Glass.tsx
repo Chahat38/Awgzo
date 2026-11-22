@@ -128,8 +128,8 @@ export function MagneticCta({
 
   const styles =
     variant === 'orange'
-      ? 'bg-[#E86C22] text-[#080808] font-semibold hover:bg-[#FD9800] border border-[#FD9800]/60'
-      : 'awgzo-glass awgzo-glass--low text-white font-medium hover:border-[#E86C22]/60';
+      ? 'bg-orange text-black font-semibold hover:bg-orange border border-orange/60'
+      : 'awgzo-glass awgzo-glass--low text-white font-medium hover:border-orange/60';
 
   return (
     <button

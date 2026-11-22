@@ -50,12 +50,12 @@ function ProjectMediaCard({
       data-cursor="INSPECT"
     >
       <div className="font-mono-tabular text-[11px]">
-        <span className="text-[#E86C22] font-semibold">
+        <span className="text-orange font-semibold">
           {project.indexLabel} · {project.kind}
         </span>
       </div>
 
-      <div className="relative my-3 h-[170px] shrink-0 overflow-hidden rounded-xl border border-white/12 bg-[#080808] sm:h-[190px]">
+      <div className="relative my-3 h-[170px] shrink-0 overflow-hidden rounded-xl border border-white/12 bg-black sm:h-[190px]">
         {project.videoUrl && !videoFailed ? (
           <video
             ref={videoRef}
@@ -87,7 +87,7 @@ function ProjectMediaCard({
         <h3 className="font-display text-lg font-bold tracking-tight text-white sm:text-xl">
           {project.title}
         </h3>
-        <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-white group-hover:text-[#E86C22]">
+        <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-white group-hover:text-orange">
           View Case Study <ArrowUpRight className="h-3.5 w-3.5" />
         </span>
       </div>
@@ -215,14 +215,14 @@ export function Portfolio() {
       <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22]">
+            <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-orange">
               Selected Work
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
               AR &amp; Web Projects by AWGZO
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#A0A0A0] sm:text-base">
-              A closer look at AR, WebAR product viewers, TikTok effects and responsive web
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 sm:text-base">
+              A closer look at AR, WebAR product viewers, Snap AR effects and responsive web
               builds created by AWGZO in Islamabad.
             </p>
           </div>
@@ -242,7 +242,7 @@ export function Portfolio() {
                   onClick={() => setFilter(kind)}
                   className={`relative z-[2] rounded-full px-3.5 py-1.5 font-mono-tabular text-xs font-semibold transition cursor-pointer ${
                     filter === kind
-                      ? 'bg-[#E86C22] text-[#080808]'
+                      ? 'bg-orange text-black'
                       : 'text-white/75 hover:bg-white/10 hover:text-white'
                   }`}
                 >
@@ -281,11 +281,11 @@ export function Portfolio() {
         <div className="mt-6 hidden items-center gap-4 lg:flex">
           <div className="h-[2px] flex-1 overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full bg-[#E86C22] transition-all duration-150"
+              className="h-full bg-orange transition-all duration-150"
               style={{ width: `${Math.max(8, progress * 100)}%` }}
             />
           </div>
-          <span className="font-mono-tabular text-[11px] text-[#A0A0A0]">
+          <span className="font-mono-tabular text-[11px] text-white/60">
             SELECT ANY PROJECT TO INSPECT
           </span>
         </div>

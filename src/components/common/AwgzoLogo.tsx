@@ -46,8 +46,8 @@ export function AwgzoLogo({
           className="shrink-0"
           style={{ height: 'clamp(28px, 3vw, 36px)', width: 'auto' }}
         >
-          <path d="M16 2.5L29 26.5H21.8L16 15.2L10.2 26.5H3L16 2.5Z" fill="#FFFFFF" />
-          <path d="M16 15.2L20.4 23.6H11.6L16 15.2Z" fill="#E86C22" />
+          <path d="M16 2.5L29 26.5H21.8L16 15.2L10.2 26.5H3L16 2.5Z" fill="#f7f8f7" />
+          <path d="M16 15.2L20.4 23.6H11.6L16 15.2Z" fill="#e86d22" />
         </svg>
       )}
 

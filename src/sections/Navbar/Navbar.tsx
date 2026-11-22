@@ -85,60 +85,59 @@ export function Navbar() {
           />
 
           <div
-            className="relative z-[2] grid min-h-[56px] items-center transition-[padding] duration-300"
+            className="relative z-[2] flex min-h-[56px] items-center justify-between transition-[padding] duration-300"
             style={{
-              gridTemplateColumns: 'auto 1fr auto',
               gap: 'clamp(12px, 2vw, 32px)',
               paddingInline: 'clamp(14px, 2vw, 24px)',
               paddingBlock: compact ? '6px' : '8px',
             }}
           >
-            <div className="min-w-0 flex items-center shrink-0">
+            <div className="flex min-w-0 shrink-0 items-center">
               <button
                 type="button"
                 onClick={() => handleJump('hero')}
                 aria-label="AWGZO Home"
                 {...(pageHandActive ? { 'data-hand-target': 'nav-hero' } : {})}
-                className="flex items-center shrink-0 whitespace-nowrap rounded-full py-1 cursor-pointer"
+                className="flex shrink-0 items-center whitespace-nowrap rounded-full py-1 cursor-pointer"
               >
                 <AwgzoLogo compact={compact} hideWordmarkBelow480 />
               </button>
             </div>
 
-            <nav
-              aria-label="Primary navigation"
-              className="min-w-0 hidden items-center justify-center gap-1 lg:flex"
-            >
-              {navItems.map((item) => {
-                const isActive = location.pathname === '/' && activeSection === item.section;
-                return (
-                  <button
-                    key={item.label}
-                    type="button"
-                    onClick={() => handleJump(item.target)}
-                    {...(pageHandActive ? { 'data-hand-target': `nav-${item.target}` } : {})}
-                    className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
-                      isActive
-                        ? 'bg-[#E86C22] text-[#080808] font-semibold'
-                        : 'text-white/85 hover:bg-white/10 hover:text-white'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
-            </nav>
+            <div className="flex min-w-0 items-center justify-end gap-2 sm:gap-4">
+              <nav
+                aria-label="Primary navigation"
+                className="hidden min-w-0 items-center gap-1 lg:flex"
+              >
+                {navItems.map((item) => {
+                  const isActive = location.pathname === '/' && activeSection === item.section;
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={() => handleJump(item.target)}
+                      {...(pageHandActive ? { 'data-hand-target': `nav-${item.target}` } : {})}
+                      className={`rounded-full px-3 py-1.5 text-[17px] font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                        isActive
+                          ? 'bg-orange text-black font-semibold'
+                          : 'text-white/85 hover:bg-white/10 hover:text-white'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </nav>
 
-            <div className="min-w-0 flex items-center justify-end gap-2">
               <a
                 href={AWGZO_SITE.contact.calendlyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 {...(pageHandActive ? { 'data-hand-target': 'nav-book-call' } : {})}
-                className="hidden min-[480px]:inline-flex items-center gap-1.5 rounded-full bg-[#E86C22] px-4 py-2 text-xs font-semibold text-[#080808] transition hover:bg-[#FD9800] whitespace-nowrap shrink-0"
+                className="hidden min-[480px]:inline-flex shrink-0 items-center gap-1.5 rounded-full bg-orange px-4 py-2 text-[17px] font-semibold text-black transition hover:bg-orange whitespace-nowrap"
               >
-                <Calendar className="h-3.5 w-3.5" />
-                Book a Call
+                <Calendar className="h-4 w-4" />
+                Free Consultation
               </a>
 
               <button
@@ -146,9 +145,9 @@ export function Navbar() {
                 onClick={() => setMobileOpen((o) => !o)}
                 aria-expanded={mobileOpen}
                 aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-[#E86C22] lg:hidden cursor-pointer"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-orange lg:hidden cursor-pointer"
               >
-                {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
@@ -161,7 +160,7 @@ export function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation"
-          className="fixed inset-0 z-[70] flex flex-col justify-between bg-[#080808]/95 p-6 backdrop-blur-2xl lg:hidden"
+          className="fixed inset-0 z-[70] flex flex-col justify-between bg-black/95 p-6 backdrop-blur-2xl lg:hidden"
         >
           <div className="flex items-center justify-between gap-4">
             <AwgzoLogo />
@@ -181,9 +180,9 @@ export function Navbar() {
                 key={item.label}
                 type="button"
                 onClick={() => handleJump(item.target)}
-                className="text-left font-display text-3xl font-bold text-white transition-colors hover:text-[#E86C22] cursor-pointer"
+                className="text-left font-display text-3xl font-bold text-white transition-colors hover:text-orange cursor-pointer"
               >
-                <span className="font-mono-tabular mr-3 text-xs text-[#E86C22]">0{idx + 1}</span>
+                <span className="font-mono-tabular mr-3 text-xs text-orange">0{idx + 1}</span>
                 {item.label}
               </button>
             ))}
@@ -194,9 +193,9 @@ export function Navbar() {
               href={AWGZO_SITE.contact.calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#E86C22] py-3.5 text-sm font-semibold text-[#080808]"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-orange py-3.5 text-sm font-semibold text-black"
             >
-              <Calendar className="h-4 w-4" /> Book a Free Call
+              <Calendar className="h-4 w-4" /> Free Consultation
             </a>
           </div>
         </div>

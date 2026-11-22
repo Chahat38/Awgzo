@@ -34,7 +34,7 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
         <title>AWGZO | AR VR XR Agency Islamabad</title>
         <meta
           name="description"
-          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, TikTok effects, websites and software. Book a call."
+          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites and software. Book a call."
         />
         <link rel="canonical" href="https://awgzo.com/" />
         <meta property="og:type" content="website" />
@@ -42,7 +42,7 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
         <meta property="og:title" content="AWGZO | AR VR XR Agency Islamabad" />
         <meta
           property="og:description"
-          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, TikTok effects, websites and software. Book a call."
+          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites and software. Book a call."
         />
         <meta
           property="og:image"
@@ -53,7 +53,7 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
         <meta name="twitter:title" content="AWGZO | AR VR XR Agency Islamabad" />
         <meta
           name="twitter:description"
-          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, TikTok effects, websites and software. Book a call."
+          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites and software. Book a call."
         />
         <meta
           name="twitter:image"

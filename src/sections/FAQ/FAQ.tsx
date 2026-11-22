@@ -9,7 +9,7 @@ export function FAQ() {
       className="relative z-10 border-t border-white/[0.08] py-16 sm:py-20"
     >
       <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
-        <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22]">
+        <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-orange">
           FAQ · Common questions
         </span>
         <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
@@ -25,7 +25,7 @@ export function FAQ() {
                     {item.question}
                   </h3>
                 </summary>
-                <p className="mt-3 text-sm leading-relaxed text-[#A0A0A0]">{item.answer}</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{item.answer}</p>
               </details>
             </GlassCard>
           ))}

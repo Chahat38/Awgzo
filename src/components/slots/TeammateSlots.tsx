@@ -44,15 +44,15 @@ function TeammateSlotShell({ id, slotName, title, description }: TeammateSlotPro
       className="relative z-10 border-t border-white/[0.08] py-16"
     >
       <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div className="rounded-2xl border border-dashed border-white/15 bg-[#111111]/55 p-6 sm:p-8">
+        <div className="rounded-2xl border border-dashed border-white/15 bg-black/55 p-6 sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="font-mono-tabular text-xs font-semibold text-[#E86C22]">
+            <span className="font-mono-tabular text-xs font-semibold text-orange">
               INTEGRATION SLOT · {slotName}
             </span>
             <span className="font-mono-tabular text-[11px] text-white/60">#{id}</span>
           </div>
           <h2 className="mt-2 font-display text-xl font-semibold text-white">{title}</h2>
-          <p className="mt-1 text-sm text-[#A0A0A0]">{description}</p>
+          <p className="mt-1 text-sm text-white/60">{description}</p>
         </div>
       </div>
     </section>

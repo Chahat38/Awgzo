@@ -6,7 +6,7 @@ import { gsap } from '../../lib/scroll';
 
 const MARQUEE_ITEMS = [
   'AR / WebAR',
-  'TikTok Effects',
+  'Snap AR Effects',
   'Web Platforms',
   'Growth Strategy',
   'Visual Systems',
@@ -92,23 +92,23 @@ export function Team() {
         className="pointer-events-none absolute inset-0 opacity-60 [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
+            'linear-gradient(rgba(247,248,247,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(247,248,247,0.035) 1px, transparent 1px)',
           backgroundSize: '72px 72px',
         }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-32 top-1/4 h-[420px] w-[420px] rounded-full bg-[#E86C22]/[0.07] blur-[130px]"
+        className="pointer-events-none absolute -left-32 top-1/4 h-[420px] w-[420px] rounded-full bg-orange/[0.07] blur-[130px]"
       />
 
       <div className="relative mx-auto w-full max-w-[1440px] px-6 lg:px-12">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div data-team-head>
-            <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.24em] text-[#E86C22]">
+            <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.24em] text-orange">
               04 · The crew / no superheroes
             </span>
             <h2 className="mt-3 font-display text-[clamp(2.25rem,7vw,5.75rem)] font-extrabold leading-[0.98] tracking-[-0.04em] text-white max-sm:text-[clamp(2rem,9vw,2.6rem)]">
-              Meet the <span className="text-[#E86C22]">AR VR XR</span> Team
+              Meet the <span className="text-orange">AR VR XR</span> Team
             </h2>
           </div>
 
@@ -124,7 +124,7 @@ export function Team() {
 
         <p
           data-team-head
-          className="mt-5 max-w-xl text-sm leading-relaxed text-[#A0A0A0] md:text-base"
+          className="mt-5 max-w-xl text-sm leading-relaxed text-white/60 md:text-base"
         >
           Our AR, VR and WebXR builders, web devs and marketers work as one Islamabad studio.
         </p>
@@ -132,10 +132,10 @@ export function Team() {
         <div className="mt-9 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
           {/* Interactive spotlight / dossier */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="relative min-h-[380px] overflow-hidden rounded-[28px] border border-white/[0.12] bg-[#0D0D0D]/90 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.45)] sm:min-h-[430px] sm:p-9">
+            <div className="relative min-h-[380px] overflow-hidden rounded-[28px] border border-white/[0.12] bg-black/90 p-6 shadow-[0_30px_90px_rgba(16,25,31,0.45)] sm:min-h-[430px] sm:p-9">
               <div
                 aria-hidden="true"
-                className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#E86C22]/25 blur-[90px]"
+                className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-orange/25 blur-[90px]"
               />
               <div aria-hidden="true" className="ar-scanlines absolute inset-0 opacity-50" />
               <div
@@ -145,15 +145,15 @@ export function Team() {
 
               <div className="relative flex items-center justify-between font-mono-tabular text-[10px] uppercase tracking-[0.22em] text-white/45">
                 <span>Selected discipline</span>
-                <span className="text-[#E86C22]">
+                <span className="text-orange">
                   {active.index} / 0{members.length}
                 </span>
               </div>
 
               <div className="relative mt-8 flex justify-center">
                 <div className="relative aspect-square w-36 sm:w-56">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full border border-white/15 bg-[#151515]">
-                    <span className="font-display text-4xl font-bold tracking-tight text-[#E86C22] sm:text-6xl">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full border border-white/15 bg-black">
+                    <span className="font-display text-4xl font-bold tracking-tight text-orange sm:text-6xl">
                       {getInitials(active.name)}
                     </span>
                     <span className="mt-1 font-mono-tabular text-[9px] uppercase tracking-[0.2em] text-white/35">
@@ -162,33 +162,33 @@ export function Team() {
                   </div>
                   <div
                     aria-hidden="true"
-                    className="team-orbit pointer-events-none absolute inset-3 rounded-full border border-dashed border-[#E86C22]/45"
+                    className="team-orbit pointer-events-none absolute inset-3 rounded-full border border-dashed border-orange/45"
                   />
                   <div
                     aria-hidden="true"
-                    className="absolute -bottom-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#E86C22] shadow-[0_0_20px_#E86C22]"
+                    className="absolute -bottom-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-orange shadow-[0_0_20px_#e86d22]"
                   />
-                  <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-[#080808]/85 px-3 py-1 font-mono-tabular text-[10px] font-semibold tracking-[0.2em] text-[#E86C22] ring-1 ring-[#E86C22]/40">
+                  <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/85 px-3 py-1 font-mono-tabular text-[10px] font-semibold tracking-[0.2em] text-orange ring-1 ring-orange/40">
                     {active.index}
                   </span>
                 </div>
               </div>
 
               <div key={active.id} className="team-fade relative mt-8">
-                <p className="font-mono-tabular text-[11px] uppercase tracking-[0.18em] text-[#E86C22]">
+                <p className="font-mono-tabular text-[11px] uppercase tracking-[0.18em] text-orange">
                   {active.role}
                 </p>
                 <h3 className="mt-2 font-display text-2xl font-bold leading-tight text-white sm:text-3xl">
                   {active.name}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#A0A0A0]">{active.bio}</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{active.bio}</p>
 
                 <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-5">
                   <a
                     href={active.links.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-link-draw inline-flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-[#E86C22]"
+                    className="text-link-draw inline-flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-orange"
                   >
                     LinkedIn <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
@@ -196,7 +196,7 @@ export function Team() {
                     href={active.links.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-link-draw inline-flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-[#E86C22]"
+                    className="text-link-draw inline-flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-orange"
                   >
                     Instagram <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
@@ -228,12 +228,12 @@ export function Team() {
                   >
                     <span
                       className={`font-mono-tabular text-xs transition-colors sm:text-sm ${
-                        isActive ? 'text-[#E86C22]' : 'text-white/30 group-hover:text-[#E86C22]'
+                        isActive ? 'text-orange' : 'text-white/30 group-hover:text-orange'
                       }`}
                     >
                       {member.index}
                     </span>
-                    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#151515] font-mono-tabular text-[10px] font-semibold text-[#E86C22] sm:h-11 sm:w-11 sm:text-xs">
+                    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-black font-mono-tabular text-[10px] font-semibold text-orange sm:h-11 sm:w-11 sm:text-xs">
                       {getInitials(member.name)}
                     </span>
                     <span
@@ -249,15 +249,15 @@ export function Team() {
                     <span
                       className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border transition-all duration-300 ${
                         isActive
-                          ? 'border-[#E86C22] bg-[#E86C22] text-[#080808]'
-                          : 'border-white/15 text-white/40 group-hover:border-[#E86C22] group-hover:text-[#E86C22]'
+                          ? 'border-orange bg-orange text-black'
+                          : 'border-white/15 text-white/40 group-hover:border-orange group-hover:text-orange'
                       }`}
                     >
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </span>
                     <span
                       aria-hidden="true"
-                      className={`absolute bottom-0 left-0 h-px w-full origin-left bg-[#E86C22] transition-transform duration-500 ${
+                      className={`absolute bottom-0 left-0 h-px w-full origin-left bg-orange transition-transform duration-500 ${
                         isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                       }`}
                     />
@@ -267,7 +267,7 @@ export function Team() {
             </div>
 
             <div className="mt-8 flex items-center gap-3 font-mono-tabular text-[10px] uppercase tracking-[0.2em] text-white/35">
-              <span className="h-px w-10 bg-[#E86C22]" /> Built by people, not prompts
+              <span className="h-px w-10 bg-orange" /> Built by people, not prompts
             </div>
           </div>
         </div>
@@ -280,7 +280,7 @@ export function Team() {
                 {MARQUEE_ITEMS.map((item) => (
                   <span key={item} className="flex items-center gap-10 whitespace-nowrap font-mono-tabular text-[11px] uppercase tracking-[0.28em] text-white/30">
                     {item}
-                    <span className="text-[#E86C22]">✳</span>
+                    <span className="text-orange">✳</span>
                   </span>
                 ))}
               </div>

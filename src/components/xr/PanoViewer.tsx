@@ -36,8 +36,8 @@ export const AWGZO_PORTAL_HOTSPOTS: PanoHotspot[] = [
     position: [0.4, 2.0, -9.2],
   },
   {
-    id: 'tiktok-effects',
-    label: 'TikTok Effects',
+    id: 'snap-ar-effects',
+    label: 'Snap AR Effects',
     description: 'Custom Effect House filters powered by face-mesh tracking and real-time shaders.',
     position: [4.2, -0.2, -8.5],
   },
@@ -49,7 +49,7 @@ export const AWGZO_PORTAL_HOTSPOTS: PanoHotspot[] = [
   },
   {
     id: 'book-call',
-    label: 'Book a Call',
+    label: 'Free Consultation',
     description: 'Schedule a free discovery session on Calendly to plan your AR or web project.',
     position: [5.2, 2.2, 6.2],
     action: 'book',
@@ -82,16 +82,16 @@ function createSpatialHorizonTexture(): THREE.CanvasTexture {
   canvas.height = 512;
   const ctx = canvas.getContext('2d');
   if (ctx) {
-    const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    grad.addColorStop(0, '#070a18');
-    grad.addColorStop(0.45, '#131630');
-    grad.addColorStop(0.5, '#E86C22');
-    grad.addColorStop(0.55, '#1a1126');
-    grad.addColorStop(1, '#080808');
+    const grad = ctx.createLinearGradient(16,25,31, canvas.height);
+    grad.addColorStop(0, '#10191f');
+    grad.addColorStop(0.45, '#10191f');
+    grad.addColorStop(0.5, '#e86d22');
+    grad.addColorStop(0.55, '#10191f');
+    grad.addColorStop(1, '#10191f');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.strokeStyle = 'rgba(247,248,247,0.14)';
     ctx.lineWidth = 1;
     for (let x = 0; x <= canvas.width; x += 64) {
       ctx.beginPath();
@@ -106,7 +106,7 @@ function createSpatialHorizonTexture(): THREE.CanvasTexture {
       ctx.stroke();
     }
 
-    ctx.fillStyle = 'rgba(232,108,34,0.85)';
+    ctx.fillStyle = 'rgba(232,109,34,0.85)';
     ctx.font = 'bold 20px monospace';
     ['N · AR LAB', 'E · STUDIO', 'S · HORIZON', 'W · PORTAL'].forEach((label, idx) => {
       ctx.fillText(label, idx * 256 + 44, 244);
@@ -160,8 +160,8 @@ export const PanoViewport = forwardRef<
     const cam = cameraRef.current;
     if (cam) {
       cam.fov = 68;
-      cam.position.set(0, 0, 0.1);
-      cam.rotation.set(0, 0, 0);
+      cam.position.set(16,25,31.1);
+      cam.rotation.set(16,25,31);
       cam.updateProjectionMatrix();
     }
     rollRef.current = 0;
@@ -257,7 +257,7 @@ export const PanoViewport = forwardRef<
     }
 
     const camera = new THREE.PerspectiveCamera(68, 16 / 9, 0.1, 100);
-    camera.position.set(0, 0, 0.1);
+    camera.position.set(16,25,31.1);
     cameraRef.current = camera;
 
     const rightCamera = new THREE.PerspectiveCamera(68, 8 / 9, 0.1, 100);
@@ -452,14 +452,14 @@ export const PanoViewport = forwardRef<
       aria-label="Interactive 360 spatial horizon viewer. Drag, use arrow keys, or hand gestures to explore."
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
-      className={`relative overflow-hidden rounded-2xl border border-white/15 bg-[#080808] outline-none ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-white/15 bg-black outline-none ${className}`}
     >
       {webglUnavailable ? (
         <div
-          className="flex h-full w-full items-center justify-center p-6 text-center text-xs text-[#A0A0A0]"
+          className="flex h-full w-full items-center justify-center p-6 text-center text-xs text-white/60"
           style={{
             background:
-              'linear-gradient(180deg, #070a18 0%, #131630 46%, rgba(232,108,34,0.35) 50%, #080808 100%)',
+              'linear-gradient(180deg, #10191f 0%, #10191f 46%, rgba(232,109,34,0.35) 50%, #10191f 100%)',
           }}
         >
           360° Spatial Horizon Room
@@ -494,8 +494,8 @@ export const PanoViewport = forwardRef<
             className="group absolute left-0 top-0 flex min-h-[72px] min-w-[72px] items-center justify-center p-2 cursor-pointer"
             style={{ opacity: 0 }}
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E86C22]/80 bg-[#080808]/90 px-3 py-1.5 font-mono-tabular text-[11px] font-semibold text-white backdrop-blur-md transition-transform group-hover:scale-110 group-data-[hand-hover=true]:scale-115 group-hover:bg-[#E86C22] group-hover:text-[#080808] whitespace-nowrap shadow-lg">
-              <span className="h-2 w-2 rounded-full bg-[#E86C22] group-hover:bg-[#080808]" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-orange/80 bg-black/90 px-3 py-1.5 font-mono-tabular text-[11px] font-semibold text-white backdrop-blur-md transition-transform group-hover:scale-110 group-data-[hand-hover=true]:scale-115 group-hover:bg-orange group-hover:text-black whitespace-nowrap shadow-lg">
+              <span className="h-2 w-2 rounded-full bg-orange group-hover:bg-black" />
               <span>{hs.label}</span>
             </span>
           </button>
@@ -510,7 +510,7 @@ export const PanoViewport = forwardRef<
         >
           <GlassCard className="p-4 sm:p-5" tone="orange">
             <div className="flex items-start justify-between gap-2">
-              <span className="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.18em] text-[#E86C22]">
+              <span className="font-mono-tabular text-[10px] font-semibold uppercase tracking-[0.18em] text-orange">
                 0{selectedHotspotIdx + 1} / 0{AWGZO_PORTAL_HOTSPOTS.length} · SPATIAL NODE
               </span>
               <button
@@ -529,7 +529,7 @@ export const PanoViewport = forwardRef<
             <h3 className="mt-1 font-display text-lg font-bold text-white">
               {activeHotspot.label}
             </h3>
-            <p className="mt-1.5 text-xs leading-relaxed text-[#A0A0A0]">
+            <p className="mt-1.5 text-xs leading-relaxed text-white/60">
               {activeHotspot.description}
             </p>
 
@@ -540,9 +540,9 @@ export const PanoViewport = forwardRef<
                 target="_blank"
                 rel="noopener noreferrer"
                 {...(handTargets ? { 'data-hand-target': 'info-book' } : {})}
-                className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-1.5 rounded-2xl bg-[#E86C22] px-4 py-2 text-xs font-semibold text-[#080808] hover:bg-[#FD9800]"
+                className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-1.5 rounded-2xl bg-orange px-4 py-2 text-xs font-semibold text-black hover:bg-orange"
               >
-                <Calendar className="h-3.5 w-3.5" /> Book a call
+                <Calendar className="h-3.5 w-3.5" /> Free Consultation
               </a>
 
               <button
@@ -553,9 +553,9 @@ export const PanoViewport = forwardRef<
                   scrollToSection('contact');
                 }}
                 {...(handTargets ? { 'data-hand-target': 'info-contact' } : {})}
-                className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-1.5 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white hover:border-[#E86C22] cursor-pointer"
+                className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-1.5 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white hover:border-orange cursor-pointer"
               >
-                <Mail className="h-3.5 w-3.5 text-[#E86C22]" /> Contact us
+                <Mail className="h-3.5 w-3.5 text-orange" /> Contact us
               </button>
             </div>
 
@@ -570,7 +570,7 @@ export const PanoViewport = forwardRef<
                   )
                 }
                 {...(handTargets ? { 'data-hand-target': 'info-prev' } : {})}
-                className="inline-flex min-h-[72px] min-w-[72px] items-center justify-center gap-1 rounded-xl border border-white/15 bg-white/5 px-3 font-mono-tabular text-xs text-white hover:border-[#E86C22] cursor-pointer"
+                className="inline-flex min-h-[72px] min-w-[72px] items-center justify-center gap-1 rounded-xl border border-white/15 bg-white/5 px-3 font-mono-tabular text-xs text-white hover:border-orange cursor-pointer"
               >
                 <ChevronLeft className="h-4 w-4" /> Prev
               </button>
@@ -581,7 +581,7 @@ export const PanoViewport = forwardRef<
                   setSelectedHotspotIdx((selectedHotspotIdx + 1) % AWGZO_PORTAL_HOTSPOTS.length)
                 }
                 {...(handTargets ? { 'data-hand-target': 'info-next' } : {})}
-                className="inline-flex min-h-[72px] min-w-[72px] items-center justify-center gap-1 rounded-xl border border-white/15 bg-white/5 px-3 font-mono-tabular text-xs text-white hover:border-[#E86C22] cursor-pointer"
+                className="inline-flex min-h-[72px] min-w-[72px] items-center justify-center gap-1 rounded-xl border border-white/15 bg-white/5 px-3 font-mono-tabular text-xs text-white hover:border-orange cursor-pointer"
               >
                 Next <ChevronRight className="h-4 w-4" />
               </button>
@@ -592,7 +592,7 @@ export const PanoViewport = forwardRef<
 
       {/* Top Portal Controls */}
       <div className="pointer-events-none absolute inset-x-3 top-3 flex flex-wrap items-center justify-between gap-2">
-        <span className="rounded-full border border-white/15 bg-[#080808]/75 px-3 py-1 font-mono-tabular text-[11px] text-white/85 backdrop-blur-md">
+        <span className="rounded-full border border-white/15 bg-black/75 px-3 py-1 font-mono-tabular text-[11px] text-white/85 backdrop-blur-md">
           360° Portal · {AWGZO_PORTAL_HOTSPOTS.length} Hotspots
         </span>
         <div className="pointer-events-auto flex items-center gap-2">
@@ -605,8 +605,8 @@ export const PanoViewport = forwardRef<
               handTargets ? 'min-h-[72px] min-w-[72px] -my-3' : 'min-h-[44px]'
             }`}
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-[#080808]/75 px-3 py-1.5 font-mono-tabular text-[11px] text-white backdrop-blur-md transition group-hover:border-[#E86C22]">
-              <RotateCcw className="h-3.5 w-3.5 text-[#E86C22]" /> Reset
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/75 px-3 py-1.5 font-mono-tabular text-[11px] text-white backdrop-blur-md transition group-hover:border-orange">
+              <RotateCcw className="h-3.5 w-3.5 text-orange" /> Reset
             </span>
           </button>
           <button
@@ -614,8 +614,8 @@ export const PanoViewport = forwardRef<
             onClick={toggleGyro}
             className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-full border px-3 py-1 font-mono-tabular text-[11px] backdrop-blur-md transition cursor-pointer ${
               gyro
-                ? 'border-[#E86C22] bg-[#E86C22] text-[#080808]'
-                : 'border-white/20 bg-[#080808]/75 text-white hover:border-[#E86C22]'
+                ? 'border-orange bg-orange text-black'
+                : 'border-white/20 bg-black/75 text-white hover:border-orange'
             }`}
           >
             <Compass className="h-3.5 w-3.5" /> {gyro ? 'Gyro On' : 'Gyro'}
@@ -625,8 +625,8 @@ export const PanoViewport = forwardRef<
             onClick={() => setStereo((s) => !s)}
             className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-full border px-3 py-1 font-mono-tabular text-[11px] backdrop-blur-md transition cursor-pointer ${
               stereo
-                ? 'border-[#3B82F6] bg-[#3B82F6] text-white'
-                : 'border-white/20 bg-[#080808]/75 text-white hover:border-white/40'
+                ? 'border-orange bg-orange text-white'
+                : 'border-white/20 bg-black/75 text-white hover:border-white/40'
             }`}
           >
             <Glasses className="h-3.5 w-3.5" /> {stereo ? 'Stereo On' : 'Stereo'}
@@ -661,7 +661,7 @@ export default function PanoModal() {
       <GlassCard className="w-full max-w-4xl p-6 sm:p-8">
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
-            <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3B82F6]">
+            <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.2em] text-orange">
               Interactive 360° Spatial Room
             </span>
             <h2 id="pano-modal-title" className="mt-1 font-display text-2xl font-bold text-white">
@@ -672,13 +672,13 @@ export default function PanoModal() {
             type="button"
             onClick={() => setPanoOpen(false)}
             aria-label="Close 360 viewer"
-            className="rounded-full border border-white/15 bg-white/5 p-2 text-white transition hover:border-[#E86C22] hover:bg-[#E86C22] hover:text-[#080808] cursor-pointer"
+            className="rounded-full border border-white/15 bg-white/5 p-2 text-white transition hover:border-orange hover:bg-orange hover:text-black cursor-pointer"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
         <PanoViewport className="h-[420px]" />
-        <p className="mt-3 text-xs text-[#A0A0A0]">
+        <p className="mt-3 text-xs text-white/60">
           Drag, use arrow keys, or control with hand gestures inside Reality Lab.
         </p>
       </GlassCard>

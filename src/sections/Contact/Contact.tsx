@@ -145,8 +145,8 @@ export function Contact() {
         style={{
           background:
             mode === 'VR'
-              ? 'radial-gradient(circle at 50% 45%, rgba(59,130,246,0.16), rgba(232,108,34,0.08) 45%, transparent 75%)'
-              : 'radial-gradient(circle at 50% 45%, rgba(232,108,34,0.16), rgba(255,255,255,0.02) 48%, transparent 75%)',
+              ? 'radial-gradient(circle at 50% 45%, rgba(232,109,34,0.16), rgba(232,109,34,0.08) 45%, transparent 75%)'
+              : 'radial-gradient(circle at 50% 45%, rgba(232,109,34,0.16), rgba(247,248,247,0.02) 48%, transparent 75%)',
         }}
       />
 
@@ -154,45 +154,45 @@ export function Contact() {
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="space-y-6 lg:col-span-5">
             <div className="contact-stagger">
-              <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22]">
+              <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-orange">
                 Contact
               </span>
               <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
                 Let’s Build Your Next AR VR XR Experience
               </h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#A0A0A0]">
+              <p className="mt-3 text-sm leading-relaxed text-white/60">
                 Tell us your goal and we’ll suggest the right mix of AR, VR, WebXR, web and
-                marketing. Prefer to talk now? Book a free call.
+                marketing. Prefer to talk now? Book a call.
               </p>
             </div>
 
             <GlassCard className="contact-stagger p-6" depth="low">
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-3">
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#E86C22]" />
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
                   <div>
-                    <div className="font-mono-tabular text-[11px] uppercase text-[#A0A0A0]">Phone</div>
-                    <a href={AWGZO_SITE.contact.phoneHref} className="font-medium text-white hover:text-[#E86C22]">
+                    <div className="font-mono-tabular text-[11px] uppercase text-white/60">Phone</div>
+                    <a href={AWGZO_SITE.contact.phoneHref} className="font-medium text-white hover:text-orange">
                       {AWGZO_SITE.contact.phone}
                     </a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#E86C22]" />
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
                   <div>
-                    <div className="font-mono-tabular text-[11px] uppercase text-[#A0A0A0]">Email</div>
+                    <div className="font-mono-tabular text-[11px] uppercase text-white/60">Email</div>
                     <a
                       href={`mailto:${AWGZO_SITE.contact.email}`}
-                      className="font-medium text-white hover:text-[#E86C22]"
+                      className="font-medium text-white hover:text-orange"
                     >
                       {AWGZO_SITE.contact.email}
                     </a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#E86C22]" />
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
                   <div>
-                    <div className="font-mono-tabular text-[11px] uppercase text-[#A0A0A0]">Studio</div>
+                    <div className="font-mono-tabular text-[11px] uppercase text-white/60">Studio</div>
                     <span className="font-medium text-white">{AWGZO_SITE.contact.address}</span>
                   </div>
                 </li>
@@ -203,7 +203,7 @@ export function Contact() {
                   href={AWGZO_SITE.contact.calendlyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#E86C22] px-4 py-2 text-xs font-semibold text-[#080808] hover:bg-[#FD9800]"
+                  className="inline-flex items-center gap-2 rounded-full bg-orange px-4 py-2 text-xs font-semibold text-black hover:bg-orange"
                 >
                   <Calendar className="h-3.5 w-3.5" /> Book an AR VR XR Call
                 </a>
@@ -211,9 +211,9 @@ export function Contact() {
                   href={AWGZO_SITE.contact.whatsappCommunityUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white hover:border-[#E86C22]"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white hover:border-orange"
                 >
-                  <MessageCircle className="h-3.5 w-3.5 text-[#E86C22]" /> WhatsApp Community
+                  <MessageCircle className="h-3.5 w-3.5 text-orange" /> WhatsApp Community
                 </a>
               </div>
 
@@ -226,7 +226,7 @@ export function Contact() {
                     rel="noopener noreferrer"
                     aria-label={soc.label}
                     title={soc.label}
-                    className="grid h-9 w-9 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition hover:border-[#E86C22] hover:text-[#E86C22]"
+                    className="grid h-9 w-9 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition hover:border-orange hover:text-orange"
                   >
                     <SocialIcon label={soc.label} className="h-4 w-4" />
                   </a>
@@ -272,7 +272,7 @@ export function Contact() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g., Ahmad Khan"
-                      className="mt-2 w-full rounded-xl border border-white/15 bg-[#080808]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#E86C22] focus:outline-none"
+                      className="mt-2 w-full rounded-xl border border-white/15 bg-black/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-orange focus:outline-none"
                     />
                   </div>
                   <div>
@@ -286,7 +286,7 @@ export function Contact() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@company.com"
-                      className="mt-2 w-full rounded-xl border border-white/15 bg-[#080808]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#E86C22] focus:outline-none"
+                      className="mt-2 w-full rounded-xl border border-white/15 bg-black/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-orange focus:outline-none"
                     />
                   </div>
                 </div>
@@ -299,10 +299,10 @@ export function Contact() {
                     id="contact-service"
                     value={service}
                     onChange={(e) => setService(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-[#080808]/90 px-4 py-3 text-sm text-white focus:border-[#E86C22] focus:outline-none"
+                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/90 px-4 py-3 text-sm text-white focus:border-orange focus:outline-none"
                   >
                     {SERVICE_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt} className="bg-[#111111] text-white">
+                      <option key={opt} value={opt} className="bg-black text-white">
                         {opt}
                       </option>
                     ))}
@@ -320,7 +320,7 @@ export function Contact() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Share your goal — AR try-on, VR experience, WebXR, website or marketing..."
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-[#080808]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#E86C22] focus:outline-none"
+                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-orange focus:outline-none"
                   />
                 </div>
 
@@ -329,10 +329,10 @@ export function Contact() {
                     <div
                       className={`rounded-xl border px-4 py-3 text-xs leading-relaxed ${
                         statusTone === 'error'
-                          ? 'border-red-500/50 bg-red-500/10 text-red-200'
+                          ? 'border-orange/50 bg-orange/10 text-white'
                           : statusTone === 'success'
-                            ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-200'
-                            : 'border-[#E86C22]/50 bg-[#E86C22]/15 text-white'
+                            ? 'border-white/50 bg-white/10 text-white'
+                            : 'border-orange/50 bg-orange/15 text-white'
                       }`}
                     >
                       {statusMessage}
@@ -345,7 +345,7 @@ export function Contact() {
                     <Send className="h-4 w-4" />
                     {submitting ? 'Sending…' : 'Send an AR VR XR Brief'}
                   </MagneticCta>
-                  <span className="font-mono-tabular text-[11px] text-[#A0A0A0]">
+                  <span className="font-mono-tabular text-[11px] text-white/60">
                     Or book directly via Calendly
                   </span>
                 </div>

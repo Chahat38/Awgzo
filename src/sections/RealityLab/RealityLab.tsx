@@ -35,9 +35,9 @@ interface RadialSliceItem {
 const RADIAL_SLICES: RadialSliceItem[] = [
   { id: 'ar-try-on', label: 'AR Try-On', sublabel: 'Live WebAR view' },
   { id: 'ar-cards', label: 'AR Business Card', sublabel: 'Open 3D card' },
-  { id: 'tiktok-effects', label: 'TikTok Effects', sublabel: 'Face shaders' },
+  { id: 'snap-ar-effects', label: 'Snap AR Effects', sublabel: 'Face shaders' },
   { id: 'web-ecom', label: 'Web & E-comm', sublabel: 'Storefronts' },
-  { id: 'book-call', label: 'Book a Call', sublabel: 'Calendly node' },
+  { id: 'book-call', label: 'Free Consultation', sublabel: 'Calendly node' },
   { id: 'reset-view', label: 'Reset View', sublabel: 'Center 360°' },
 ];
 
@@ -303,8 +303,8 @@ export function RealityLab() {
         case 'ar-cards':
           panoRef.current?.openHotspotById('ar-cards');
           break;
-        case 'tiktok-effects':
-          panoRef.current?.openHotspotById('tiktok-effects');
+        case 'snap-ar-effects':
+          panoRef.current?.openHotspotById('snap-ar-effects');
           break;
         case 'web-ecom':
           panoRef.current?.openHotspotById('web-ecom');
@@ -572,7 +572,7 @@ export function RealityLab() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
           // Calibrated active zone guide (~70% frame)
-          ctx.strokeStyle = 'rgba(232, 108, 34, 0.35)';
+          ctx.strokeStyle = 'rgba(232,109,34, 0.35)';
           ctx.lineWidth = 1.5;
           ctx.setLineDash([6, 6]);
           ctx.strokeRect(
@@ -586,7 +586,7 @@ export function RealityLab() {
           const hands = latestDetectionRef.current.landmarks;
           hands.forEach((hand) => {
             // Skeleton lines (mirrored X to match video CSS -scale-x-100)
-            ctx.strokeStyle = 'rgba(232, 108, 34, 0.78)';
+            ctx.strokeStyle = 'rgba(232,109,34, 0.78)';
             ctx.lineWidth = 2;
             HAND_CONNECTIONS.forEach(([a, b]) => {
               const p1 = hand[a];
@@ -605,12 +605,12 @@ export function RealityLab() {
               const isTip = idx === 4 || idx === 8;
               ctx.beginPath();
               ctx.arc(mx, my, idx === 8 ? 7 : isTip ? 5 : 3, 0, Math.PI * 2);
-              ctx.fillStyle = idx === 8 ? '#FFFFFF' : idx === 4 ? '#E86C22' : '#FD9800';
+              ctx.fillStyle = idx === 8 ? '#f7f8f7' : idx === 4 ? '#e86d22' : '#e86d22';
               ctx.fill();
               if (idx === 8) {
                 ctx.beginPath();
                 ctx.arc(mx, my, 12, 0, Math.PI * 2);
-                ctx.strokeStyle = '#E86C22';
+                ctx.strokeStyle = '#e86d22';
                 ctx.lineWidth = 2;
                 ctx.stroke();
               }
@@ -717,7 +717,7 @@ export function RealityLab() {
         reticleRingRef.current.style.strokeDasharray = `${circ}`;
         reticleRingRef.current.style.strokeDashoffset = `${circ * (1 - pct)}`;
         reticleRingRef.current.style.stroke =
-          out.fistHoldProgress > 0.15 ? '#FFFFFF' : '#E86C22';
+          out.fistHoldProgress > 0.15 ? '#f7f8f7' : '#e86d22';
       }
 
       // Toggle [data-hand-hover="true"] attribute on snapped DOM target
@@ -831,13 +831,13 @@ export function RealityLab() {
         {/* Header Bar */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22]">
+            <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-orange">
               Interactive AR VR XR Lab
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
-              <span className="text-[#E86C22]">WebXR</span> Reality Lab
+              <span className="text-orange">WebXR</span> Reality Lab
             </h2>
-            <p className="mt-2 max-w-2xl text-sm text-[#A0A0A0]">
+            <p className="mt-2 max-w-2xl text-sm text-white/60">
               Explore AR, VR and WebXR ideas in one place. Try WebAR product viewing, AR cards and
               immersive controls, then book a call to scope your own build.
             </p>
@@ -852,7 +852,7 @@ export function RealityLab() {
                 data-hand-target="mobile-ar"
                 className={`min-h-[72px] min-w-[72px] rounded-xl px-4 font-mono-tabular text-xs font-semibold cursor-pointer ${
                   mobileTab === 'AR'
-                    ? 'bg-[#E86C22] text-[#080808]'
+                    ? 'bg-orange text-black'
                     : 'text-white/80 hover:bg-white/10'
                 }`}
               >
@@ -864,7 +864,7 @@ export function RealityLab() {
                 data-hand-target="mobile-vr"
                 className={`min-h-[72px] min-w-[72px] rounded-xl px-4 font-mono-tabular text-xs font-semibold cursor-pointer ${
                   mobileTab === 'VR'
-                    ? 'bg-[#3B82F6] text-white'
+                    ? 'bg-orange text-white'
                     : 'text-white/80 hover:bg-white/10'
                 }`}
               >
@@ -877,18 +877,18 @@ export function RealityLab() {
         {/* Status Chips */}
         <div className="mt-4 flex flex-wrap items-center gap-3">
           {handScrollEnabled && cameraActive && (
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#E86C22]/50 bg-[#E86C22]/15 px-3.5 py-1.5 font-mono-tabular text-xs font-semibold text-[#E86C22]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange/50 bg-orange/15 px-3.5 py-1.5 font-mono-tabular text-xs font-semibold text-orange">
               <Hand className="h-3.5 w-3.5" /> Hand scroll active — hold near top/bottom edge or flick up/down
             </span>
           )}
           {wholePageHandControl && cameraActive && (
             <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 font-mono-tabular text-xs font-semibold text-white">
-              <Maximize2 className="h-3.5 w-3.5 text-[#E86C22]" /> Whole-page hand control unlocked
+              <Maximize2 className="h-3.5 w-3.5 text-orange" /> Whole-page hand control unlocked
             </span>
           )}
           {lastGestureToast && (
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#E86C22]/60 bg-[#080808]/90 px-3.5 py-1.5 font-mono-tabular text-xs text-white shadow-lg">
-              <Sparkles className="h-3.5 w-3.5 text-[#E86C22]" /> {lastGestureToast}
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange/60 bg-black/90 px-3.5 py-1.5 font-mono-tabular text-xs text-white shadow-lg">
+              <Sparkles className="h-3.5 w-3.5 text-orange" /> {lastGestureToast}
             </span>
           )}
         </div>
@@ -896,7 +896,7 @@ export function RealityLab() {
         {/* Main Console Frame (Floating Reticle & Radial Menu mount inside here) */}
         <div
           ref={consoleRef}
-          className="relative mt-5 overflow-hidden rounded-3xl border border-white/15 bg-[#080808] shadow-[0_24px_80px_rgba(0,0,0,0.65)]"
+          className="relative mt-5 overflow-hidden rounded-3xl border border-white/15 bg-black shadow-[0_24px_80px_rgba(16,25,31,0.65)]"
         >
           {/* Floating Glass Hand Reticle (scoped to Console unless Whole Page Control is active) */}
           <div
@@ -913,8 +913,8 @@ export function RealityLab() {
                   cx="28"
                   cy="28"
                   r="22"
-                  fill="rgba(232,108,34,0.12)"
-                  stroke="rgba(255,255,255,0.28)"
+                  fill="rgba(232,109,34,0.12)"
+                  stroke="rgba(247,248,247,0.28)"
                   strokeWidth="1.5"
                 />
                 <circle
@@ -923,12 +923,12 @@ export function RealityLab() {
                   cy="28"
                   r="22"
                   fill="none"
-                  stroke="#E86C22"
+                  stroke="#e86d22"
                   strokeWidth="3"
                   strokeLinecap="round"
                 />
               </svg>
-              <span className="absolute h-2.5 w-2.5 rounded-full bg-[#E86C22] shadow-[0_0_14px_#E86C22]" />
+              <span className="absolute h-2.5 w-2.5 rounded-full bg-orange shadow-[0_0_14px_#e86d22]" />
             </div>
           </div>
 
@@ -936,7 +936,7 @@ export function RealityLab() {
           <div
             ref={rippleRef}
             aria-hidden="true"
-            className={`pointer-events-none left-0 top-0 z-[119] h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#E86C22] opacity-0 ${
+            className={`pointer-events-none left-0 top-0 z-[119] h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-orange opacity-0 ${
               wholePageHandControl && cameraActive ? 'fixed' : 'absolute'
             }`}
           />
@@ -944,7 +944,7 @@ export function RealityLab() {
           {/* "RAISE YOUR HAND" Idle Prompt inside Console */}
           {cameraActive && raiseHandVisible && !radialVisible && (
             <div className="pointer-events-none absolute inset-x-0 top-5 z-30 flex justify-center px-4">
-              <div className="rounded-full border border-[#E86C22]/55 bg-[#080808]/90 px-5 py-2 font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#E86C22] shadow-[0_0_24px_rgba(232,108,34,0.3)] backdrop-blur-md">
+              <div className="rounded-full border border-orange/55 bg-black/90 px-5 py-2 font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-orange shadow-[0_0_24px_rgba(232,109,34,0.3)] backdrop-blur-md">
                 RAISE YOUR HAND IN FRONT OF THE CAMERA
               </div>
             </div>
@@ -958,17 +958,17 @@ export function RealityLab() {
                 mobileTab === 'VR' ? 'hidden md:block' : 'block'
               }`}
             >
-              <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-[#E86C22]">
+              <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-orange">
                 <span className="inline-flex items-center gap-2 font-semibold">
                   <Hand className="h-4 w-4" /> PANEL 01 · AR MIRROR
                 </span>
-                <span className="inline-flex items-center gap-1 text-[11px] text-[#A0A0A0]">
-                  <ShieldCheck className="h-3.5 w-3.5 text-[#E86C22]" /> On-device camera only
+                <span className="inline-flex items-center gap-1 text-[11px] text-white/60">
+                  <ShieldCheck className="h-3.5 w-3.5 text-orange" /> On-device camera only
                 </span>
               </div>
 
               {/* Camera Viewport + Live HUD Overlay */}
-              <div className="relative mt-4 flex h-[300px] sm:h-[330px] items-center justify-center overflow-hidden rounded-2xl border border-white/12 bg-[#111111]">
+              <div className="relative mt-4 flex h-[300px] sm:h-[330px] items-center justify-center overflow-hidden rounded-2xl border border-white/12 bg-black">
                 <video
                   ref={videoRef}
                   muted
@@ -990,20 +990,20 @@ export function RealityLab() {
                 {/* Idle Camera / Error Diagnostics View */}
                 {!cameraActive && !consentOpen && (
                   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
-                    <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-[#E86C22]/50 bg-[#E86C22]/15">
-                      <Camera className="h-6 w-6 text-[#E86C22]" />
+                    <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-orange/50 bg-orange/15">
+                      <Camera className="h-6 w-6 text-orange" />
                     </div>
                     <p className="font-display text-base font-semibold text-white">
                       AWGZO Spatial Hand Visor
                     </p>
-                    <p className="mt-1 max-w-sm text-xs text-[#A0A0A0]">{cameraStatus}</p>
+                    <p className="mt-1 max-w-sm text-xs text-white/60">{cameraStatus}</p>
 
                     {cameraError !== 'none' && (
                       <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
                         <button
                           type="button"
                           onClick={startCameraWithConsent}
-                          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-[#E86C22] px-4 text-xs font-semibold text-[#080808] hover:bg-[#FD9800] cursor-pointer"
+                          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-orange px-4 text-xs font-semibold text-black hover:bg-orange cursor-pointer"
                         >
                           <Camera className="h-3.5 w-3.5" /> Retry Camera
                         </button>
@@ -1012,7 +1012,7 @@ export function RealityLab() {
                             href={window.location.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-4 text-xs font-semibold text-white hover:border-[#E86C22]"
+                            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-4 text-xs font-semibold text-white hover:border-orange"
                           >
                             Open in New Tab
                           </a>
@@ -1023,9 +1023,9 @@ export function RealityLab() {
                 )}
 
                 {consentOpen && !cameraActive && (
-                  <div className="absolute inset-0 z-20 flex items-center justify-center overflow-y-auto bg-[#080808]/92 p-3 backdrop-blur-md sm:p-4">
+                  <div className="absolute inset-0 z-20 flex items-center justify-center overflow-y-auto bg-black/92 p-3 backdrop-blur-md sm:p-4">
                     <GlassCard className="w-full max-w-sm p-4 sm:p-5" tone="orange">
-                      <div className="flex items-center gap-2 font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E86C22]">
+                      <div className="flex items-center gap-2 font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.16em] text-orange">
                         <ShieldCheck className="h-4 w-4" /> Local Camera Permission
                       </div>
                       <p className="mt-2 text-xs leading-relaxed text-white/90">
@@ -1037,7 +1037,7 @@ export function RealityLab() {
                           type="button"
                           onClick={startCameraWithConsent}
                           data-hand-target="consent-allow"
-                          className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-2 rounded-2xl bg-[#E86C22] px-4 text-xs font-semibold text-[#080808] hover:bg-[#FD9800] cursor-pointer"
+                          className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-2 rounded-2xl bg-orange px-4 text-xs font-semibold text-black hover:bg-orange cursor-pointer"
                         >
                           <Camera className="h-4 w-4" /> Allow Camera
                         </button>
@@ -1045,7 +1045,7 @@ export function RealityLab() {
                           type="button"
                           onClick={() => setConsentOpen(false)}
                           data-hand-target="consent-decline"
-                          className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-4 text-xs font-semibold text-white hover:border-[#E86C22] cursor-pointer"
+                          className="inline-flex min-h-[72px] flex-1 items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-4 text-xs font-semibold text-white hover:border-orange cursor-pointer"
                         >
                           <X className="h-4 w-4" /> Not Now
                         </button>
@@ -1057,9 +1057,9 @@ export function RealityLab() {
 
               {/* 3-Step Interactive Hand Onboarding Tutorial */}
               {cameraActive && tutorialStep > 0 && (
-                <div className="mt-4 rounded-2xl border border-[#E86C22]/55 bg-[#111111]/95 p-4 shadow-[0_0_28px_rgba(232,108,34,0.2)]">
+                <div className="mt-4 rounded-2xl border border-orange/55 bg-black/95 p-4 shadow-[0_0_28px_rgba(232,109,34,0.2)]">
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E86C22]">
+                    <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-[0.16em] text-orange">
                       Hand Setup · Step {tutorialStep} of 3
                     </span>
                     <div className="flex items-center gap-1.5">
@@ -1067,7 +1067,7 @@ export function RealityLab() {
                         <span
                           key={step}
                           className={`h-2 w-5 rounded-full ${
-                            step <= tutorialStep ? 'bg-[#E86C22]' : 'bg-white/15'
+                            step <= tutorialStep ? 'bg-orange' : 'bg-white/15'
                           }`}
                         />
                       ))}
@@ -1093,9 +1093,9 @@ export function RealityLab() {
                           showToast('Nice Pinch!');
                         }}
                         data-hand-target="tutorial-pinch-btn"
-                        className="inline-flex min-h-[76px] min-w-[116px] items-center justify-center gap-2 rounded-2xl border border-[#E86C22] bg-[#E86C22]/25 px-4 text-xs font-bold text-white shadow-[0_0_24px_rgba(232,108,34,0.45)] cursor-pointer"
+                        className="inline-flex min-h-[76px] min-w-[116px] items-center justify-center gap-2 rounded-2xl border border-orange bg-orange/25 px-4 text-xs font-bold text-white shadow-[0_0_24px_rgba(232,109,34,0.45)] cursor-pointer"
                       >
-                        <CheckCircle2 className="h-4 w-4 text-[#E86C22]" /> Pinch Me
+                        <CheckCircle2 className="h-4 w-4 text-orange" /> Pinch Me
                       </button>
                     </div>
                   )}
@@ -1113,7 +1113,7 @@ export function RealityLab() {
                         tutorialStep < 3 ? setTutorialStep((s) => (s + 1) as 1 | 2 | 3) : finishTutorial()
                       }
                       data-hand-target="tutorial-next"
-                      className="inline-flex min-h-[72px] min-w-[96px] items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-[#E86C22] cursor-pointer"
+                      className="inline-flex min-h-[72px] min-w-[96px] items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-orange cursor-pointer"
                     >
                       {tutorialStep < 3 ? 'Next Step' : 'Finish'}
                     </button>
@@ -1121,7 +1121,7 @@ export function RealityLab() {
                       type="button"
                       onClick={finishTutorial}
                       data-hand-target="tutorial-skip"
-                      className="inline-flex min-h-[72px] min-w-[96px] items-center justify-center rounded-2xl border border-white/15 bg-transparent px-4 font-mono-tabular text-xs text-[#A0A0A0] hover:border-[#E86C22] hover:text-white cursor-pointer"
+                      className="inline-flex min-h-[72px] min-w-[96px] items-center justify-center rounded-2xl border border-white/15 bg-transparent px-4 font-mono-tabular text-xs text-white/60 hover:border-orange hover:text-white cursor-pointer"
                     >
                       Skip Guide
                     </button>
@@ -1136,16 +1136,16 @@ export function RealityLab() {
                     type="button"
                     onClick={stopCamera}
                     data-hand-target="stop-camera"
-                    className="inline-flex min-h-[72px] min-w-[168px] flex-1 items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-5 text-sm font-semibold text-white hover:border-[#E86C22] cursor-pointer"
+                    className="inline-flex min-h-[72px] min-w-[168px] flex-1 items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-5 text-sm font-semibold text-white hover:border-orange cursor-pointer"
                   >
-                    <Square className="h-4 w-4 text-[#E86C22]" /> Stop Camera
+                    <Square className="h-4 w-4 text-orange" /> Stop Camera
                   </button>
                 ) : (
                   <button
                     type="button"
                     onClick={handleStartButtonClick}
                     data-hand-target="start-camera"
-                    className="inline-flex min-h-[72px] min-w-[180px] flex-1 items-center justify-center gap-2 rounded-2xl bg-[#E86C22] px-5 text-sm font-semibold text-[#080808] shadow-[0_0_24px_rgba(232,108,34,0.4)] hover:bg-[#FD9800] cursor-pointer"
+                    className="inline-flex min-h-[72px] min-w-[180px] flex-1 items-center justify-center gap-2 rounded-2xl bg-orange px-5 text-sm font-semibold text-black shadow-[0_0_24px_rgba(232,109,34,0.4)] hover:bg-orange cursor-pointer"
                   >
                     <Camera className="h-4 w-4" /> Start AR Experience
                   </button>
@@ -1158,9 +1158,9 @@ export function RealityLab() {
                     showToast('Rest pose centered');
                   }}
                   data-hand-target="ctrl-recenter"
-                  className="inline-flex min-h-[72px] min-w-[110px] items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-[#E86C22] cursor-pointer"
+                  className="inline-flex min-h-[72px] min-w-[110px] items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-orange cursor-pointer"
                 >
-                  <Crosshair className="h-4 w-4 text-[#E86C22]" /> Recenter
+                  <Crosshair className="h-4 w-4 text-orange" /> Recenter
                 </button>
               </div>
             </div>
@@ -1169,24 +1169,24 @@ export function RealityLab() {
             <div
               ref={dividerRef}
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-[41.666%] hidden w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-[#E86C22] to-transparent md:block"
+              className="pointer-events-none absolute inset-y-0 left-[41.666%] hidden w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-orange to-transparent md:block"
             >
-              <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#E86C22] bg-[#080808] font-mono-tabular text-[10px] font-bold text-[#E86C22] shadow-[0_0_20px_rgba(232,108,34,0.65)]">
+              <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-orange bg-black font-mono-tabular text-[10px] font-bold text-orange shadow-[0_0_20px_rgba(232,109,34,0.65)]">
                 XR
               </div>
             </div>
 
             {/* PANEL 02: 360° VR PORTAL */}
             <div
-              className={`md:col-span-7 bg-gradient-to-br from-[#0b1024]/70 via-[#080808] to-[#111111] p-5 sm:p-7 ${
+              className={`md:col-span-7 bg-gradient-to-br from-black/70 via-black to-black p-5 sm:p-7 ${
                 mobileTab === 'AR' ? 'hidden md:block' : 'block'
               }`}
             >
-              <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-[#3B82F6]">
+              <div className="flex items-center justify-between gap-2 font-mono-tabular text-xs text-orange">
                 <span className="inline-flex items-center gap-2 font-semibold">
                   <Compass className="h-4 w-4" /> PANEL 02 · 360° VIEW
                 </span>
-                <span className="text-[11px] text-[#A0A0A0]">
+                <span className="text-[11px] text-white/60">
                   Pinch Drag, Open Palm Look, or Swipe Left/Right
                 </span>
               </div>
@@ -1206,9 +1206,9 @@ export function RealityLab() {
                   type="button"
                   onClick={() => setVrOverlayOpen(true)}
                   data-hand-target="ctrl-enter-vr"
-                  className="inline-flex min-h-[72px] min-w-[152px] items-center justify-center gap-2 rounded-2xl border border-[#3B82F6]/60 bg-[#3B82F6]/20 px-5 text-sm font-semibold text-white hover:bg-[#3B82F6]/35 cursor-pointer"
+                  className="inline-flex min-h-[72px] min-w-[152px] items-center justify-center gap-2 rounded-2xl border border-orange/60 bg-orange/20 px-5 text-sm font-semibold text-white hover:bg-orange/35 cursor-pointer"
                 >
-                  <Glasses className="h-4 w-4 text-[#3B82F6]" /> Open AR VR XR Lab
+                  <Glasses className="h-4 w-4 text-orange" /> Open AR VR XR Lab
                 </button>
 
                 <button
@@ -1218,9 +1218,9 @@ export function RealityLab() {
                     showToast('360° View Reset');
                   }}
                   data-hand-target="ctrl-reset-view"
-                  className="inline-flex min-h-[72px] min-w-[120px] items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-[#E86C22] cursor-pointer"
+                  className="inline-flex min-h-[72px] min-w-[120px] items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-4 font-mono-tabular text-xs font-semibold text-white hover:border-orange cursor-pointer"
                 >
-                  <RotateCcw className="h-4 w-4 text-[#E86C22]" /> Reset View
+                  <RotateCcw className="h-4 w-4 text-orange" /> Reset View
                 </button>
 
               </div>
@@ -1236,7 +1236,7 @@ export function RealityLab() {
             >
               <div
                 ref={radialBackdropRef}
-                className="pointer-events-auto absolute inset-0 bg-[#080808]/65 backdrop-blur-[4px]"
+                className="pointer-events-auto absolute inset-0 bg-black/65 backdrop-blur-[4px]"
                 onClick={() => {
                   machineRef.current.closeRadial();
                   wasRadialOpenRef.current = false;
@@ -1248,8 +1248,8 @@ export function RealityLab() {
                 className="pointer-events-none absolute left-1/2 top-1/2"
               >
                 {/* Center Hub Ring */}
-                <div className="flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-[#E86C22]/75 bg-[#080808]/95 px-3 text-center shadow-[0_0_40px_rgba(232,108,34,0.45)] backdrop-blur-xl">
-                  <span className="font-mono-tabular text-[9px] uppercase tracking-[0.2em] text-[#E86C22]">
+                <div className="flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-orange/75 bg-black/95 px-3 text-center shadow-[0_0_40px_rgba(232,109,34,0.45)] backdrop-blur-xl">
+                  <span className="font-mono-tabular text-[9px] uppercase tracking-[0.2em] text-orange">
                     RADIAL MENU
                   </span>
                   <div
@@ -1265,7 +1265,7 @@ export function RealityLab() {
                       wasRadialOpenRef.current = false;
                       setRadialVisible(false);
                     }}
-                    className="pointer-events-auto mt-1.5 rounded-full border border-white/20 px-2.5 py-0.5 font-mono-tabular text-[10px] text-[#A0A0A0] hover:border-[#E86C22] hover:text-white cursor-pointer"
+                    className="pointer-events-auto mt-1.5 rounded-full border border-white/20 px-2.5 py-0.5 font-mono-tabular text-[10px] text-white/60 hover:border-orange hover:text-white cursor-pointer"
                   >
                     Close
                   </button>
@@ -1289,22 +1289,22 @@ export function RealityLab() {
                       style={{
                         transform: `translate3d(${tx}px, ${ty}px, 0) translate(-50%, -50%)`,
                       }}
-                      className="pointer-events-auto absolute left-0 top-0 flex min-h-[76px] w-[144px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/20 bg-[#111111]/95 px-3 py-2 text-center shadow-xl backdrop-blur-xl transition-colors data-[radial-active=true]:border-[#E86C22] data-[radial-active=true]:bg-[#E86C22]/25 cursor-pointer"
+                      className="pointer-events-auto absolute left-0 top-0 flex min-h-[76px] w-[144px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/20 bg-black/95 px-3 py-2 text-center shadow-xl backdrop-blur-xl transition-colors data-[radial-active=true]:border-orange data-[radial-active=true]:bg-orange/25 cursor-pointer"
                     >
-                      <span className="font-mono-tabular text-[10px] text-[#E86C22]">
+                      <span className="font-mono-tabular text-[10px] text-orange">
                         0{idx + 1}
                       </span>
                       <span className="font-display text-xs font-bold text-white">
                         {slice.label}
                       </span>
-                      <span className="font-mono-tabular text-[10px] text-[#A0A0A0]">
+                      <span className="font-mono-tabular text-[10px] text-white/60">
                         {slice.sublabel}
                       </span>
                       <div
                         ref={(el) => {
                           radialDwellRefs.current[idx] = el;
                         }}
-                        className="mt-1.5 h-1 w-full origin-left bg-[#E86C22]"
+                        className="mt-1.5 h-1 w-full origin-left bg-orange"
                         style={{ transform: 'scaleX(0)' }}
                       />
                     </button>
@@ -1316,13 +1316,13 @@ export function RealityLab() {
         </div>
 
         {/* Direct Calendly link reference kept cleanly in DOM */}
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 font-mono-tabular text-[11px] text-[#A0A0A0]">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 font-mono-tabular text-[11px] text-white/60">
           <span>Mouse, touch, and keyboard navigation remain active at all times.</span>
           <a
             href={AWGZO_SITE.contact.calendlyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-link-draw text-white hover:text-[#E86C22]"
+            className="text-link-draw text-white hover:text-orange"
           >
             Direct booking: Calendly · AWGZO
           </a>

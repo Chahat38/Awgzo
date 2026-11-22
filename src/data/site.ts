@@ -6,7 +6,7 @@ export const AWGZO_SITE = {
   badge: 'AR VR XR Agency · Islamabad, Pakistan',
   heroSubheadline: 'AR, VR and WebXR development for brands in Pakistan.',
   intro:
-    'AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, TikTok effects, websites, software and marketing.',
+    'AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites, software and marketing.',
   logoUrl: 'https://awgzo.com/wp-content/uploads/2025/04/Awgzo-logo-3-e1743884108133.webp',
   logoIncludesWordmark: true,
   panoHorizonImage: studioPanoUrl,
@@ -14,7 +14,7 @@ export const AWGZO_SITE = {
     'AR Development',
     'VR Experiences',
     'XR (WebXR) Development',
-    'TikTok Effects',
+    'Snap AR Effects',
     'Digital Marketing & Branding',
     'Website & E-commerce Development',
     'Software Development',

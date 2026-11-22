@@ -120,7 +120,7 @@ export function TestimonialsSection() {
       id="testimonials"
       ref={sectionRef}
       aria-label="Client testimonials section"
-      className="relative z-10 h-[100svh] min-h-[620px] overflow-hidden border-t border-white/[0.08] bg-[#080808]"
+      className="relative z-10 h-[100svh] min-h-[620px] overflow-hidden border-t border-white/[0.08] bg-black"
     >
       <h2 className="absolute inset-x-0 top-[9vh] z-[110] text-center font-display text-[clamp(2.4rem,6vw,4.2rem)] leading-none tracking-[0.03em]">
         Client Feedback
@@ -134,13 +134,13 @@ export function TestimonialsSection() {
         {TESTIMONIALS.map((item) => (
           <article
             key={item.name}
-            className="absolute left-1/2 top-[54%] w-[min(560px,88vw)] rounded-[24px] border border-white/[0.18] bg-gradient-to-br from-white/[0.12] to-white/[0.03] p-5 sm:p-[34px] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.25)]"
+            className="absolute left-1/2 top-[54%] w-[min(560px,88vw)] rounded-[24px] border border-white/[0.18] bg-gradient-to-br from-white/[0.12] to-white/[0.03] p-5 sm:p-[34px] shadow-[0_40px_80px_-30px_rgba(16,25,31,0.85),inset_0_1px_0_rgba(247,248,247,0.25)]"
           >
-            <div className="h-[28px] font-display text-[3.5rem] leading-[0.6] text-[#E86C22] sm:h-[34px] sm:text-[4rem]">“</div>
+            <div className="h-[28px] font-display text-[3.5rem] leading-[0.6] text-orange sm:h-[34px] sm:text-[4rem]">“</div>
             <p className="my-2 text-[0.95rem] leading-[1.55] text-white sm:text-[clamp(1rem,2.1vw,1.2rem)] sm:leading-[1.6]">{item.quote}</p>
             <div className="mt-5">
               <strong className="block font-semibold text-white">{item.name}</strong>
-              <span className="text-sm text-[#FF9A55]">{item.role}</span>
+              <span className="text-sm text-orange">{item.role}</span>
             </div>
           </article>
         ))}
@@ -156,7 +156,7 @@ export function TestimonialsSection() {
             type="button"
             aria-label={`Go to testimonial from ${item.name}`}
             className={`h-2 w-2 rounded-full bg-white/20 transition-all duration-300 ${
-              index === 0 ? 'scale-150 bg-[#FF9A55] shadow-[0_0_12px_#FF9A55]' : ''
+              index === 0 ? 'scale-150 bg-orange shadow-[0_0_12px_#e86d22]' : ''
             }`}
           />
         ))}

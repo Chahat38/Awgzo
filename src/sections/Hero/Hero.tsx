@@ -55,10 +55,10 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
         <div ref={contentRef} className="max-w-3xl">
           <h1 className="max-w-[14ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-white max-lg:max-w-full max-lg:text-[clamp(1.75rem,8vw,2.5rem)]">
             Your Tech &amp;{' '}
-            <span className="text-[#E86C22]">Marketing Wizards</span>
+            <span className="text-orange">Marketing Wizards</span>
           </h1>
 
-          <p className="mt-4 max-w-[60ch] text-sm font-medium uppercase tracking-[0.14em] text-[#FF9A55] sm:text-base">
+          <p className="mt-4 max-w-[60ch] text-sm font-medium uppercase tracking-[0.14em] text-orange sm:text-base">
             {AWGZO_SITE.badge}
           </p>
 
@@ -66,7 +66,7 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
             {AWGZO_SITE.heroSubheadline}
           </p>
 
-          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-[#A0A0A0] sm:text-lg">
+          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-white/60 sm:text-lg">
             {AWGZO_SITE.intro}
           </p>
 
@@ -82,7 +82,7 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
             <button
               type="button"
               onClick={() => scrollToSection('portfolio')}
-              className="text-sm font-semibold text-white underline-offset-4 hover:text-[#E86C22] hover:underline"
+              className="text-sm font-semibold text-white underline-offset-4 hover:text-orange hover:underline"
             >
               See Our AR Work
             </button>

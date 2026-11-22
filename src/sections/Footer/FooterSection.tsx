@@ -377,13 +377,13 @@ export function FooterSection() {
       id="footer"
       ref={sectionRef}
       aria-label="Site footer"
-      className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#080808] px-[clamp(16px,4vw,56px)] pb-[28px] pt-[clamp(56px,8vh,96px)]"
+      className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-black px-[clamp(16px,4vw,56px)] pb-[28px] pt-[clamp(56px,8vh,96px)]"
     >
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />
 
       <div className="relative z-10 flex flex-col gap-[clamp(28px,4vw,48px)]">
         <div className="max-w-[min(760px,100%)]">
-          <span className="font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-[#FF9A55]">
+          <span className="font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-orange">
             Hey Business Tycoons
           </span>
           <h2
@@ -411,7 +411,7 @@ export function FooterSection() {
             rel="noopener noreferrer"
             onPointerMove={handleCtaMove}
             onPointerLeave={handleCtaLeave}
-            className="mt-5 inline-block rounded-full bg-gradient-to-br from-[#E86C22] to-[#FF9A55] px-6 py-[12px] font-bold text-[#10191f] no-underline"
+            className="mt-5 inline-block rounded-full bg-gradient-to-br from-orange to-orange px-6 py-[12px] font-bold text-black no-underline"
           >
             Book an AR VR XR Call →
           </a>
@@ -423,9 +423,9 @@ export function FooterSection() {
             className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-[22px] border-t border-white/[0.18] pt-[24px] sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:gap-[24px] sm:pt-[26px]"
           >
             <div className="fcol">
-              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Visit Us</h4>
-              <p className="text-sm leading-relaxed text-[#A7AFB3]">{AWGZO_SITE.contact.address}</p>
-              <a href={`mailto:${AWGZO_SITE.contact.email}`} className="text-sm text-[#A7AFB3] no-underline">
+              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-orange">Visit Us</h4>
+              <p className="text-sm leading-relaxed text-white/60">{AWGZO_SITE.contact.address}</p>
+              <a href={`mailto:${AWGZO_SITE.contact.email}`} className="text-sm text-white/60 no-underline">
                 {AWGZO_SITE.contact.email}
               </a>
               <div className="mt-2 flex flex-wrap gap-[10px]">
@@ -437,7 +437,7 @@ export function FooterSection() {
                     rel="noopener noreferrer"
                     aria-label={social.label}
                     title={social.label}
-                    className="grid h-10 w-10 place-items-center rounded-xl border border-white/[0.18] bg-white/[0.06] text-white no-underline transition-transform duration-300 hover:[transform:perspective(500px)_rotateX(-22deg)_translateZ(14px)] hover:shadow-[0_14px_22px_-8px_#E86C22]"
+                    className="grid h-10 w-10 place-items-center rounded-xl border border-white/[0.18] bg-white/[0.06] text-white no-underline transition-transform duration-300 hover:[transform:perspective(500px)_rotateX(-22deg)_translateZ(14px)] hover:shadow-[0_14px_22px_-8px_#e86d22]"
                   >
                     <SocialIcon label={social.label} className="h-4 w-4" />
                   </a>
@@ -446,18 +446,18 @@ export function FooterSection() {
             </div>
 
             <div className="fcol">
-              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Quick Links</h4>
-              <a href="#hero" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Home</a>
-              <a href="#services" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Services</a>
-              <a href="#portfolio" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Work</a>
-              <a href="#reality-lab" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">AR Lab</a>
-              <a href="#team" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Team</a>
-              <a href="#contact" className="block text-sm leading-[1.8] text-[#A7AFB3] no-underline">Contact</a>
+              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-orange">Quick Links</h4>
+              <a href="#hero" className="block text-sm leading-[1.8] text-white/60 no-underline">Home</a>
+              <a href="#services" className="block text-sm leading-[1.8] text-white/60 no-underline">Services</a>
+              <a href="#portfolio" className="block text-sm leading-[1.8] text-white/60 no-underline">Work</a>
+              <a href="#reality-lab" className="block text-sm leading-[1.8] text-white/60 no-underline">AR Lab</a>
+              <a href="#team" className="block text-sm leading-[1.8] text-white/60 no-underline">Team</a>
+              <a href="#contact" className="block text-sm leading-[1.8] text-white/60 no-underline">Contact</a>
             </div>
 
             <div className="fcol">
-              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#FF9A55]">Newsletter</h4>
-              <p className="text-sm leading-relaxed text-[#A7AFB3]">
+              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-orange">Newsletter</h4>
+              <p className="text-sm leading-relaxed text-white/60">
                 Short notes on AR, VR, WebXR and web builds from our Islamabad studio. No spam.
               </p>
               <form onSubmit={handleNewsletter} className="mt-2 flex gap-2">
@@ -468,20 +468,20 @@ export function FooterSection() {
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="you@company.com"
                   aria-label="Email address for AWGZO updates"
-                  className="min-w-0 flex-1 rounded-full border border-white/[0.18] bg-white/[0.06] px-[14px] py-[11px] text-sm text-white outline-none transition-all duration-300 placeholder:text-white/40 focus:border-[#FF9A55] focus:shadow-[0_0_0_4px_rgba(232,109,34,0.22)]"
+                  className="min-w-0 flex-1 rounded-full border border-white/[0.18] bg-white/[0.06] px-[14px] py-[11px] text-sm text-white outline-none transition-all duration-300 placeholder:text-white/40 focus:border-orange focus:shadow-[0_0_0_4px_rgba(232,109,34,0.22)]"
                 />
                 <button
                   type="submit"
-                  className="rounded-full border-0 bg-[#E86C22] px-4 py-[11px] text-sm font-bold text-[#10191f]"
+                  className="rounded-full border-0 bg-orange px-4 py-[11px] text-sm font-bold text-black"
                 >
                   Subscribe
                 </button>
               </form>
-              {status && <p className="mt-2 text-xs text-[#FF9A55]">{status}</p>}
+              {status && <p className="mt-2 text-xs text-orange">{status}</p>}
             </div>
           </div>
 
-          <p className="mt-[24px] text-center text-xs text-[#A7AFB3]">
+          <p className="mt-[24px] text-center text-xs text-white/60">
             © {new Date().getFullYear()} AWGZO. All rights reserved.
           </p>
         </div>

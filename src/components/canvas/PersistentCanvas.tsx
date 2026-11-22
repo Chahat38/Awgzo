@@ -257,7 +257,7 @@ export default function PersistentCanvas() {
       className="absolute inset-0"
       style={{
         background:
-          'radial-gradient(circle at 50% 35%, rgba(232,108,34,0.10), rgba(8,8,8,0.58) 78%)',
+          'radial-gradient(circle at 50% 35%, rgba(232,109,34,0.10), rgba(16,25,31,0.58) 78%)',
       }}
     />
   );
@@ -266,7 +266,7 @@ export default function PersistentCanvas() {
     return (
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#080808]"
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black"
       >
         <video {...videoProps} />
         {shade}
@@ -275,7 +275,7 @@ export default function PersistentCanvas() {
   }
 
   return (
-    <div ref={hostRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#080808]">
+    <div ref={hostRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black">
       <canvas ref={canvasRef} className="block h-full w-full" />
       <video {...videoProps} />
       {shade}

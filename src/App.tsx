@@ -45,7 +45,7 @@ function AppShell() {
   }, [sceneStateRef]);
 
   return (
-    <div className="relative min-h-screen bg-[#080808] text-white selection:bg-[#E86C22] selection:text-[#080808]">
+    <div className="relative min-h-screen bg-black text-white selection:bg-orange selection:text-black">
       {!loaded && <BrandedLoader onComplete={() => setLoaded(true)} />}
 
       <RealityCursor />
@@ -58,7 +58,7 @@ function AppShell() {
 
       <Suspense
         fallback={
-          <div className="flex min-h-screen items-center justify-center font-mono-tabular text-xs text-[#A0A0A0]">
+          <div className="flex min-h-screen items-center justify-center font-mono-tabular text-xs text-white/60">
             Loading AWGZO…
           </div>
         }
