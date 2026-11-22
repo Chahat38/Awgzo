@@ -357,7 +357,11 @@ export function Team() {
 
           {/* Desktop / tablet: CSS 3D holographic carousel */}
           <div className="hc-ring-wrap">
-            <div ref={ringRef} className="hc-ring">
+            <div
+              ref={ringRef}
+              className="hc-ring"
+              style={{ '--hc-ring-rotation': `${-activeIndex * step}deg` } as CSSProperties}
+            >
               {members.map((member, index) => (
                 <button
                   key={member.id}
@@ -385,20 +389,22 @@ export function Team() {
                     } as CSSProperties
                   }
                 >
-                  <span className="hc-card-inner">
-                    <span className="hc-card-top hc-mono">
-                      <span>NODE {member.index}</span>
-                      <span className="hc-live-dot" />
-                    </span>
-                    <Avatar member={member} className="hc-card-avatar" />
-                    <span className="hc-card-name">{member.name}</span>
-                    <span className="hc-card-role hc-mono">{member.role}</span>
-                    <span className="hc-scan" />
-                    <span className="hc-brackets" aria-hidden="true">
-                      <i />
-                      <i />
-                      <i />
-                      <i />
+                  <span className="hc-card-face">
+                    <span className="hc-card-inner">
+                      <span className="hc-card-top hc-mono">
+                        <span>NODE {member.index}</span>
+                        <span className="hc-live-dot" />
+                      </span>
+                      <Avatar member={member} className="hc-card-avatar" />
+                      <span className="hc-card-name">{member.name}</span>
+                      <span className="hc-card-role hc-mono">{member.role}</span>
+                      <span className="hc-scan" />
+                      <span className="hc-brackets" aria-hidden="true">
+                        <i />
+                        <i />
+                        <i />
+                        <i />
+                      </span>
                     </span>
                   </span>
                 </button>
