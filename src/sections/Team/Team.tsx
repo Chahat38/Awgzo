@@ -11,7 +11,7 @@ import {
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getTeamMembers, type TeamMember } from '../../data/team';
 import { useReality } from '../../context/RealityContext';
-import { gsap, ScrollTrigger, registerMotionPlugins } from '../../lib/scroll';
+import { gsap, ScrollTrigger, registerMotionPlugins, scrollToY } from '../../lib/scroll';
 import './team.css';
 
 const HERO_VIDEO = '/assets/video/man-interacting-with-virtual-hologram.mp4';
@@ -65,6 +65,10 @@ export function Team() {
   const [cursorVisible, setCursorVisible] = useState(false);
   const active = members[activeIndex] ?? members[0];
 
+  /* Only the active card and its two ring neighbours stay legible. */
+  const isNeighbour = (index: number) =>
+    index === (activeIndex + 1) % count || index === (activeIndex - 1 + count) % count;
+
   /* Keep the global XR scene aware that the crew section is in view. */
   useEffect(() => {
     const section = sectionRef.current;
@@ -97,8 +101,10 @@ export function Team() {
         return;
       }
 
-      const target = trigger.start + ((next + 0.04) / count) * (trigger.end - trigger.start);
-      window.scrollTo({ top: target, behavior: 'smooth' });
+      // Only change scroll position. The ScrollTrigger onUpdate drives the visual state.
+      const progress = (next + 0.5) / count;
+      const target = trigger.start + progress * (trigger.end - trigger.start);
+      scrollToY(target);
     },
     [count]
   );
@@ -122,10 +128,11 @@ export function Team() {
         id: 'hc-team-pin',
         trigger: section,
         start: 'top top',
-        end: '+=700%',
+        // Finite, explicit end. At progress 1 the pin releases and normal page
+        // scrolling continues into the next section.
+        end: () => `+=${count * window.innerHeight * 0.8}`,
         pin,
         pinSpacing: true,
-        scrub: 1,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -167,7 +174,6 @@ export function Team() {
           if (ring) {
             gsap.set(ring, { scale: 1 - exit * 0.3, opacity: 1 - exit });
           }
-          gsap.set(pin, { opacity: 1 - exit * 0.35 });
         },
       });
       pinTriggerRef.current = trigger;
@@ -199,6 +205,26 @@ export function Team() {
       pinTriggerRef.current = null;
     };
   }, [count, step]);
+
+  /* Refresh pin measurements once fonts and section imagery are ready. */
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const refresh = () => ScrollTrigger.refresh();
+    const images = Array.from(pinRef.current?.querySelectorAll('img') ?? []);
+
+    images.forEach((img) => {
+      if (!img.complete) img.addEventListener('load', refresh, { once: true });
+    });
+    document.fonts?.ready.then(refresh);
+    window.addEventListener('load', refresh);
+    const frame = window.requestAnimationFrame(refresh);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('load', refresh);
+      images.forEach((img) => img.removeEventListener('load', refresh));
+    };
+  }, []);
 
   /* Number flip, masked name reveal, bio fade and active-card scan sweep. */
   useEffect(() => {
@@ -256,10 +282,12 @@ export function Team() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (!sectionActiveRef.current) return;
-      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      // ArrowUp/ArrowDown are left alone so the user can always scroll out of
+      // the section. Only horizontal arrows nudge the carousel.
+      if (event.key === 'ArrowRight') {
         event.preventDefault();
         goTo(activeIndexRef.current + 1);
-      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      } else if (event.key === 'ArrowLeft') {
         event.preventDefault();
         goTo(activeIndexRef.current - 1);
       }
@@ -351,8 +379,7 @@ export function Team() {
 
           <div className="hc-number" ref={numberRef} key={`number-${active.id}`}>
             <span className="hc-number-current">{active.index}</span>
-            <span className="hc-number-sep">/</span>
-            <span className="hc-number-total">{String(count).padStart(2, '0')}</span>
+            <span className="hc-number-total">/ {String(count).padStart(2, '0')}</span>
           </div>
 
           {/* Desktop / tablet: CSS 3D holographic carousel */}
@@ -368,6 +395,7 @@ export function Team() {
                   type="button"
                   data-card-index={index}
                   data-active={index === activeIndex}
+                  data-neighbour={isNeighbour(index)}
                   aria-label={`Show ${member.name}, ${member.role}`}
                   aria-pressed={index === activeIndex}
                   onClick={() => goTo(index)}

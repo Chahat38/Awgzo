@@ -38,7 +38,6 @@
   height: 100vh;
   overflow: hidden;
   background: var(--hc-bg);
-  contain: layout paint;
 }
 
 @supports (height: 100dvh) {
@@ -140,6 +139,7 @@
   grid-column: 1 / -1;
   grid-row: 1;
   align-self: start;
+  padding-top: clamp(16px, 3vh, 36px);
   transform-origin: left top;
   will-change: transform, opacity;
 }
@@ -182,8 +182,8 @@
   grid-row: 2;
   align-self: center;
   display: flex;
-  align-items: baseline;
-  gap: 0.06em;
+  align-items: flex-end;
+  gap: 0;
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
   font-size: clamp(7rem, 15vw, 16rem);
   line-height: 0.72;
@@ -200,13 +200,16 @@
   text-shadow: 0 0 36px rgba(232, 105, 30, 0.34);
 }
 
-.hc-number-sep,
 .hc-number-total {
-  font-size: 0.26em;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.38);
+  margin-left: 0.55em;
+  margin-bottom: 0.14em;
+  font-size: 0.19em;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.7);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.45);
 }
-
-.hc-number-sep { color: var(--hc-orange); }
 
 /* ---------- 3D ring ---------- */
 
@@ -225,11 +228,13 @@
 }
 
 .hc-ring {
-  --hc-radius: clamp(205px, 21vw, 310px);
+  --hc-card-width: clamp(240px, 22vw, 340px);
+  /* Real circular ring: card half-width / tan(pi/7) + breathing gap. */
+  --hc-radius: calc((var(--hc-card-width) / 2) / 0.4815746188 + 80px);
   --hc-ring-rotation: 0deg;
   position: relative;
-  width: clamp(180px, 15vw, 240px);
-  height: clamp(250px, 21vw, 305px);
+  width: var(--hc-card-width);
+  height: calc(var(--hc-card-width) * 1.4);
   transform-style: preserve-3d;
   will-change: transform, opacity;
 }
@@ -247,34 +252,46 @@
   cursor: pointer;
   transform-style: preserve-3d;
   backface-visibility: visible;
-  transform: rotateY(var(--angle)) translateZ(var(--hc-radius)) scale(0.88);
+  transform: rotateY(var(--angle)) translateZ(var(--hc-radius)) scale(0.85);
   transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
+.hc-card[data-neighbour='true'] {
+  transform: rotateY(var(--angle)) translateZ(var(--hc-radius)) scale(0.95);
+}
+
 .hc-card[data-active='true'] {
-  transform: rotateY(var(--angle)) translateZ(var(--hc-radius)) scale(1.15);
+  transform: rotateY(var(--angle)) translateZ(var(--hc-radius)) scale(1.1);
   z-index: 4;
 }
 
 /* Counter-rotate the visual face so photos/text never appear mirrored while orbiting.
-   Opacity lives here (not on .hc-card) so opacity < 1 cannot flatten the 3D chain. */
+   Opacity/blur live here (not on .hc-card) so they cannot flatten the 3D chain. */
 .hc-card-face {
   display: block;
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  opacity: 0.72;
+  opacity: 0.15;
+  filter: blur(4px);
   transform: rotateY(calc((var(--hc-ring-rotation, 0deg) + var(--angle)) * -1));
   transition:
     transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1),
-    opacity 0.5s ease;
-  will-change: transform, opacity;
+    opacity 0.5s ease,
+    filter 0.5s ease;
+  will-change: transform, opacity, filter;
+}
+
+.hc-card[data-neighbour='true'] .hc-card-face {
+  opacity: 0.72;
+  filter: blur(1px);
 }
 
 .hc-card[data-active='true'] .hc-card-face {
   opacity: 1;
+  filter: blur(0);
 }
 
 .hc-card-inner {
@@ -288,13 +305,13 @@
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 22px;
   background:
-    linear-gradient(150deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.025) 58%),
-    rgba(10, 10, 10, 0.72);
+    linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 58%),
+    rgba(15, 15, 15, 0.85);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 28px 70px rgba(0, 0, 0, 0.6);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -353,7 +370,7 @@
 
 .hc-card-name {
   font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 1.55rem;
+  font-size: clamp(1.75rem, 2vw, 2.1rem);
   line-height: 1;
   color: var(--hc-white);
   text-align: center;
@@ -361,9 +378,9 @@
 
 .hc-card-role {
   margin-top: 8px;
-  color: var(--hc-muted);
-  font-size: 8px;
-  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  line-height: 1.45;
   text-align: center;
 }
 
@@ -670,7 +687,8 @@
 
   .hc-mobile-stack {
     position: relative;
-    display: block;
+    display: grid;
+    place-items: center;
     grid-column: 1;
     grid-row: 2;
     width: 100%;
@@ -678,35 +696,25 @@
     perspective: none;
   }
 
-  .hc-stack-card {
-    position: absolute;
-    left: 50%;
-    top: 8%;
+  /* One legible card at a time — no overlapping stack on small screens. */
+  .hc-stack-card { display: none; }
+
+  .hc-stack-card[data-active='true'] {
     display: flex;
+    position: relative;
     align-items: center;
     gap: 14px;
     width: min(92%, 430px);
-    min-height: 92px;
-    padding: 12px 16px;
-    border: 1px solid var(--hc-line);
+    min-height: 104px;
+    padding: 16px;
+    border: 1px solid rgba(232, 105, 30, 0.75);
     border-radius: 20px;
-    background: linear-gradient(140deg, rgba(255, 255, 255, 0.1), rgba(10, 10, 10, 0.92));
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.1), rgba(15, 15, 15, 0.92));
+    box-shadow: 0 0 44px rgba(232, 105, 30, 0.3), 0 24px 60px rgba(0, 0, 0, 0.65);
     color: var(--hc-white);
     text-align: left;
-    cursor: pointer;
-    transform: translate(-50%, calc(var(--stack-offset) * 16px)) scale(0.94);
-    opacity: 0.42;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
-    will-change: transform, opacity;
-  }
-
-  .hc-stack-card[data-active='true'] {
-    z-index: 10;
-    transform: translate(-50%, 0) scale(1);
+    transform: none;
     opacity: 1;
-    border-color: rgba(232, 105, 30, 0.75);
-    box-shadow: 0 0 44px rgba(232, 105, 30, 0.3), 0 24px 60px rgba(0, 0, 0, 0.65);
   }
 
   .hc-stack-avatar { width: 52px; height: 52px; font-size: 1.6rem; }
@@ -737,7 +745,7 @@
 }
 
 @media (max-width: 520px) {
-  .hc-stack-card { min-height: 84px; }
+  .hc-stack-card[data-active='true'] { min-height: 84px; }
   .hc-arrow { width: 34px; height: 34px; }
   .hc-progress { width: 72vw; }
 }
@@ -760,7 +768,7 @@
 
 @media (max-height: 720px) and (max-width: 900px) {
   .hc-mobile-stack { height: min(34vh, 240px); }
-  .hc-stack-card { min-height: 78px; top: 6%; }
+  .hc-stack-card[data-active='true'] { min-height: 78px; }
   .hc-stack-avatar { width: 44px; height: 44px; font-size: 1.3rem; }
   .hc-stack-copy strong { font-size: 1.2rem; }
   .hc-number { top: 14%; font-size: clamp(4rem, 17vw, 7rem); }

@@ -55,6 +55,9 @@ export function initSmoothScroll(
   };
 
   lenis.on('scroll', onLenisScroll);
+  // Keep ScrollTrigger in lockstep with Lenis. The callback above already calls
+  // update(); the direct subscription guarantees it even if onUpdate changes.
+  lenis.on('scroll', ScrollTrigger.update);
 
   const tick = (time: number) => {
     lenis.raf(time * 1000);
@@ -73,6 +76,7 @@ export function initSmoothScroll(
     window.removeEventListener('load', onLoadRefresh);
     gsap.ticker.remove(tick);
     lenis.off('scroll', onLenisScroll);
+    lenis.off('scroll', ScrollTrigger.update);
     lenis.destroy();
     if (activeLenis === lenis) {
       activeLenis = null;
@@ -89,6 +93,19 @@ export function scrollToSection(sectionId: string) {
     activeLenis.scrollTo(el, { offset: 0, duration: 1.1 });
   } else {
     el.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+/** Scroll the page to an absolute Y position using the active Lenis instance. */
+export function scrollToY(y: number, duration = 0.5) {
+  const target = Math.max(0, y);
+  if (activeLenis) {
+    activeLenis.scrollTo(target, {
+      duration,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+    });
+  } else {
+    window.scrollTo({ top: target, behavior: 'auto' });
   }
 }
 
