@@ -24,6 +24,9 @@ export function registerMotionPlugins() {
   );
   CustomEase.create('awgzoOut', '0.16, 1, 0.3, 1');
   CustomEase.create('awgzoSnap', '0.68, -0.55, 0.265, 1.55');
+  // Mobile browsers fire resize when the URL bar hides/shows; refreshing pinned
+  // sections on that event makes them jump or collapse. Ignore those resizes.
+  ScrollTrigger.config({ ignoreMobileResize: true });
   pluginsRegistered = true;
 }
 

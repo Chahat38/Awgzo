@@ -1,94 +1,86 @@
 import { useEffect, useMemo, useRef, type CSSProperties } from 'react';
 import { getTeamMembers } from '../../data/team';
 import { useReality } from '../../context/RealityContext';
-import { gsap, registerMotionPlugins, ScrollTrigger } from '../../lib/scroll';
 
-/* "Meet the AR VR XR Team" - scroll / drag scrubber. Used on the Home page and the About page. */
+/* "Meet the AR VR XR Team" - 2s AR Scanner Warp scroll animation. Used on Home and About. */
 const CSS = `
-/* ═════════ AWGZO TEAM · SCRUBBER ═════════ */
-.awz-scrub{height:100vh;height:100svh;--o:#e86d22;--o2:#ff9a55;--ar:232,109,34;--mute:#a7afb3;position:relative;background:#080808;color:#f7f8f7;font-family:var(--font-sans)}
-.awz-scrub *{box-sizing:border-box}
-.awz-scrub .stage{position:relative;height:100%;overflow:hidden;display:flex;flex-direction:column;padding:clamp(18px,3.4vh,34px) clamp(16px,4vw,64px) clamp(12px,2.4vh,24px)}
-.awz-scrub .stage::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(55% 50% at 50% 55%,rgba(var(--ar),.12),transparent 70%),repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 56px),repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0 1px,transparent 1px 56px)}
-.awz-scrub .hd{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex:none}
-.awz-scrub .kick{font:500 .74rem var(--font-mono);letter-spacing:.26em;color:var(--o);text-transform:uppercase}
-.awz-scrub h2{margin:8px 0 0;font:600 clamp(2rem,3.9vw,3.6rem)/1.04 var(--font-display);letter-spacing:-.02em}
-.awz-scrub h2 em{font-style:normal;color:var(--o)}
-.awz-scrub .sub{margin:8px 0 0;max-width:54ch;color:var(--mute);font-size:clamp(.82rem,1vw,.96rem);line-height:1.55}
-.awz-scrub .hud{text-align:right;flex:none}
-.awz-scrub .hud b{display:block;font:700 clamp(2.6rem,5vw,4.6rem)/.85 var(--font-display);color:transparent;-webkit-text-stroke:1.5px var(--o);letter-spacing:-.03em}
-.awz-scrub .hud b em{font-style:normal;font-size:.36em;-webkit-text-stroke:0;color:#555;margin-left:.35em;letter-spacing:0}
-.awz-scrub .hud span{display:block;margin-top:8px;font:500 .68rem var(--font-mono);letter-spacing:.22em;color:#8d9498;text-transform:uppercase;white-space:nowrap}
-.awz-scrub .hud span i{font-style:normal;color:var(--o)}
+/* ═════════ AWGZO TEAM · AR SCANNER WARP (2s) ═════════ */
+.awz-warp{--o:#e86d22;--o2:#ff9a55;--ar:232,109,34;--ink:#f7f8f7;--mute:#a7afb3;position:relative;background:#080808;color:var(--ink);font-family:var(--font-sans);padding:0 0 80px;overflow:hidden}
+.awz-warp *{box-sizing:border-box}
+.awz-warp .intro{padding:clamp(70px,11vh,110px) 6vw 0;text-align:center}
+.awz-warp .kick{font:500 .75rem var(--font-mono);letter-spacing:.3em;color:var(--o);text-transform:uppercase}
+.awz-warp .intro h2{margin:14px 0 12px;font:600 clamp(2rem,5vw,3.8rem)/1.02 var(--font-display);letter-spacing:-.02em}
+.awz-warp .intro h2 em{font-style:normal;color:var(--o)}
+.awz-warp .intro p{margin:0 auto;max-width:560px;color:var(--mute);line-height:1.6;font-size:.95rem}
 
-/* liquid accordion */
-.awz-scrub .lane{position:relative;flex:1;min-height:0;display:flex;gap:10px;margin-top:clamp(14px,2.6vh,26px)}
-.awz-scrub .pn{position:relative;flex:1 1 0;min-width:0;border-radius:18px;overflow:hidden;cursor:pointer;background:#101010;border:1px solid rgba(var(--ar),calc(.12 + var(--w,0)*.5));box-shadow:0 0 calc(var(--w,0)*56px) rgba(var(--ar),calc(var(--w,0)*.26))}
-.awz-scrub .pn.on{cursor:default}
-.awz-scrub .pbg{position:absolute;inset:0;overflow:hidden;background:radial-gradient(80% 70% at 50% 100%,rgba(var(--ar),.45),transparent 70%),linear-gradient(180deg,#1c1c1c,#0e0e0e);filter:grayscale(calc(1 - var(--w,0))) brightness(calc(.42 + var(--v,0)*.2 + var(--w,0)*.38));transform:scale(calc(1.1 - var(--w,0)*.1))}
-.awz-scrub .pbg::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(var(--ar),.08) 0 1px,transparent 1px 18px),repeating-linear-gradient(90deg,rgba(var(--ar),.08) 0 1px,transparent 1px 18px)}
-.awz-scrub .pbg-fill{position:absolute;inset:-8%;background-image:var(--pbg-img);background-size:cover;background-position:center;filter:blur(26px) brightness(.55);opacity:.78;transform:scale(1.06)}
-.awz-scrub .pbg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom}
-.awz-scrub .pbg svg{position:absolute;left:50%;bottom:-2px;width:min(78%,420px);min-width:150px;transform:translateX(-50%);fill:url(#awsG)}
-.awz-scrub .pbg b{position:absolute;left:50%;top:14%;transform:translateX(-50%);font:700 clamp(3.4rem,8vw,7rem)/1 var(--font-display);color:rgba(255,255,255,.07);letter-spacing:-.04em}
-.awz-scrub .pn::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(8,8,8,.94));opacity:var(--w,0);pointer-events:none}
-.awz-scrub .ix{position:absolute;z-index:2;left:50%;top:16px;transform:translateX(-50%);font:500 .74rem var(--font-mono);letter-spacing:.16em;color:var(--o)}
-.awz-scrub .vt{position:absolute;z-index:2;left:50%;bottom:20px;transform:translateX(-50%) rotate(180deg);writing-mode:vertical-rl;white-space:nowrap;font:600 1.05rem var(--font-display);letter-spacing:.16em;text-transform:uppercase;opacity:calc(1 - var(--w,0)*2.2);color:#e9ecec}
-.awz-scrub .st{position:absolute;z-index:2;right:16px;top:16px;display:flex;align-items:center;gap:8px;font:500 .64rem var(--font-mono);letter-spacing:.2em;color:var(--o);opacity:calc((var(--w,0) - .4)*2);white-space:nowrap}
-.awz-scrub .st::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--o);box-shadow:0 0 10px var(--o)}
-.awz-scrub .pn.on .st::before{animation:awsBl 1.1s steps(2) infinite}
-@keyframes awsBl{50%{opacity:.2}}
-.awz-scrub .body{position:absolute;z-index:4;left:0;bottom:0;width:100%;min-width:370px;padding:clamp(18px,2.2vw,32px);opacity:calc((var(--w,0) - .35)*1.8);transform:translateY(calc((1 - var(--w,0))*18px))}
-.awz-scrub .tg{font:500 .68rem var(--font-mono);letter-spacing:.2em;color:var(--o);text-transform:uppercase}
-.awz-scrub .nm{margin:8px 0 4px;font:600 clamp(1.9rem,3.2vw,3rem)/1 var(--font-display);letter-spacing:-.02em}
-.awz-scrub .rl{margin:0 0 10px;color:var(--o2);font-size:.86rem;line-height:1.45}
-.awz-scrub .ds{margin:0 0 16px;max-width:44ch;color:#c4c9cb;font-size:.9rem;line-height:1.6}
-.awz-scrub .lk{display:flex;gap:8px;flex-wrap:wrap}
-.awz-scrub .lk a{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid rgba(255,255,255,.2);border-radius:99px;background:rgba(0,0,0,.35);color:#fff;text-decoration:none;font:500 .78rem var(--font-display);transition:.2s}
-.awz-scrub .lk a:hover,.awz-scrub .lk a:focus-visible{border-color:var(--o);background:rgba(var(--ar),.25);outline:none}
-.awz-scrub .lk svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-
-/* the scrollbar: ruler + nodes + draggable scanner head */
-.awz-scrub .rail{position:relative;flex:none;margin-top:clamp(12px,2.2vh,22px)}
-.awz-scrub .hint{font:500 .66rem var(--font-mono);letter-spacing:.22em;color:var(--o);text-transform:uppercase;margin:0 0 8px;transition:opacity .4s;animation:awsBl 1.6s steps(2) infinite}
-.awz-scrub .rl2{position:relative;height:78px;margin:0 28px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;outline:none}
-.awz-scrub .rl2.drag{cursor:grabbing}
-.awz-scrub .rl2:focus-visible .thumb{outline:2px solid #fff;outline-offset:4px}
-.awz-scrub .ruler{position:absolute;left:0;right:0;top:20px;height:9px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 1px,transparent 1px calc(100%/36))}
-.awz-scrub .track{position:absolute;left:0;right:0;top:32px;height:4px;border-radius:4px;background:rgba(255,255,255,.12)}
-.awz-scrub .fill{height:100%;border-radius:4px;width:calc(var(--f,0)*100%);background:linear-gradient(90deg,#a8470c,var(--o),#ffb27a);box-shadow:0 0 16px rgba(var(--ar),.8)}
-.awz-scrub .nd{position:absolute;top:0;width:0}
-.awz-scrub .nd i{position:absolute;left:0;top:29px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#0c0c0c;border:2px solid rgba(255,255,255,.3);transition:.25s}
-.awz-scrub .nd.lit i{background:var(--o);border-color:var(--o);box-shadow:0 0 12px var(--o)}
-.awz-scrub .nd s{position:absolute;left:0;top:0;transform:translateX(-50%);text-decoration:none;font:500 .66rem var(--font-mono);letter-spacing:.14em;color:#6e767a;transition:color .25s}
-.awz-scrub .nd u{position:absolute;left:0;top:50px;transform:translateX(-50%);text-decoration:none;white-space:nowrap;font:500 .72rem var(--font-display);color:#6e767a;transition:color .25s}
-.awz-scrub .nd.lit s,.awz-scrub .nd.lit u{color:#d6dadc}.awz-scrub .nd.cur s,.awz-scrub .nd.cur u{color:var(--o2)}
-.awz-scrub .thumb{position:absolute;top:34px;left:calc(var(--f,0)*100%);width:58px;height:30px;margin:-15px 0 0 -29px;border-radius:99px;background:linear-gradient(180deg,#ffa15f,#e86d22);box-shadow:0 0 0 5px rgba(var(--ar),.2),0 8px 28px rgba(var(--ar),.6);display:grid;place-items:center}
-.awz-scrub .thumb::before{content:"";width:16px;height:12px;background:repeating-linear-gradient(90deg,rgba(20,8,0,.75) 0 2px,transparent 2px 5px)}
-.awz-scrub .thumb::after{content:"";position:absolute;left:50%;bottom:100%;width:2px;height:20px;margin-left:-1px;background:linear-gradient(0deg,var(--o),transparent)}
-
-@media (max-width:720px){
-  .awz-scrub .sub{display:none}.awz-scrub .hud span{display:none}
-  .awz-scrub .lane{flex-direction:column;gap:0}
-  /* one full-height card at a time: the portrait gets the room it needs */
-  .awz-scrub .pn{display:none;border-radius:16px}
-  .awz-scrub .pn.on{display:block;flex:1 1 auto}
-  .awz-scrub .ix{left:14px;top:14px;transform:none;opacity:1}
-  .awz-scrub .vt{left:50%;top:8px;bottom:auto;transform:translateX(-50%);writing-mode:horizontal-tb;font-size:.82rem}
-  .awz-scrub .st{top:12px;right:12px}
-  .awz-scrub .pbg svg{width:min(72%,320px);left:50%;right:auto;top:7%;bottom:auto;transform:translateX(-50%)}
-  .awz-scrub .pbg b{top:7%;left:50%;right:auto;transform:translateX(-50%);font-size:clamp(2.6rem,12vw,4rem)}
-  .awz-scrub .pn::after{background:linear-gradient(0deg,rgba(8,8,8,.95) 0%,rgba(8,8,8,.5) 45%,transparent 80%)}
-  .awz-scrub .body{min-width:0;padding:16px 18px;background:linear-gradient(0deg,rgba(8,8,8,.94) 0%,rgba(8,8,8,.7) 60%,transparent 100%)}
-  .awz-scrub .nm{font-size:1.7rem}.awz-scrub .ds{font-size:.8rem;margin-bottom:10px;line-height:1.5}
-  .awz-scrub .rl{margin-bottom:6px;font-size:.76rem}.awz-scrub .lk a{padding:7px 13px}
-  .awz-scrub .rl2{height:56px;margin:0 16px}.awz-scrub .nd u{display:none}.awz-scrub .nd i{top:29px}.awz-scrub .ruler{top:18px}
+.awz-warp .awz-spacer{height:0;pointer-events:none}
+.awz-warp .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:34px 26px;width:min(1240px,calc(100% - 12vw));margin:0 auto;padding:56px 0 120px}
+@media(min-width:901px){
+  .awz-warp .c1{grid-column:5/span 4}.awz-warp .c2{grid-column:1/span 4}.awz-warp .c3{grid-column:5/span 4}
+  .awz-warp .c4{grid-column:9/span 4}.awz-warp .c5{grid-column:1/span 4}.awz-warp .c6{grid-column:5/span 4}
+  .awz-warp .c7{grid-column:9/span 4}
 }
-@media (prefers-reduced-motion:reduce){.awz-scrub *{animation:none!important}}
+@media(max-width:900px){
+  .awz-warp .grid{grid-template-columns:repeat(2,1fr);width:min(760px,calc(100% - 10vw))}
+  .awz-warp .c1{grid-column:1/-1;max-width:430px;width:100%;justify-self:center}
+}
+@media(max-width:560px){
+  .awz-warp .grid{grid-template-columns:1fr;width:calc(100% - 10vw)}
+  .awz-warp .c1{max-width:none}
+}
+
+.awz-warp .tcard{background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015)),#0e0e0e;border:1px solid rgba(255,255,255,.13);border-radius:20px;overflow:visible}
+.awz-warp .tcard.lead{border-color:rgba(var(--ar),.7);background:linear-gradient(160deg,rgba(var(--ar),.14),rgba(255,255,255,.015)),#0e0e0e;box-shadow:0 0 60px rgba(var(--ar),.2)}
+.awz-warp .ph{position:relative;height:250px;border-radius:19px 19px 0 0;overflow:hidden;display:grid;place-items:center;background:radial-gradient(70% 70% at 50% 42%,rgba(var(--ar),.42),transparent 72%),linear-gradient(#171717,#090909)}
+.awz-warp .lead .ph{height:310px}
+.awz-warp .ph-fill{position:absolute;inset:-8%;background-size:cover;background-position:center;filter:blur(22px) brightness(.55);opacity:.8;transform:scale(1.06)}
+.awz-warp .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;z-index:1}
+.awz-warp .ti{position:relative;z-index:1;font:600 4.2rem/1 var(--font-display);color:var(--o2);text-shadow:0 0 30px rgba(var(--ar),.6)}
+.awz-warp .lead .ti{font-size:5.8rem}
+.awz-warp .orb{position:absolute;width:62%;aspect-ratio:1;border-radius:50%;border:1px dashed rgba(var(--ar),.6);animation:awzOrb 14s linear infinite}
+.awz-warp .orb::after{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--o);box-shadow:0 0 12px var(--o)}
+@keyframes awzOrb{to{transform:rotate(360deg)}}
+.awz-warp .ph u{position:absolute;z-index:2;width:14px;height:14px;border:2px solid var(--o);opacity:.8;text-decoration:none}
+.awz-warp .ph u:nth-of-type(1){top:10px;left:10px;border-right:0;border-bottom:0}
+.awz-warp .ph u:nth-of-type(2){top:10px;right:10px;border-left:0;border-bottom:0}
+.awz-warp .ph u:nth-of-type(3){bottom:10px;left:10px;border-right:0;border-top:0}
+.awz-warp .ph u:nth-of-type(4){bottom:10px;right:10px;border-left:0;border-top:0}
+.awz-warp .tag{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:2;font:600 .62rem var(--font-mono);letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;color:#080808;background:var(--o);padding:5px 13px;border-radius:99px}
+.awz-warp .body{padding:18px 20px 22px}
+.awz-warp .body small{font:500 .7rem var(--font-mono);letter-spacing:.2em;color:var(--o)}
+.awz-warp .body h3{margin:5px 0 6px;font:600 1.45rem/1.1 var(--font-display)}
+.awz-warp .lead .body{text-align:center}
+.awz-warp .lead .body h3{font-size:1.95rem}
+.awz-warp .role{font:500 .66rem var(--font-mono);letter-spacing:.14em;color:var(--o2);text-transform:uppercase;line-height:1.5}
+.awz-warp .body p{color:#8f979b;margin:10px 0 14px;font-size:.9rem;line-height:1.55}
+.awz-warp .lk{display:flex;gap:18px;flex-wrap:wrap}
+.awz-warp .lead .lk{justify-content:center}
+.awz-warp .lk a{color:var(--ink);text-decoration:none;font-size:.8rem;border-bottom:1px solid var(--o);padding-bottom:2px}
+.awz-warp .lk a:hover,.awz-warp .lk a:focus-visible{color:var(--o2);outline:none}
+
+/* runtime warp / scan layers */
+.awz-warp .awz-card{position:relative;will-change:transform,opacity;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.awz-warp .awz-holo{position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;overflow:hidden}
+.awz-warp .awz-holo i{position:absolute;left:0;top:0;width:100%;height:100%;will-change:transform;background:linear-gradient(180deg,rgba(10,8,6,.93),rgba(10,8,6,.86)),repeating-linear-gradient(0deg,rgba(var(--ar),.35) 0 1px,transparent 1px 16px),repeating-linear-gradient(90deg,rgba(var(--ar),.35) 0 1px,transparent 1px 16px)}
+.awz-warp .awz-beam{position:absolute;left:0;top:-3px;width:100%;height:64px;pointer-events:none;opacity:0;will-change:transform,opacity;background:linear-gradient(180deg,transparent,rgba(var(--ar),1) 5%,rgba(var(--ar),.25) 34%,transparent 94%)}
+.awz-warp .awz-card::before{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;opacity:var(--edge,0);will-change:opacity;box-shadow:inset 0 0 0 1px rgb(var(--ar)),0 0 36px rgba(var(--ar),.5)}
+.awz-warp .awz-card::after{content:"";position:absolute;inset:-9px;z-index:5;pointer-events:none;opacity:var(--lock,0);transform:scale(calc(1.16 - var(--lock,0)*.16));background:linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 0 0/26px 2px no-repeat,linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 0 0/2px 26px no-repeat,linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 100% 0/26px 2px no-repeat,linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 100% 0/2px 26px no-repeat,linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 0 100%/26px 2px no-repeat,linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 0 100%/2px 26px no-repeat,linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 100% 100%/26px 2px no-repeat,linear-gradient(rgb(var(--ar)),rgb(var(--ar))) 100% 100%/2px 26px no-repeat}
+.awz-warp .awz-aura{position:fixed;left:50%;top:50%;width:100vmin;height:100vmin;margin:-50vmin 0 0 -50vmin;border-radius:50%;pointer-events:none;z-index:0;opacity:0;will-change:opacity;background:radial-gradient(circle,rgba(var(--ar),.3),rgba(var(--ar),.07) 42%,transparent 68%)}
+.awz-warp .awz-hud{position:fixed;inset:0;pointer-events:none;z-index:40;opacity:0;font:600 11px/1.2 var(--font-mono);letter-spacing:.16em;color:rgb(var(--ar))}
+.awz-warp .awz-ret{position:absolute;left:50%;top:50%;width:220px;height:220px;margin:-110px 0 0 -110px}
+.awz-warp .awz-ret svg{width:100%;height:100%;overflow:visible}
+.awz-warp .awz-hud .t{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;text-shadow:0 0 12px rgba(var(--ar),.7)}
+.awz-warp .awz-hud .tl{position:absolute;left:24px;top:24px;opacity:.8}
+.awz-warp .awz-hud .tr{position:absolute;right:24px;top:24px;opacity:.8}
+.awz-warp .awz-bar{position:fixed;left:0;top:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:45;pointer-events:none;background:linear-gradient(90deg,rgba(var(--ar),.2),rgb(var(--ar)))}
+@media(hover:none),(pointer:coarse){.awz-warp .orb{animation:none}}
+@media(prefers-reduced-motion:reduce){.awz-warp .orb{animation:none}}
 `;
 
-const pad = (n: number) => (n < 10 ? '0' : '') + n;
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const eOut = (t: number) => 1 - Math.pow(1 - t, 3);
+const pad = (n: number) => (n < 10 ? '0' : '') + n;
 const initials = (name: string) =>
   name
     .split(' ')
@@ -97,8 +89,61 @@ const initials = (name: string) =>
     .join('')
     .toUpperCase();
 
-const PAD0 = 0.04;
-const SPAN = 0.92;
+/* rotation helpers: matrix -> quaternion -> identity (tunnel pose settle) */
+const rotX = (a: number): number[] => {
+  const c = Math.cos(a), s = Math.sin(a);
+  return [1, 0, 0, 0, c, -s, 0, s, c];
+};
+const rotY = (a: number): number[] => {
+  const c = Math.cos(a), s = Math.sin(a);
+  return [c, 0, s, 0, 1, 0, -s, 0, c];
+};
+const rotZ = (a: number): number[] => {
+  const c = Math.cos(a), s = Math.sin(a);
+  return [c, -s, 0, s, c, 0, 0, 0, 1];
+};
+const mul = (a: number[], b: number[]): number[] => {
+  const o = new Array<number>(9);
+  for (let r = 0; r < 3; r++)
+    for (let c = 0; c < 3; c++)
+      o[r * 3 + c] = a[r * 3] * b[c] + a[r * 3 + 1] * b[3 + c] + a[r * 3 + 2] * b[6 + c];
+  return o;
+};
+const toQuat = (m: number[]): number[] => {
+  const t = m[0] + m[4] + m[8];
+  let w: number, x: number, y: number, z: number, s: number;
+  if (t > 0) {
+    s = Math.sqrt(t + 1) * 2; w = s / 4; x = (m[7] - m[5]) / s; y = (m[2] - m[6]) / s; z = (m[3] - m[1]) / s;
+  } else if (m[0] > m[4] && m[0] > m[8]) {
+    s = Math.sqrt(1 + m[0] - m[4] - m[8]) * 2; w = (m[7] - m[5]) / s; x = s / 4; y = (m[1] + m[3]) / s; z = (m[2] + m[6]) / s;
+  } else if (m[4] > m[8]) {
+    s = Math.sqrt(1 + m[4] - m[0] - m[8]) * 2; w = (m[2] - m[6]) / s; x = (m[1] + m[3]) / s; y = s / 4; z = (m[5] + m[7]) / s;
+  } else {
+    s = Math.sqrt(1 + m[8] - m[0] - m[4]) * 2; w = (m[3] - m[1]) / s; x = (m[2] - m[6]) / s; y = (m[5] - m[7]) / s; z = s / 4;
+  }
+  return [w, x, y, z];
+};
+const slerpToIdentity = (q: number[], t: number): number[] => {
+  let w = q[0], x = q[1], y = q[2], z = q[3];
+  if (w < 0) { w = -w; x = -x; y = -y; z = -z; }
+  const th = Math.acos(clamp(w, -1, 1)), sn = Math.sin(th);
+  const a = sn < 1e-5 ? 1 - t : Math.sin((1 - t) * th) / sn;
+  const b = sn < 1e-5 ? t : Math.sin(t * th) / sn;
+  return [a * w + b, a * x, a * y, a * z];
+};
+const fromQuat = (q: number[]): number[] => {
+  let w = q[0], x = q[1], y = q[2], z = q[3];
+  const n = Math.sqrt(w * w + x * x + y * y + z * z) || 1;
+  w /= n; x /= n; y /= n; z /= n;
+  return [
+    1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w),
+    2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w),
+    2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y),
+  ];
+};
+
+type CardInfo = { cx: number; cy: number; w: number; h: number };
+type HoverState = { rx: number; ry: number; trx: number; try_: number };
 
 const IconLinkedIn = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -112,19 +157,22 @@ const IconInstagram = () => (
     <circle cx="17.2" cy="6.8" r=".6" />
   </svg>
 );
-const Silhouette = () => (
-  <svg viewBox="0 0 200 150" aria-hidden="true">
-    <circle cx="100" cy="58" r="30" />
-    <path d="M28 150c0-38 32-60 72-60s72 22 72 60z" />
-  </svg>
-);
 
 export function Team() {
   const members = useMemo(() => getTeamMembers(), []);
   const N = members.length;
-  const M = Math.max(1, N - 1);
   const { setActiveSection, sceneStateRef } = useReality();
   const rootRef = useRef<HTMLElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const spacerRef = useRef<HTMLDivElement | null>(null);
+  const auraRef = useRef<HTMLDivElement | null>(null);
+  const barRef = useRef<HTMLDivElement | null>(null);
+  const hudRef = useRef<HTMLDivElement | null>(null);
+  const r1Ref = useRef<SVGGElement | null>(null);
+  const r2Ref = useRef<SVGGElement | null>(null);
+  const t1Ref = useRef<HTMLDivElement | null>(null);
+  const t2Ref = useRef<HTMLDivElement | null>(null);
+  const pctRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const el = rootRef.current;
@@ -136,7 +184,7 @@ export function Team() {
           sceneStateRef.current.section = 'team';
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.2 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -144,318 +192,357 @@ export function Team() {
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
-    registerMotionPlugins();
+    const grid = gridRef.current;
+    const spacer = spacerRef.current;
+    if (!root || !grid || !spacer) return;
 
     const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const $ = <T extends Element>(s: string) => root.querySelector(s) as T;
-    const rail = $<HTMLElement>('.rl2');
-    const hint = $<HTMLElement>('.hint');
-    const cnt = $<HTMLElement>('.cnt');
-    const cn = $<HTMLElement>('.cn');
-    const pns = Array.from(root.querySelectorAll<HTMLElement>('.pn'));
-    const sts = pns.map((p) => p.querySelector('.st') as HTMLElement);
-    const lks = pns.map((p) => Array.from(p.querySelectorAll<HTMLAnchorElement>('a')));
-    const nds = Array.from(root.querySelectorAll<HTMLElement>('.nd'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.awz-card'));
+    const hiEls = cards.map((c) => c.querySelector<HTMLElement>('.awz-holo i'));
+    const beamEls = cards.map((c) => c.querySelector<HTMLElement>('.awz-beam'));
+    const aura = auraRef.current;
+    const bar = barRef.current;
+    const hud = hudRef.current;
+    const r1 = r1Ref.current;
+    const r2 = r2Ref.current;
+    const t1 = t1Ref.current;
+    const t2 = t2Ref.current;
+    const pct = pctRef.current;
 
-    let G = 5.5;
-    let fs = 0;
-    let rmP = PAD0;
-    let cur = -1;
-    let inView = false;
-    let running = false;
-    let drag = false;
-    let raf = 0;
-    const stTxt = pns.map(() => '');
+    if (RM || cards.length === 0) {
+      cards.forEach((c) => {
+        c.style.opacity = '1';
+        c.style.visibility = 'visible';
+        c.style.pointerEvents = 'auto';
+      });
+      spacer.style.height = '0px';
+      return;
+    }
 
-    const layout = () => {
-      G = window.innerWidth < 720 ? 5 : 5.5;
-    };
+    const TOUCH = window.matchMedia('(hover:none),(pointer:coarse)').matches;
+    const DUR = 2000;
+    const PI = Math.PI;
+    let vw = 0, vh = 0, Z0 = 1900, R0 = 0, ST = 0, P0 = 0, Pend = 0, gx = 0, gy = 0;
+    let info: CardInfo[] = [], startS: number[] = [], endS: number[] = [], settled: boolean[] = [];
+    let Scur = window.scrollY, TRIG = 0, played = false, t0 = 0;
+    let running = false, idle = 0, lastLocked = -1, lastScan = '', raf = 0;
+    let resizeTimer = 0;
+    const hov: HoverState[] = cards.map(() => ({ rx: 0, ry: 0, trx: 0, try_: 0 }));
 
-    // pinned like the other scroll sections of the site (the page has overflow-x:hidden, so sticky is not used)
-    const trigger = RM
-      ? null
-      : ScrollTrigger.create({
-          trigger: root,
-          start: 'top top',
-          end: () => `+=${Math.round(window.innerHeight * M * 0.6)}`,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        });
-
-    const pOf = () => (RM || !trigger ? rmP : clamp(trigger.progress, 0, 1));
-
-    // f: 0..1 along the rail
-    const goF = (f: number, smooth: boolean) => {
-      const p = PAD0 + clamp(f, 0, 1) * SPAN;
-      if (RM || !trigger) {
-        rmP = p;
-        return;
+    const measure = () => {
+      settled = [];
+      cards.forEach((c) => {
+        c.style.transform = 'none';
+        c.style.opacity = '';
+        c.style.filter = '';
+      });
+      grid.style.perspective = 'none';
+      vw = window.innerWidth;
+      vh = window.innerHeight;
+      R0 = Math.min(vw, vh) * 0.42;
+      spacer.style.height = '0px';
+      const SP = vh * 0.2;
+      spacer.style.height = `${SP}px`;
+      const sy = window.scrollY, sx = window.scrollX;
+      const gr = grid.getBoundingClientRect();
+      gx = gr.left + sx;
+      gy = gr.top + sy;
+      ST = spacer.getBoundingClientRect().top + sy;
+      TRIG = Math.max(0, gy - vh * 0.8);
+      info = cards.map((c) => {
+        const r = c.getBoundingClientRect();
+        return { cx: r.left + sx + r.width / 2, cy: r.top + sy + r.height / 2, w: r.width, h: r.height };
+      });
+      const maxS = document.documentElement.scrollHeight - vh - 24;
+      let col = 0, lastRow: number | null = null;
+      const order = info.map((_, i) => i).sort((p, q) => info[p].cy - info[q].cy || info[p].cx - info[q].cx);
+      order.forEach((i) => {
+        if (lastRow === null || Math.abs(info[i].cy - lastRow) > 12) {
+          col = 0;
+          lastRow = info[i].cy;
+        } else col++;
+        const e = Math.min(info[i].cy - vh * 0.6 + col * vh * 0.26, maxS);
+        endS[i] = e;
+        startS[i] = e - vh * 1.25;
+      });
+      P0 = Math.min(...startS);
+      Pend = Math.max(...endS);
+      if (P0 < ST - vh * 0.35) {
+        const d = ST - vh * 0.35 - P0;
+        for (let k = 0; k < N; k++) startS[k] += d;
+        P0 += d;
       }
-      const y = trigger.start + p * (trigger.end - trigger.start);
-      if (smooth) gsap.to(window, { scrollTo: { y, autoKill: false }, duration: 0.7, ease: 'power2.inOut', overwrite: true });
-      else {
-        gsap.killTweensOf(window);
-        window.scrollTo({ top: y, behavior: 'auto' });
-      }
     };
-    const goI = (i: number, smooth: boolean) => goF(clamp(i, 0, N - 1) / M, smooth);
 
     const frame = () => {
-      const f = clamp((pOf() - PAD0) / SPAN, 0, 1);
-      fs += (f - fs) * (RM ? 1 : 0.13);
-      if (Math.abs(f - fs) < 0.0003) fs = f;
-      const pos = fs * M;
-      for (let i = 0; i < N; i++) {
-        let w = Math.max(0, 1 - Math.abs(pos - i));
-        w = w * w * (3 - 2 * w);
-        const v = clamp(pos - i + 1, 0, 1);
-        const p = pns[i];
-        p.style.flexGrow = (1 + G * w).toFixed(3);
-        p.style.setProperty('--w', w.toFixed(3));
-        p.style.setProperty('--v', v.toFixed(3));
-        const t = v < 1 ? 'STANDBY' : w > 0.5 ? 'SCANNING' : 'LOCKED';
-        if (t !== stTxt[i]) {
-          stTxt[i] = t;
-          sts[i].textContent = t;
+      const sy = window.scrollY, sx = window.scrollX, now = performance.now();
+      if (!played && sy >= TRIG) {
+        played = true;
+        t0 = now;
+      } else if (played && sy < TRIG - vh * 0.6) played = false;
+
+      const tp = played ? clamp((now - t0) / DUR, 0, 1) : 0;
+      Scur = played ? P0 + tp * (Pend - P0) : P0 - 1;
+      const P = clamp((Scur - P0) / (Pend - P0), 0, 1);
+      let work = played && tp < 1;
+      const done = P >= 1;
+      const vcx = vw / 2 + sx, vcy = vh / 2 + sy;
+      let locked = 0, scanNow = '';
+
+      grid.style.perspective = done ? 'none' : '1300px';
+      grid.style.perspectiveOrigin = `${vw / 2 - (gx - sx)}px ${vh / 2 - (gy - sy)}px`;
+      const fadeIn = clamp(P * 10, 0, 1);
+
+      cards.forEach((c, i) => {
+        const inf = info[i], s = c.style;
+        if (P <= 0) {
+          s.opacity = '0';
+          s.visibility = 'hidden';
+          s.pointerEvents = 'none';
+          return;
         }
-        nds[i].classList.toggle('lit', pos >= i - 0.02);
+        s.visibility = 'visible';
+        const raw = clamp((Scur - startS[i]) / (endS[i] - startS[i]), 0, 1);
+        const u = eOut(raw);
+        const m = clamp((raw - 0.55) / 0.42, 0, 1);
+        if (raw >= 1) locked++;
+        if (m > 0 && m < 1) scanNow = c.getAttribute('data-name') || '';
+
+        if (done) {
+          const h = hov[i];
+          h.rx = lerp(h.rx, h.trx, 0.14);
+          h.ry = lerp(h.ry, h.try_, 0.14);
+          if (Math.abs(h.rx - h.trx) + Math.abs(h.ry - h.try_) > 0.01) work = true;
+          s.transform = Math.abs(h.rx) + Math.abs(h.ry) < 0.02
+            ? 'none'
+            : `perspective(1000px) rotateX(${h.rx.toFixed(2)}deg) rotateY(${h.ry.toFixed(2)}deg)`;
+          s.opacity = '1';
+          s.filter = 'none';
+          s.zIndex = '';
+          s.pointerEvents = 'auto';
+          if (hiEls[i]) hiEls[i].style.transform = 'translate3d(0,100%,0)';
+          if (beamEls[i]) beamEls[i].style.opacity = '0';
+          s.setProperty('--lock', '0');
+          s.setProperty('--edge', '0');
+          return;
+        }
+
+        const rest = raw >= 1 && fadeIn >= 1 && Scur - endS[i] > vh * 0.22;
+        if (rest) {
+          if (!settled[i]) {
+            s.transform = 'none';
+            s.opacity = '1';
+            s.filter = 'none';
+            s.zIndex = '1000';
+            if (hiEls[i]) hiEls[i].style.transform = 'translate3d(0,100%,0)';
+            if (beamEls[i]) beamEls[i].style.opacity = '0';
+            s.setProperty('--lock', '0');
+            s.setProperty('--edge', '0');
+            settled[i] = true;
+          }
+          return;
+        }
+        settled[i] = false;
+        s.pointerEvents = 'none';
+
+        const phi = i * 0.95 + (1 - u) * 2.4 + Scur * 0.0016 * (1 - u);
+        const rad = R0 * Math.pow(1 - u, 0.75);
+        const tx = (vcx - inf.cx) * (1 - u) + Math.cos(phi) * rad * 1.15;
+        const ty = (vcy - inf.cy) * (1 - u) + Math.sin(phi) * rad * 0.62;
+        const tz = -(1 - u) * Z0 + Math.sin(PI * raw) * 90;
+        const Rin = mul(rotZ((1 - u) * (phi * 0.5 + 1.4)), mul(rotY(Math.sin(phi) * 0.8 * (1 - u)), rotX(Math.cos(phi) * 0.55 * (1 - u) + (1 - u) * 0.5)));
+        const q = fromQuat(slerpToIdentity(toQuat(Rin), u));
+        const sc = lerp(0.95, 1, u);
+        s.transform = 'matrix3d(' +
+          (q[0] * sc).toFixed(5) + ',' + (q[3] * sc).toFixed(5) + ',' + (q[6] * sc).toFixed(5) + ',0,' +
+          (q[1] * sc).toFixed(5) + ',' + (q[4] * sc).toFixed(5) + ',' + (q[7] * sc).toFixed(5) + ',0,' +
+          q[2].toFixed(5) + ',' + q[5].toFixed(5) + ',' + q[8].toFixed(5) + ',0,' +
+          tx.toFixed(2) + ',' + ty.toFixed(2) + ',' + tz.toFixed(2) + ',1)';
+        const fog = 0.55 + 0.45 * u;
+        s.opacity = (fadeIn * fog).toFixed(3);
+        const ca = (1 - u) * 7;
+        s.filter = !TOUCH && (1 - u) > 0.02
+          ? `drop-shadow(${(-ca).toFixed(1)}px 0 0 rgba(232,109,34,.65)) drop-shadow(${ca.toFixed(1)}px 0 0 rgba(247,248,247,.45))`
+          : 'none';
+        s.zIndex = String(1000 + Math.round(tz));
+
+        const lock = clamp((raw - 0.6) / 0.18, 0, 1) * (1 - clamp((Scur - endS[i]) / (vh * 0.22), 0, 1));
+        s.setProperty('--lock', lock.toFixed(3));
+        if (hiEls[i]) hiEls[i].style.transform = `translate3d(0,${(m * 100).toFixed(2)}%,0)`;
+        if (beamEls[i]) {
+          beamEls[i].style.transform = `translate3d(0,${(m * inf.h).toFixed(1)}px,0)`;
+          beamEls[i].style.opacity = (m > 0 && m < 1 ? Math.min(1, Math.sin(PI * m) * 2.2) : 0).toFixed(3);
+        }
+        s.setProperty('--edge', clamp(0.75 * (1 - raw) + 0.5 * Math.sin(PI * clamp(raw * 1.1, 0, 1)) + 0.6 * lock, 0, 1).toFixed(3));
+      });
+
+      const hudOn = clamp(P * 9, 0, 1) * (1 - clamp((P - 0.42) / 0.3, 0, 1));
+      if (hud) hud.style.opacity = hudOn.toFixed(3);
+      if (aura) aura.style.opacity = (clamp(P * 6, 0, 1) * (1 - clamp((P - 0.6) / 0.35, 0, 1))).toFixed(3);
+      if (r1) r1.style.transform = `rotate(${(P * 540).toFixed(1)}deg)`;
+      if (r2) r2.style.transform = `rotate(${(-P * 900).toFixed(1)}deg)`;
+      if (locked !== lastLocked || scanNow !== lastScan) {
+        lastLocked = locked;
+        lastScan = scanNow;
+        if (t1) t1.textContent = locked >= N ? 'ALL CREW LOCKED' : (scanNow ? `SCANNING · ${scanNow.toUpperCase()}` : 'SCANNING');
+        if (t2) t2.textContent = `CREW LOCKED ${pad(locked)} / ${pad(N)}`;
       }
-      rail.style.setProperty('--f', fs.toFixed(4));
-      const a = Math.round(pos);
-      if (a !== cur) {
-        cur = a;
-        cnt.textContent = pad(a + 1);
-        cn.textContent = members[a].name;
-        rail.setAttribute('aria-valuenow', String(a + 1));
-        rail.setAttribute('aria-valuetext', `${pad(a + 1)} ${members[a].name}`);
-        pns.forEach((p, i) => {
-          p.classList.toggle('on', i === a);
-          lks[i].forEach((l) => {
-            l.tabIndex = i === a ? 0 : -1;
-          });
-        });
-        nds.forEach((n, i) => n.classList.toggle('cur', i === a));
-      }
-      hint.style.opacity = f > 0.02 ? '0' : '1';
+      if (pct) pct.textContent = `00${Math.round(P * 100)}`.slice(-3) + '%';
+      if (bar) bar.style.transform = `scaleX(${P.toFixed(4)})`;
+
+      if (work) {
+        idle = 0;
+        raf = window.requestAnimationFrame(frame);
+      } else if (++idle < 12) raf = window.requestAnimationFrame(frame);
+      else running = false;
     };
-    const tick = () => {
-      if (!inView) {
-        running = false;
-        return;
-      }
-      frame();
-      raf = requestAnimationFrame(tick);
-    };
-    const start = () => {
+
+    const wake = () => {
       if (!running) {
         running = true;
-        raf = requestAnimationFrame(tick);
+        idle = 0;
+        raf = window.requestAnimationFrame(frame);
       }
     };
-
-    // drag the scanner head like a real scrollbar; it snaps to the nearest member on release
-    const fx = (e: PointerEvent) => {
-      const r = rail.getBoundingClientRect();
-      return clamp((e.clientX - r.left) / r.width, 0, 1);
+    const onResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        measure();
+        wake();
+      }, 120);
     };
-    const onDown = (e: PointerEvent) => {
-      drag = true;
-      rail.classList.add('drag');
-      rail.setPointerCapture(e.pointerId);
-      goF(fx(e), false);
-    };
-    const onMove = (e: PointerEvent) => {
-      if (drag) goF(fx(e), false);
-    };
-    const onUp = (e: PointerEvent) => {
-      if (!drag) return;
-      drag = false;
-      rail.classList.remove('drag');
-      goI(Math.round(fx(e) * M), true);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      const k = e.key;
-      const a = Math.round(fs * M);
-      let n: number | null = null;
-      if (k === 'ArrowRight' || k === 'ArrowDown') n = a + 1;
-      else if (k === 'ArrowLeft' || k === 'ArrowUp') n = a - 1;
-      else if (k === 'Home') n = 0;
-      else if (k === 'End') n = N - 1;
-      if (n !== null) {
-        e.preventDefault();
-        goI(n, true);
-      }
-    };
-    rail.addEventListener('pointerdown', onDown);
-    rail.addEventListener('pointermove', onMove);
-    rail.addEventListener('pointerup', onUp);
-    rail.addEventListener('pointercancel', onUp);
-    rail.addEventListener('keydown', onKey);
-    const clickers = pns.map((p, i) => {
-      const fn = (e: MouseEvent) => {
-        if ((e.target as Element).closest('a')) return;
-        if (!p.classList.contains('on')) goI(i, true);
+    const pointerHandlers = cards.map((c, i) => {
+      const move = (e: PointerEvent) => {
+        const r = c.getBoundingClientRect();
+        hov[i].try_ = ((e.clientX - r.left) / r.width - 0.5) * 12;
+        hov[i].trx = (0.5 - (e.clientY - r.top) / r.height) * 12;
+        wake();
       };
-      p.addEventListener('click', fn);
-      return fn;
+      const leave = () => {
+        hov[i].trx = 0;
+        hov[i].try_ = 0;
+        wake();
+      };
+      if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+        c.addEventListener('pointermove', move);
+        c.addEventListener('pointerleave', leave);
+      }
+      return { move, leave };
     });
 
-    window.addEventListener('resize', layout);
-    layout();
-    frame();
-
-    let io: IntersectionObserver | null = null;
-    if (RM) {
-      inView = true;
-      start();
-    } else {
-      io = new IntersectionObserver(
-        ([entry]) => {
-          inView = Boolean(entry?.isIntersecting);
-          if (inView) start();
-        },
-        { rootMargin: '120px' }
-      );
-      io.observe(root);
-    }
-    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 200);
+    measure();
+    wake();
+    window.addEventListener('scroll', wake, { passive: true });
+    window.addEventListener('resize', onResize);
+    const bootTimer = window.setTimeout(() => {
+      measure();
+      wake();
+    }, 300);
 
     return () => {
-      window.clearTimeout(refreshTimer);
-      cancelAnimationFrame(raf);
+      window.clearTimeout(bootTimer);
+      window.clearTimeout(resizeTimer);
+      window.cancelAnimationFrame(raf);
       running = false;
-      io?.disconnect();
-      window.removeEventListener('resize', layout);
-      rail.removeEventListener('pointerdown', onDown);
-      rail.removeEventListener('pointermove', onMove);
-      rail.removeEventListener('pointerup', onUp);
-      rail.removeEventListener('pointercancel', onUp);
-      rail.removeEventListener('keydown', onKey);
-      pns.forEach((p, i) => p.removeEventListener('click', clickers[i]));
-      gsap.killTweensOf(window);
-      trigger?.kill();
+      window.removeEventListener('scroll', wake);
+      window.removeEventListener('resize', onResize);
+      cards.forEach((c, i) => {
+        c.removeEventListener('pointermove', pointerHandlers[i].move);
+        c.removeEventListener('pointerleave', pointerHandlers[i].leave);
+        c.style.transform = '';
+        c.style.opacity = '';
+        c.style.visibility = '';
+        c.style.filter = '';
+        c.style.pointerEvents = '';
+        c.style.zIndex = '';
+      });
+      grid.style.perspective = '';
+      grid.style.perspectiveOrigin = '';
+      spacer.style.height = '0px';
     };
-  }, [members, N, M]);
+  }, [N]);
 
   return (
-    <section
-      id="team"
-      ref={rootRef}
-      className="awz-scrub"
-      aria-label="Meet the AR VR XR team"
-    >
+    <section id="team" ref={rootRef} className="awz-warp" aria-label="Meet the AR VR XR team">
       <style>{CSS}</style>
-      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
-        <defs>
-          <linearGradient id="awsG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#e86d22" stopOpacity=".6" />
-            <stop offset="1" stopColor="#e86d22" stopOpacity=".14" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="stage">
-        <header className="hd">
-          <div>
-            <span className="kick">04 · The crew</span>
-            <h2>
-              Meet the <em>AR VR XR</em> Team
-            </h2>
-            <p className="sub">
-              Seven specialists, one studio. Scroll, or drag the scanner below, to move through the crew.
-            </p>
-          </div>
-          <div className="hud" aria-hidden="true">
-            <b>
-              <i className="cnt" style={{ fontStyle: 'normal' }}>
-                01
-              </i>
-              <em>/ {pad(N)}</em>
-            </b>
-            <span>
-              Scanning · <i className="cn" />
-            </span>
-          </div>
-        </header>
 
-        <div className="lane">
-          {members.map((m, i) => (
-            <article className="pn" data-i={i} key={m.id}>
-              <div
-                className="pbg"
-                style={
-                  m.image
-                    ? ({ '--pbg-img': `url("${m.image}")` } as CSSProperties)
-                    : undefined
-                }
-              >
-                {m.image && <div className="pbg-fill" aria-hidden="true" />}
-                <b>{initials(m.name)}</b>
-                {m.image ? (
-                  <>
-                    <img
-                      src={m.image}
-                      alt={m.name}
-                      decoding="async"
-                      draggable={false}
-                    />
-                  </>
-                ) : (
-                  <Silhouette />
-                )}
-              </div>
-              <span className="ix">{pad(i + 1)}</span>
-              <span className="st">STANDBY</span>
-              <span className="vt">{m.name}</span>
-              <div className="body">
-                <div className="tg">
-                  Node {pad(i + 1)} / {pad(N)}
-                  {i ? '' : ' · Founder'}
-                </div>
-                <h3 className="nm">{m.name}</h3>
-                <p className="rl">{m.role}</p>
-                <p className="ds">{m.bio}</p>
-                <div className="lk">
-                  <a href={m.links.linkedin || '#'} target="_blank" rel="noopener noreferrer">
-                    <IconLinkedIn />
-                    LinkedIn
-                  </a>
-                  <a href={m.links.instagram || '#'} target="_blank" rel="noopener noreferrer">
-                    <IconInstagram />
-                    Instagram
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
+      <div className="awz-aura" ref={auraRef} aria-hidden="true" />
+      <div className="awz-bar" ref={barRef} aria-hidden="true" />
+      <div className="awz-hud" ref={hudRef} aria-hidden="true">
+        <div className="awz-ret">
+          <svg viewBox="-110 -110 220 220" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <g className="r1" ref={r1Ref}>
+              <circle r="100" strokeDasharray="4 10" opacity=".7" />
+            </g>
+            <g className="r2" ref={r2Ref}>
+              <circle r="78" strokeDasharray="46 20" opacity=".9" />
+              <path d="M0-108v14M0 94v14M-108 0h14M94 0h14" />
+            </g>
+            <circle r="3" fill="currentColor" />
+          </svg>
         </div>
+        <div className="t" style={{ top: 'calc(50% + 138px)' }} ref={t1Ref}>
+          SCANNING
+        </div>
+        <div className="t" style={{ top: 'calc(50% + 158px)', opacity: 0.7 }} ref={t2Ref} />
+        <div className="tl">AWGZO · CREW SCAN</div>
+        <div className="tr" ref={pctRef}>
+          000%
+        </div>
+      </div>
 
-        <div className="rail">
-          <p className="hint">Scroll or drag the scanner →</p>
-          <div
-            className="rl2"
-            role="slider"
-            tabIndex={0}
-            aria-label="Team member"
-            aria-valuemin={1}
-            aria-valuemax={N}
-            aria-valuenow={1}
+      <div className="intro">
+        <span className="kick">04 · The crew / no superheroes</span>
+        <h2>
+          Meet the <em>AR VR XR</em> Team
+        </h2>
+        <p>Seven specialists, one studio. Scroll — the crew warps in through the scanner tunnel and locks on one by one.</p>
+      </div>
+
+      <div className="awz-spacer" ref={spacerRef} aria-hidden="true" />
+      <div className="grid" ref={gridRef}>
+        {members.map((m, i) => (
+          <article
+            className={`tcard awz-card c${i + 1}${i === 0 ? ' lead' : ''}`}
+            data-name={m.name}
+            key={m.id}
+            style={{ opacity: 0, visibility: 'hidden' }}
           >
-            <div className="ruler" />
-            <div className="track">
-              <div className="fill" />
+            <div className="ph">
+              {i === 0 && <em className="tag">Founder &amp; CEO</em>}
+              {m.image ? (
+                <>
+                  <div className="ph-fill" style={{ backgroundImage: `url("${m.image}")` }} />
+                  <img src={m.image} alt={m.name} decoding="async" draggable={false} />
+                </>
+              ) : (
+                <>
+                  <span className="ti">{initials(m.name)}</span>
+                  <span className="orb" />
+                </>
+              )}
+              <u /><u /><u /><u />
             </div>
-            {members.map((m, i) => (
-              <div className="nd" key={m.id} style={{ left: `${(i / M) * 100}%` }}>
-                <s>{pad(i + 1)}</s>
-                <i />
-                <u>{m.name.split(' ')[0]}</u>
+            <div className="awz-holo" aria-hidden="true"><i /></div>
+            <div className="awz-beam" aria-hidden="true" />
+            <div className="body">
+              <small>{pad(i + 1)} / {pad(N)}</small>
+              <h3>{m.name}</h3>
+              <div className="role">{m.role}</div>
+              <p>{m.bio}</p>
+              <div className="lk">
+                <a href={m.links.linkedin || '#'} target="_blank" rel="noopener noreferrer">
+                  <IconLinkedIn />
+                  LinkedIn
+                </a>
+                <a href={m.links.instagram || '#'} target="_blank" rel="noopener noreferrer">
+                  <IconInstagram />
+                  Instagram
+                </a>
               </div>
-            ))}
-            <div className="thumb" />
-          </div>
-        </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
