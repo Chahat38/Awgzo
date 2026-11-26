@@ -60,6 +60,64 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="/assets/vr_girl_dark_orange.jpg" fetchpriority="high" />
+    <link rel="preload" as="audio" href="/audio/hero-dramatic.mp3" />
+    <script>
+      // Start the Hero voice before the React bundle loads. On hosted origins
+      // browsers often block unmuted autoplay; then the first gesture retries.
+      (function () {
+        if (window.__awgzoHeroVoice) return;
+        window.__awgzoHeroVoice = true;
+        var audio = new Audio('/audio/hero-dramatic.mp3');
+        audio.preload = 'auto';
+        window.__awgzoHeroAudio = audio;
+        var done = false;
+        var armed = false;
+        var gestureTried = false;
+        var events = ['pointerup', 'touchend', 'keydown', 'click'];
+
+        function disarm() {
+          if (!armed) return;
+          armed = false;
+          for (var i = 0; i < events.length; i++) {
+            window.removeEventListener(events[i], onGesture, true);
+          }
+        }
+        function arm() {
+          if (armed || done) return;
+          armed = true;
+          for (var i = 0; i < events.length; i++) {
+            window.addEventListener(events[i], onGesture, true);
+          }
+        }
+        function onGesture() {
+          start(true);
+        }
+        function start(fromGesture) {
+          if (done) return;
+          if (fromGesture) {
+            if (gestureTried) return;
+            gestureTried = true;
+            disarm();
+          }
+          try {
+            var p = audio.play();
+            if (p && p.then) {
+              p.then(
+                function () { done = true; disarm(); },
+                function () { if (fromGesture) done = true; else arm(); }
+              );
+            } else {
+              done = true;
+              disarm();
+            }
+          } catch (e) {
+            if (fromGesture) done = true;
+            else arm();
+          }
+        }
+        start(false);
+      })();
+    </script>
     <link
       rel="preload"
       as="style"

@@ -21,66 +21,6 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 
-/**
- * Plays the Hero recording immediately, independently of the heavy 3D
- * assistant. If autoplay is refused, the first click/tap retries once.
- */
-function HeroVoice() {
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const GESTURES = ['pointerup', 'touchend', 'keydown', 'click'] as const;
-    let disposed = false;
-    let done = false;
-    let armed = false;
-    let gestureTried = false;
-    let audio: HTMLAudioElement | null = null;
-
-    function disarm() {
-      if (!armed) return;
-      armed = false;
-      GESTURES.forEach((g) => window.removeEventListener(g, onGesture, true));
-    }
-    function arm() {
-      if (armed || disposed) return;
-      armed = true;
-      GESTURES.forEach((g) => window.addEventListener(g, onGesture, true));
-    }
-    function onGesture() {
-      start(true);
-    }
-    function start(fromGesture = false) {
-      if (done || disposed) return;
-      if (fromGesture) {
-        if (gestureTried) return;
-        gestureTried = true;
-        disarm();
-      }
-      if (!audio) {
-        audio = new Audio('/audio/hero-dramatic.mp3');
-        audio.preload = 'auto';
-      }
-      audio.play().then(
-        () => {
-          done = true;
-          disarm();
-        },
-        () => {
-          if (fromGesture) done = true;
-          else arm();
-        }
-      );
-    }
-
-    start();
-    return () => {
-      disposed = true;
-      disarm();
-      audio?.pause();
-    };
-  }, []);
-  return null;
-}
-
 function AppShell() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -161,7 +101,6 @@ function AppShell() {
     <div className="relative min-h-screen bg-[#10191f] text-white selection:bg-[#e86d22] selection:text-[#10191f]">
       {!loaded && <BrandedLoader onComplete={() => setLoaded(true)} />}
 
-      <HeroVoice />
       <RealityCursor />
 
       {heavyReady && (
