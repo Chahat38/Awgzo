@@ -57,7 +57,7 @@ const SKY_FRAG = `
 `;
 
 export default function PersistentCanvas() {
-  const { sceneStateRef } = useReality();
+  const { sceneStateRef, activeSection } = useReality();
   const [fallbackActive, setFallbackActive] = useState(false);
   const hostRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -135,10 +135,10 @@ export default function PersistentCanvas() {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
-    renderer.setClearColor(0x080808, 1);
+    renderer.setClearColor(0x10191f, 1);
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x080808, 0.022);
+    scene.fog = new THREE.FogExp2(0x10191f, 0.022);
 
     const pmrem = new THREE.PMREMGenerator(renderer);
     const roomEnv = new RoomEnvironment();
@@ -156,10 +156,10 @@ export default function PersistentCanvas() {
     camera.position.set(0, 0.25, 7.4);
 
     // Lighting
-    const ambient = new THREE.AmbientLight(0xffffff, 0.35);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    const ambient = new THREE.AmbientLight(0xf7f8f7, 0.35);
+    const dirLight = new THREE.DirectionalLight(0xf7f8f7, 1.5);
     dirLight.position.set(4, 6, 5);
-    const orangePt = new THREE.PointLight(0xe86c22, 3.2, 16);
+    const orangePt = new THREE.PointLight(0xe86d22, 3.2, 16);
     orangePt.position.set(-3, 1.5, 3);
     const bluePt = new THREE.PointLight(0x3b82f6, 2.2, 16);
     bluePt.position.set(3, -1, -2);
@@ -249,7 +249,9 @@ export default function PersistentCanvas() {
     muted: true,
     playsInline: true,
     preload: 'auto' as const,
-    className: 'absolute inset-0 h-full w-full object-cover opacity-[0.72]',
+    className: `absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+      activeSection === 'hero' ? 'opacity-0' : 'opacity-[0.72]'
+    }`,
   };
 
   const shade = (
@@ -266,7 +268,7 @@ export default function PersistentCanvas() {
     return (
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black"
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#10191f]"
       >
         <video {...videoProps} />
         {shade}
@@ -275,7 +277,7 @@ export default function PersistentCanvas() {
   }
 
   return (
-    <div ref={hostRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black">
+    <div ref={hostRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#10191f]">
       <canvas ref={canvasRef} className="block h-full w-full" />
       <video {...videoProps} />
       {shade}

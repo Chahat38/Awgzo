@@ -7,7 +7,7 @@ export const FAQ_ITEMS = [
   {
     question: 'What does AWGZO do?',
     answer:
-      'AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites, software and marketing.',
+      'AWGZO is an AR VR XR agency. We build AR try-on, VR experiences, WebXR, TikTok effects, websites, software and marketing.',
   },
   {
     question: 'Do you build VR experiences?',
@@ -20,14 +20,14 @@ export const FAQ_ITEMS = [
       'Yes. WebAR opens in a mobile browser. We build AR try-on, WebAR viewers and AR business cards that work on everyday phones.',
   },
   {
-    question: 'Do you make Snap AR effects?',
+    question: 'Do you make TikTok AR effects?',
     answer:
-      'Yes. We create Snap AR effects with face tracking and branded overlays for creators and campaigns in Pakistan.',
+      'Yes. We create TikTok AR effects with face tracking and branded overlays for creators and campaigns.',
   },
   {
     question: 'Where is AWGZO located?',
     answer:
-      'AWGZO is in Islamabad, Pakistan: Flat 2, Block 32-C, Street 102, Gate 9, Ibn-e-Sina Road, G-11/3. Call +92 335 8595274 or email hello@awgzo.com.',
+      'Visit: Flat 2, Block 32-C, Street 102, Gate 9, Ibn-e-Sina Road, G-11/3, Islamabad, Pakistan. Call +92 335 8595274 or email hello@awgzo.com.',
   },
 ];
 

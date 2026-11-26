@@ -51,14 +51,19 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
       ref={sectionRef}
       className="relative z-10 flex min-h-[92svh] items-center pt-28 pb-16 lg:pt-24"
     >
+      <div className="awgzo-hero-bg" aria-hidden="true">
+        <div className="awgzo-hero-bg__art" />
+        <div className="awgzo-hero-bg__shade" />
+      </div>
+
       <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
         <div ref={contentRef} className="max-w-3xl">
-          <h1 className="max-w-[14ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-white max-lg:max-w-full max-lg:text-[clamp(1.75rem,8vw,2.5rem)]">
-            Your Tech &amp;{' '}
-            <span className="text-orange">Marketing Wizards</span>
+          <h1 className="font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-white max-lg:text-[clamp(1.75rem,8vw,2.5rem)]">
+            Your Tech &amp;<br />
+            <span className="text-[#e86d22]">Marketing Wizards</span>
           </h1>
 
-          <p className="mt-4 max-w-[60ch] text-sm font-medium uppercase tracking-[0.14em] text-orange sm:text-base">
+          <p className="mt-4 max-w-[60ch] text-sm font-medium uppercase tracking-[0.14em] text-[#ee8a52] sm:text-base">
             {AWGZO_SITE.badge}
           </p>
 
@@ -66,7 +71,7 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
             {AWGZO_SITE.heroSubheadline}
           </p>
 
-          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-white/60 sm:text-lg">
+          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-[#9fa3a5] sm:text-lg">
             {AWGZO_SITE.intro}
           </p>
 
@@ -82,7 +87,7 @@ export function Hero({ loaderDone: _loaderDone = true }: { loaderDone?: boolean 
             <button
               type="button"
               onClick={() => scrollToSection('portfolio')}
-              className="text-sm font-semibold text-white underline-offset-4 hover:text-orange hover:underline"
+              className="text-sm font-semibold text-white underline-offset-4 hover:text-[#e86d22] hover:underline"
             >
               See Our AR Work
             </button>

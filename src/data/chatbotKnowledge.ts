@@ -2,7 +2,7 @@ import { AWGZO_SITE } from './site';
 
 export interface KnowledgeMatch {
   answer: string;
-  actionLabel?: 'Free Consultation' | 'WhatsApp Community' | 'Email hello@awgzo.com';
+  actionLabel?: 'Book a Free Call' | 'WhatsApp Community' | 'Email hello@awgzo.com';
   actionHref?: string;
 }
 
@@ -21,22 +21,22 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
     q.includes('islamabad')
   ) {
     return {
-      answer: `We're in Islamabad: ${AWGZO_SITE.contact.address}. Want to visit or book a call?`,
-      actionLabel: 'Free Consultation',
+      answer: `We're here: ${AWGZO_SITE.contact.address}. Want to visit or book a call?`,
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
 
   if (
-    q.includes('snap') ||
-    q.includes('lens') ||
+    q.includes('tiktok') ||
     q.includes('filter') ||
+    q.includes('effect house') ||
     q.includes('face tracking')
   ) {
     return {
       answer:
-        'We build custom Snap AR effects with face tracking and branded overlays for creators and campaigns in Pakistan. Want one for your brand?',
-      actionLabel: 'Free Consultation',
+        'We build custom TikTok AR effects with face tracking and branded overlays for creators and campaigns. Want one for your brand?',
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
@@ -50,7 +50,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
     return {
       answer:
         'Yes, WebAR works in the mobile browser. We build product viewers, AR try-on and scannable AR cards without an app download.',
-      actionLabel: 'Free Consultation',
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
@@ -58,8 +58,8 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
   if (q.includes('vr') || q.includes('virtual reality')) {
     return {
       answer:
-        'We build VR experiences as a service. Want to scope one with our Islamabad team?',
-      actionLabel: 'Free Consultation',
+        'We build VR experiences as a service. Want to scope one with our team?',
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
@@ -72,16 +72,16 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
   ) {
     return {
       answer:
-        'AWGZO builds augmented reality for mobile, web and iOS — AR try-on, WebAR viewers, scannable AR cards and custom Snap AR effects.',
-      actionLabel: 'Free Consultation',
+        'AWGZO builds augmented reality for mobile, web and iOS — AR try-on, WebAR viewers, scannable AR cards and custom TikTok effects.',
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
 
   if (q.includes('service') || q.includes('what do you do') || q.includes('offer')) {
     return {
-      answer: `Our services: ${AWGZO_SITE.servicesVerified.join(', ')}. Based in Islamabad. Book a call.`,
-      actionLabel: 'Free Consultation',
+      answer: `Our services: ${AWGZO_SITE.servicesVerified.join(', ')}. Book a call.`,
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
@@ -90,7 +90,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
     return {
       answer:
         'Every build is scoped to your goals, so we share a custom quote after a short discovery call or project brief.',
-      actionLabel: 'Free Consultation',
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
@@ -98,7 +98,7 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
   if (q.includes('book') || q.includes('call') || q.includes('meeting') || q.includes('calendly')) {
     return {
       answer: `Book a free strategy call on Calendly, or email ${AWGZO_SITE.contact.email}.`,
-      actionLabel: 'Free Consultation',
+      actionLabel: 'Book a Free Call',
       actionHref: AWGZO_SITE.contact.calendlyUrl,
     };
   }
@@ -118,8 +118,8 @@ export function matchChatbotReply(input: string): KnowledgeMatch {
 
   return {
     answer:
-      'I can share details about AWGZO’s AR Development, VR Experiences, WebXR, Snap AR effects, web, software and marketing services. Ready to start?',
-    actionLabel: 'Free Consultation',
+      'I can share details about AWGZO’s AR Development, VR Experiences, WebXR, TikTok effects, web, software and marketing services. Ready to start?',
+    actionLabel: 'Book a Free Call',
     actionHref: AWGZO_SITE.contact.calendlyUrl,
   };
 }

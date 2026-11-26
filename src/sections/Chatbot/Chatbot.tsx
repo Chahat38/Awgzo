@@ -19,8 +19,8 @@ const QUICK_CHIPS = [
   'WebXR',
   'Get a quote',
   'WebAR without an app',
-  'Snap AR Effects',
-  'Free Consultation',
+  'TikTok effects',
+  'Book a call',
 ];
 
 function getSectionPrompt(section: string): string {
@@ -132,7 +132,7 @@ export function Chatbot() {
         >
           <div className="flex shrink-0 items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <div className="flex items-center gap-2 font-mono-tabular text-[11px] font-semibold text-orange">
+              <div className="flex items-center gap-2 font-mono-tabular text-[11px] font-semibold text-[#e86d22]">
                 <Sparkles className="h-3.5 w-3.5" /> AWGZO ASSISTANT
               </div>
               <h3 className="font-display text-base font-bold text-white">Ask AWGZO</h3>
@@ -142,7 +142,7 @@ export function Chatbot() {
               onClick={() => setOpen(false)}
               aria-label="Close chat panel"
               {...(pageHandActive ? { 'data-hand-target': 'chatbot-close' } : {})}
-              className="rounded-full border border-white/15 bg-white/5 p-1.5 text-white hover:border-orange hover:bg-orange hover:text-black cursor-pointer"
+              className="rounded-full border border-white/15 bg-white/5 p-1.5 text-white hover:border-[#e86d22] hover:bg-[#e86d22] hover:text-[#10191f] cursor-pointer"
             >
               <X className="h-4 w-4" />
             </button>
@@ -161,7 +161,7 @@ export function Chatbot() {
                 <div
                   className={`max-w-[86%] rounded-2xl px-3.5 py-2.5 ${
                     m.sender === 'user'
-                      ? 'bg-orange text-black font-medium'
+                      ? 'bg-[#e86d22] text-[#10191f] font-medium'
                       : 'border border-white/12 bg-white/[0.06] text-white/95'
                   }`}
                 >
@@ -172,7 +172,7 @@ export function Chatbot() {
                     href={m.actionHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-1.5 inline-flex items-center gap-1.5 rounded-full border border-orange/50 bg-orange/15 px-3 py-1 font-mono-tabular text-[11px] font-semibold text-orange hover:bg-orange hover:text-black"
+                    className="mt-1.5 inline-flex items-center gap-1.5 rounded-full border border-[#e86d22]/50 bg-[#e86d22]/15 px-3 py-1 font-mono-tabular text-[11px] font-semibold text-[#e86d22] hover:bg-[#e86d22] hover:text-[#10191f]"
                   >
                     <Calendar className="h-3 w-3" /> {m.actionLabel}
                   </a>
@@ -181,8 +181,8 @@ export function Chatbot() {
             ))}
 
             {typing && (
-              <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-white/60">
-                <span className="h-1.5 w-1.5 rounded-full bg-orange animate-pulse" />
+              <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-[#9fa3a5]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e86d22] animate-pulse" />
                 Typing…
               </div>
             )}
@@ -195,7 +195,7 @@ export function Chatbot() {
                 type="button"
                 onClick={() => submitQuery(chip)}
                 {...(pageHandActive ? { 'data-hand-target': `chatbot-chip-${idx}` } : {})}
-                className="rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 font-mono-tabular text-[10px] text-white/85 transition hover:border-orange hover:text-orange cursor-pointer"
+                className="rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 font-mono-tabular text-[10px] text-white/85 transition hover:border-[#e86d22] hover:text-[#e86d22] cursor-pointer"
               >
                 {chip}
               </button>
@@ -215,12 +215,12 @@ export function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about AR, VR, WebXR or booking a call…"
               aria-label="Ask AWGZO a question"
-              className="flex-1 rounded-full border border-white/15 bg-black/80 px-4 py-2 text-xs text-white placeholder:text-white/40 focus:border-orange focus:outline-none"
+              className="flex-1 rounded-full border border-white/15 bg-[#10191f]/80 px-4 py-2 text-xs text-white placeholder:text-white/40 focus:border-[#e86d22] focus:outline-none"
             />
             <button
               type="submit"
               aria-label="Send question"
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-orange text-black transition hover:bg-orange cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e86d22] text-[#10191f] transition hover:bg-[#ee8a52] cursor-pointer"
             >
               <Send className="h-3.5 w-3.5" />
             </button>
@@ -248,8 +248,8 @@ export function Chatbot() {
           {...(pageHandActive ? { 'data-hand-target': 'chatbot-orb' } : {})}
           className={`relative flex h-14 w-14 items-center justify-center rounded-full border transition-transform hover:scale-105 cursor-pointer shadow-[0_12px_36px_rgba(16,25,31,0.6)] ${
             mode === 'VR'
-              ? 'border-orange/60 bg-black/85 text-orange backdrop-blur-xl'
-              : 'border-orange/70 bg-black/85 text-orange backdrop-blur-xl'
+              ? 'border-[#3B82F6]/60 bg-[#0d142a]/85 text-[#3B82F6] backdrop-blur-xl'
+              : 'border-[#e86d22]/70 bg-[#10191f]/85 text-[#e86d22] backdrop-blur-xl'
           }`}
         >
           {open ? (

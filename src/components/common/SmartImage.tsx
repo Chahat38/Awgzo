@@ -37,9 +37,9 @@ export function SmartImage({
       <div
         role="img"
         aria-label={alt}
-        className={`flex flex-col items-center justify-center bg-gradient-to-br from-black via-black to-black p-6 text-center ${className}`}
+        className={`flex flex-col items-center justify-center bg-gradient-to-br from-[#19242b] via-[#141e25] to-[#10191f] p-6 text-center ${className}`}
       >
-        <Layers className="mb-3 h-7 w-7 text-orange/80" />
+        <Layers className="mb-3 h-7 w-7 text-[#e86d22]/80" />
         <span className="font-display text-sm font-semibold tracking-tight text-white/90">
           {title || alt}
         </span>

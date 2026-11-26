@@ -4,16 +4,12 @@ import { Helmet } from 'react-helmet-async';
 import { Hero } from '../sections/Hero/Hero';
 import { Portfolio } from '../sections/Portfolio/Portfolio';
 import { RealityLab } from '../sections/RealityLab/RealityLab';
+import { PartnersMarquee } from '../sections/Partners/PartnersMarquee';
 import { Team } from '../sections/Team/Team';
 import { FAQ } from '../sections/FAQ/FAQ';
 import { Contact } from '../sections/Contact/Contact';
 import { FAQ_PAGE_SCHEMA } from '../data/faq';
-import {
-  ServicesSlot,
-  TestimonialsSlot,
-  PythonLibSlot,
-  FooterSlot,
-} from '../components/slots/TeammateSlots';
+import { ServicesSlot, TestimonialsSlot, FooterSlot } from '../components/slots/TeammateSlots';
 import { scrollToSection } from '../lib/scroll';
 
 export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }) {
@@ -31,35 +27,35 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
   return (
     <>
       <Helmet>
-        <title>AWGZO | AR VR XR Agency Islamabad</title>
+        <title>AWGZO | AR VR XR Agency</title>
         <meta
           name="description"
-          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites and software. Book a call."
+          content="AWGZO is an AR VR XR agency. We build AR try-on, VR experiences, WebXR, TikTok effects, websites and software. Book a call."
         />
         <link rel="canonical" href="https://awgzo.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://awgzo.com/" />
-        <meta property="og:title" content="AWGZO | AR VR XR Agency Islamabad" />
+        <meta property="og:title" content="AWGZO | AR VR XR Agency" />
         <meta
           property="og:description"
-          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites and software. Book a call."
+          content="AWGZO is an AR VR XR agency. We build AR try-on, VR experiences, WebXR, TikTok effects, websites and software. Book a call."
         />
         <meta
           property="og:image"
           content="https://awgzo.com/wp-content/uploads/2025/04/Awgzo-logo-3-e1743884108133.webp"
         />
-        <meta property="og:image:alt" content="AWGZO AR VR XR agency in Islamabad, Pakistan" />
+        <meta property="og:image:alt" content="AWGZO AR VR XR agency" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="AWGZO | AR VR XR Agency Islamabad" />
+        <meta name="twitter:title" content="AWGZO | AR VR XR Agency" />
         <meta
           name="twitter:description"
-          content="AWGZO is an AR VR XR agency in Islamabad, Pakistan. We build AR try-on, VR experiences, WebXR, Snap AR effects, websites and software. Book a call."
+          content="AWGZO is an AR VR XR agency. We build AR try-on, VR experiences, WebXR, TikTok effects, websites and software. Book a call."
         />
         <meta
           name="twitter:image"
           content="https://awgzo.com/wp-content/uploads/2025/04/Awgzo-logo-3-e1743884108133.webp"
         />
-        <meta name="twitter:image:alt" content="AWGZO AR VR XR agency in Islamabad, Pakistan" />
+        <meta name="twitter:image:alt" content="AWGZO AR VR XR agency" />
         <script type="application/ld+json">
           {JSON.stringify(FAQ_PAGE_SCHEMA)}
         </script>
@@ -70,10 +66,10 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
         <ServicesSlot />
         <Portfolio />
         <RealityLab />
+        <PartnersMarquee />
         <Team />
         <TestimonialsSlot />
         <FAQ />
-        <PythonLibSlot />
         <Contact />
       </main>
       <FooterSlot />

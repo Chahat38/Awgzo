@@ -66,7 +66,7 @@ export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-black px-6"
+      className="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-[#10191f] px-6"
     >
       <div className="relative flex flex-col items-center gap-5">
         <svg width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden="true">
@@ -95,7 +95,7 @@ export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
           setDismissed(true);
           onComplete();
         }}
-        className="mt-8 font-mono-tabular text-xs tracking-[0.16em] text-white/60 uppercase transition-colors hover:text-orange cursor-pointer"
+        className="mt-8 font-mono-tabular text-xs tracking-[0.16em] text-[#9fa3a5] uppercase transition-colors hover:text-[#e86d22] cursor-pointer"
       >
         Skip Intro
       </button>

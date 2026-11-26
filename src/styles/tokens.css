@@ -1,24 +1,18 @@
-@theme {
-  --color-orange: #e86d22;
-  --color-black: #10191f;
-  --color-white: #f7f8f7;
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-sans: 'Poppins', sans-serif;
-  --font-mono: 'Poppins', sans-serif;
-}
-
 :root {
-  /* Brand Colors */
-  --awgzo-orange: var(--color-orange);
-  --awgzo-orange-bright: var(--color-orange);
-  --awgzo-black: var(--color-black);
-  --awgzo-charcoal: var(--color-black);
-  --awgzo-dark-grey: var(--color-black);
-  --awgzo-white: var(--color-white);
-  --awgzo-muted: rgba(247, 248, 247, 0.6);
-  --awgzo-vr-indigo: var(--color-orange);
+  /* Brand Colors (Shared between Part A & Teammate Part B) */
+  --awgzo-orange: #e86d22;
+  --awgzo-orange-bright: #ee8a52;
+  --awgzo-black: #10191f;
+  --awgzo-charcoal: #141e25;
+  --awgzo-dark-grey: #19242b;
+  --awgzo-white: #f7f8f7;
+  --awgzo-muted: #9fa3a5;
+  --awgzo-vr-indigo: #3B82F6;
 
-  /* Typography: headings = Bebas Neue, everything else = Poppins */
+  /* Typography (brand fonts: Bebas Neue for headings, Poppins for paragraphs) */
+  --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --font-sans: 'Poppins', system-ui, sans-serif;
+  --font-mono: 'Poppins', system-ui, sans-serif;
 
   /* Glass System Defaults */
   --glass-bg-start: rgba(247,248,247, 0.1);
@@ -58,7 +52,7 @@
   border-color: rgba(232,109,34, 0.38);
   box-shadow:
     0 20px 60px rgba(16,25,31, 0.45),
-    inset 0 1px 0 rgba(232,109,34, 0.35);
+    inset 0 1px 0 rgba(238,138,82, 0.35);
 }
 
 /* Specular Top-Left Gradient Edge Border */
@@ -121,6 +115,6 @@
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .awgzo-glass {
-    background: rgba(16,25,31, 0.85);
+    background: rgba(25,36,43, 0.85);
   }
 }

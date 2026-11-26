@@ -4,9 +4,7 @@ export interface TeamMember {
   name: string;
   role: string;
   bio: string;
-  // Optional real photo. Drop files in /public/assets/team/ and set e.g. '/assets/team/ahmad.jpg'.
-  // When omitted, the holographic card falls back to initials.
-  photo?: string;
+  image?: string;
   links: {
     linkedin: string;
     instagram: string;
@@ -19,7 +17,8 @@ export const AWGZO_TEAM: TeamMember[] = [
     index: '01',
     name: 'Ahmad Waleed',
     role: 'Founder & CEO | AR Developer',
-    bio: 'Founder and CEO leading AR development and AR VR XR strategy from Islamabad.',
+    bio: 'Founder and CEO leading AR development and AR VR XR strategy.',
+    image: '/images/team/ahmad-waleed.jpeg',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
@@ -31,6 +30,7 @@ export const AWGZO_TEAM: TeamMember[] = [
     name: 'Chahat',
     role: 'Lead Creative Developer (WebXR & 3D)',
     bio: 'Lead creative developer for WebXR and 3D experiences on the AWGZO site.',
+    image: '/images/team/chahat.jpeg',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
@@ -42,6 +42,7 @@ export const AWGZO_TEAM: TeamMember[] = [
     name: 'Shawal Manzoor',
     role: 'Web Developer',
     bio: 'Web developer building responsive sites and e-commerce pages at AWGZO.',
+    image: '/images/team/shawal.png',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
@@ -53,6 +54,7 @@ export const AWGZO_TEAM: TeamMember[] = [
     name: 'Remsha',
     role: 'Web Developer',
     bio: 'Web developer turning designs into accessible, clean interfaces across devices.',
+    image: '/images/team/remsha.jpeg',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
@@ -62,8 +64,9 @@ export const AWGZO_TEAM: TeamMember[] = [
     id: 'member-05',
     index: '05',
     name: 'Fatima Huma',
-    role: 'Digital Marketing Specialist',
-    bio: 'Digital marketing specialist supporting campaigns and content for AR, VR and web services.',
+    role: 'Digital Marketing Executive',
+    bio: 'Digital marketing executive supporting campaigns and content for AR, VR and web services.',
+    image: '/images/team/fatima.jpeg',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
@@ -73,8 +76,9 @@ export const AWGZO_TEAM: TeamMember[] = [
     id: 'member-06',
     index: '06',
     name: 'Mohid',
-    role: 'Lead Generation Specialist',
-    bio: 'Lead generation specialist finding and qualifying enquiries for AR, VR and web services.',
+    role: 'Lead Executive',
+    bio: 'Lead executive finding and qualifying enquiries for AR, VR and web services.',
+    image: '/images/team/mohid.jpeg',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',
@@ -84,8 +88,9 @@ export const AWGZO_TEAM: TeamMember[] = [
     id: 'member-07',
     index: '07',
     name: 'Saeed',
-    role: 'SEO Specialist',
-    bio: 'SEO specialist improving visibility for AR VR XR and web service pages.',
+    role: 'SEO Executive',
+    bio: 'SEO executive improving visibility for AR VR XR and web service pages.',
+    image: '/images/team/saeed.jpeg',
     links: {
       linkedin: 'https://www.linkedin.com/company/awgzo/',
       instagram: 'https://www.instagram.com/awgzo/',

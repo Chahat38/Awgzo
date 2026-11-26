@@ -1,121 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { AWGZO_SITE } from '../../data/site';
 import { SocialIcon } from '../../components/ui/SocialIcon';
+import { AwgzoLogo } from '../../components/common/AwgzoLogo';
 import { useReality } from '../../context/RealityContext';
-import { gsap, registerMotionPlugins, ScrollTrigger } from '../../lib/scroll';
+import { gsap, registerMotionPlugins } from '../../lib/scroll';
 
 const HEADING = 'Let Us Take Care Of You';
-const MODEL_URL = '/assets/vr-headset.glb';
-const DRACO_PATH = '/draco/';
-
-function cloneMaterialsAndGeometry(root: THREE.Object3D) {
-  root.traverse((child) => {
-    const mesh = child as THREE.Mesh;
-    if (!mesh.isMesh) return;
-    mesh.geometry = mesh.geometry.clone();
-    if (Array.isArray(mesh.material)) {
-      mesh.material = mesh.material.map((material) => material.clone());
-    } else if (mesh.material) {
-      mesh.material = mesh.material.clone();
-    }
-  });
-}
-
-function fitToLogoSize(source: THREE.Object3D) {
-  const model = source.clone(true);
-  cloneMaterialsAndGeometry(model);
-
-  const bounds = new THREE.Box3().setFromObject(model);
-  const size = bounds.getSize(new THREE.Vector3());
-  const center = bounds.getCenter(new THREE.Vector3());
-  const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-  const scale = 2.6 / maxDimension;
-
-  model.scale.setScalar(scale);
-  model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-
-  const group = new THREE.Group();
-  group.add(model);
-  return group;
-}
-
-function createFallbackHeadset() {
-  const group = new THREE.Group();
-
-  const body = new THREE.Mesh(
-    new RoundedBoxGeometry(2.2, 0.95, 0.55, 4, 0.18),
-    new THREE.MeshPhysicalMaterial({
-      color: 0x111318,
-      metalness: 0.7,
-      roughness: 0.22,
-      clearcoat: 0.85,
-      clearcoatRoughness: 0.16,
-      emissive: 0x050608,
-    })
-  );
-  group.add(body);
-
-  const strap = new THREE.Mesh(
-    new THREE.TorusGeometry(1.02, 0.09, 12, 48, Math.PI),
-    new THREE.MeshStandardMaterial({ color: 0x0c0e12, roughness: 0.65, metalness: 0.2 })
-  );
-  strap.position.set(0, 0.16, -0.34);
-  strap.rotation.x = Math.PI / 2;
-  group.add(strap);
-
-  [-0.52, 0.52].forEach((x) => {
-    const lens = new THREE.Mesh(
-      new THREE.CircleGeometry(0.27, 48),
-      new THREE.MeshStandardMaterial({ color: 0x04060a, metalness: 0.35, roughness: 0.12 })
-    );
-    lens.position.set(x, 0, 0.3);
-    group.add(lens);
-
-    const ring = new THREE.Mesh(
-      new THREE.RingGeometry(0.28, 0.34, 48),
-      new THREE.MeshStandardMaterial({
-        color: 0xe86c22,
-        emissive: 0xe86c22,
-        emissiveIntensity: 1.35,
-        toneMapped: false,
-      })
-    );
-    ring.position.set(x, 0, 0.312);
-    group.add(ring);
-  });
-
-  return fitToLogoSize(group);
-}
-
-function disposeObject(root: THREE.Object3D) {
-  const geometries = new Set<THREE.BufferGeometry>();
-  const materials = new Set<THREE.Material>();
-  const textures = new Set<THREE.Texture>();
-
-  root.traverse((child) => {
-    const mesh = child as THREE.Mesh;
-    if (!mesh.isMesh) return;
-    if (mesh.geometry) geometries.add(mesh.geometry);
-    const meshMaterials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-    meshMaterials.forEach((material) => {
-      if (!material) return;
-      materials.add(material);
-      Object.values(material).forEach((value) => {
-        if (value && (value as THREE.Texture).isTexture) {
-          textures.add(value as THREE.Texture);
-        }
-      });
-    });
-  });
-
-  geometries.forEach((geometry) => geometry.dispose());
-  textures.forEach((texture) => texture.dispose());
-  materials.forEach((material) => material.dispose());
-}
 
 export function FooterSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -202,64 +93,19 @@ export function FooterSection() {
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const particleMaterial = new THREE.PointsMaterial({
       size: 0.05,
-      color: 0xff9a55,
+      color: 0xee8a52,
       transparent: true,
       opacity: 0.8,
     });
     const particles = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particles);
 
-    let logo: THREE.Group | null = null;
-    let logoProgress = 0;
-    let disposed = false;
-
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(DRACO_PATH);
-    const modelLoader = new GLTFLoader();
-    modelLoader.setDRACOLoader(dracoLoader);
-
-    modelLoader.load(
-      MODEL_URL,
-      (gltf) => {
-        if (disposed) {
-          disposeObject(gltf.scene);
-          return;
-        }
-        logo = fitToLogoSize(gltf.scene);
-        logo.visible = logoProgress > 0.01;
-        camera.add(logo);
-      },
-      undefined,
-      () => {
-        if (disposed) return;
-        logo = createFallbackHeadset();
-        logo.visible = logoProgress > 0.01;
-        camera.add(logo);
-      }
-    );
-
-    const key = new THREE.DirectionalLight(0xffffff, 1.1);
-    key.position.set(2, 3, 2);
-    camera.add(key);
-    const rim = new THREE.PointLight(0xf7f8f7, 2, 20);
-    rim.position.set(-3, -1, -2);
-    camera.add(rim);
-    camera.add(new THREE.AmbientLight(0xffffff, 0.45));
-
-    let logoX = 3;
-    let logoY = 0.2;
-    let logoScale = 1;
     const resize = () => {
       const width = el.clientWidth;
       const height = el.clientHeight;
       renderer?.setSize(width, height, false);
       camera.aspect = width / Math.max(1, height);
       camera.updateProjectionMatrix();
-      const wide = window.innerWidth > 900;
-      const compact = window.innerWidth < 700;
-      logoX = wide ? 3 : 0;
-      logoY = wide ? 0.1 : compact ? 1.5 : 1.9;
-      logoScale = wide ? 1 : compact ? 0.5 : 0.7;
     };
     resize();
     window.addEventListener('resize', resize);
@@ -272,16 +118,6 @@ export function FooterSection() {
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
-    const logoTrigger = ScrollTrigger.create({
-      trigger: el,
-      start: 'top bottom',
-      end: 'top 20%',
-      scrub: 1,
-      onUpdate: (self) => {
-        logoProgress = self.progress;
-      },
-    });
-
     let visible = true;
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
@@ -291,7 +127,6 @@ export function FooterSection() {
     );
     visibilityObserver.observe(el);
 
-    const easeOut = gsap.parseEase('power3.out');
     let frame = 0;
     const loop = () => {
       frame = requestAnimationFrame(loop);
@@ -304,16 +139,6 @@ export function FooterSection() {
       camera.position.y += (-pointerY * 0.8 - camera.position.y) * 0.05;
       particles.rotation.z += 0.0003;
 
-      if (logo) {
-        logo.visible = logoProgress > 0.01;
-        const eased = easeOut(logoProgress);
-        logo.position.set(logoX, -6 + (logoY + 6) * eased, -5.5);
-        logo.scale.setScalar((0.2 + 0.8 * eased) * logoScale);
-        logo.rotation.y += 0.006;
-        logo.rotation.x = pointerY * 0.8;
-        logo.rotation.z = pointerX * 0.6;
-      }
-
       renderer.render(scene, camera);
     };
     frame = requestAnimationFrame(loop);
@@ -324,16 +149,9 @@ export function FooterSection() {
       window.removeEventListener('pointermove', onPointerMove);
       visibilityObserver.disconnect();
       sectionObserver.disconnect();
-      logoTrigger.kill();
       motionContext.revert();
-      disposed = true;
       particleGeometry.dispose();
       particleMaterial.dispose();
-      if (logo) {
-        camera.remove(logo);
-        disposeObject(logo);
-      }
-      dracoLoader.dispose();
       renderer?.dispose();
     };
   }, [sceneStateRef, setActiveSection]);
@@ -377,33 +195,36 @@ export function FooterSection() {
       id="footer"
       ref={sectionRef}
       aria-label="Site footer"
-      className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-black px-[clamp(16px,4vw,56px)] pb-[28px] pt-[clamp(56px,8vh,96px)]"
+      className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#10191f] px-[clamp(16px,4vw,56px)] pb-[24px] pt-[clamp(28px,4vh,44px)]"
     >
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />
 
-      <div className="relative z-10 flex flex-col gap-[clamp(28px,4vw,48px)]">
-        <div className="max-w-[min(760px,100%)]">
-          <span className="font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-orange">
-            Hey Business Tycoons
-          </span>
-          <h2
-            className="mt-[10px] font-display text-[clamp(2.4rem,5vw,4.25rem)] leading-[1.02] tracking-[0.01em] max-lg:text-[clamp(2.1rem,6.4vw,3.25rem)] max-sm:text-[clamp(1.85rem,9vw,2.6rem)]"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            {HEADING.split(' ').map((word, wordIndex) => (
-              <span
-                key={wordIndex}
-                className="mr-[0.25em] inline-block whitespace-nowrap"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                {Array.from(word).map((char, charIndex) => (
-                  <span key={charIndex} className="ch inline-block">
-                    {char}
-                  </span>
-                ))}
-              </span>
-            ))}
-          </h2>
+      <div className="relative z-10 flex flex-col gap-[clamp(20px,2.5vw,32px)]">
+        <div className="flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+          <AwgzoLogo className="shrink-0 [&_img]:!h-[clamp(48px,4.2vw,64px)] [&_img]:!max-w-none" />
+          <div className="min-w-0 lg:flex-1">
+            <span className="font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-[#ee8a52]">
+              Hey Business Tycoons
+            </span>
+            <h2
+              className="mt-[6px] font-display text-[clamp(1.5rem,2.5vw,2.5rem)] leading-[1.05] tracking-[0.01em] max-sm:text-[clamp(1.4rem,6.5vw,1.9rem)]"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              {HEADING.split(' ').map((word, wordIndex) => (
+                <span
+                  key={wordIndex}
+                  className="mr-[0.25em] inline-block whitespace-nowrap"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  {Array.from(word).map((char, charIndex) => (
+                    <span key={charIndex} className="ch inline-block">
+                      {char}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </h2>
+          </div>
           <a
             ref={ctaRef}
             href={AWGZO_SITE.contact.calendlyUrl}
@@ -411,7 +232,7 @@ export function FooterSection() {
             rel="noopener noreferrer"
             onPointerMove={handleCtaMove}
             onPointerLeave={handleCtaLeave}
-            className="mt-5 inline-block rounded-full bg-gradient-to-br from-orange to-orange px-6 py-[12px] font-bold text-black no-underline"
+            className="inline-block shrink-0 whitespace-nowrap rounded-full bg-gradient-to-br from-[#e86d22] to-[#ee8a52] px-6 py-[12px] font-bold text-[#10191f] no-underline"
           >
             Book an AR VR XR Call →
           </a>
@@ -420,12 +241,12 @@ export function FooterSection() {
         <div>
           <div
             ref={colsRef}
-            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-[22px] border-t border-white/[0.18] pt-[24px] sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:gap-[24px] sm:pt-[26px]"
+            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-[22px] sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:gap-[24px]"
           >
             <div className="fcol">
-              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-orange">Visit Us</h4>
-              <p className="text-sm leading-relaxed text-white/60">{AWGZO_SITE.contact.address}</p>
-              <a href={`mailto:${AWGZO_SITE.contact.email}`} className="text-sm text-white/60 no-underline">
+              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#ee8a52]">Visit Us</h4>
+              <p className="text-sm leading-relaxed text-[#9fa3a5]">{AWGZO_SITE.contact.address}</p>
+              <a href={`mailto:${AWGZO_SITE.contact.email}`} className="text-sm text-[#9fa3a5] no-underline">
                 {AWGZO_SITE.contact.email}
               </a>
               <div className="mt-2 flex flex-wrap gap-[10px]">
@@ -446,19 +267,19 @@ export function FooterSection() {
             </div>
 
             <div className="fcol">
-              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-orange">Quick Links</h4>
-              <a href="#hero" className="block text-sm leading-[1.8] text-white/60 no-underline">Home</a>
-              <a href="#services" className="block text-sm leading-[1.8] text-white/60 no-underline">Services</a>
-              <a href="#portfolio" className="block text-sm leading-[1.8] text-white/60 no-underline">Work</a>
-              <a href="#reality-lab" className="block text-sm leading-[1.8] text-white/60 no-underline">AR Lab</a>
-              <a href="#team" className="block text-sm leading-[1.8] text-white/60 no-underline">Team</a>
-              <a href="#contact" className="block text-sm leading-[1.8] text-white/60 no-underline">Contact</a>
+              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#ee8a52]">Quick Links</h4>
+              <a href="#hero" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Home</a>
+              <a href="#services" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Services</a>
+              <a href="#portfolio" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Work</a>
+              <a href="#reality-lab" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">AR Lab</a>
+              <a href="#team" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Team</a>
+              <a href="#contact" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Contact</a>
             </div>
 
             <div className="fcol">
-              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-orange">Newsletter</h4>
-              <p className="text-sm leading-relaxed text-white/60">
-                Short notes on AR, VR, WebXR and web builds from our Islamabad studio. No spam.
+              <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#ee8a52]">Newsletter</h4>
+              <p className="text-sm leading-relaxed text-[#9fa3a5]">
+                Short notes on AR, VR, WebXR and web builds from our studio. No spam.
               </p>
               <form onSubmit={handleNewsletter} className="mt-2 flex gap-2">
                 <input
@@ -468,20 +289,20 @@ export function FooterSection() {
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="you@company.com"
                   aria-label="Email address for AWGZO updates"
-                  className="min-w-0 flex-1 rounded-full border border-white/[0.18] bg-white/[0.06] px-[14px] py-[11px] text-sm text-white outline-none transition-all duration-300 placeholder:text-white/40 focus:border-orange focus:shadow-[0_0_0_4px_rgba(232,109,34,0.22)]"
+                  className="min-w-0 flex-1 rounded-full border border-white/[0.18] bg-white/[0.06] px-[14px] py-[11px] text-sm text-white outline-none transition-all duration-300 placeholder:text-white/40 focus:border-[#ee8a52] focus:shadow-[0_0_0_4px_rgba(232,109,34,0.22)]"
                 />
                 <button
                   type="submit"
-                  className="rounded-full border-0 bg-orange px-4 py-[11px] text-sm font-bold text-black"
+                  className="rounded-full border-0 bg-[#e86d22] px-4 py-[11px] text-sm font-bold text-[#10191f]"
                 >
                   Subscribe
                 </button>
               </form>
-              {status && <p className="mt-2 text-xs text-orange">{status}</p>}
+              {status && <p className="mt-2 text-xs text-[#ee8a52]">{status}</p>}
             </div>
           </div>
 
-          <p className="mt-[24px] text-center text-xs text-white/60">
+          <p className="mt-[20px] text-center text-xs text-[#9fa3a5]">
             © {new Date().getFullYear()} AWGZO. All rights reserved.
           </p>
         </div>

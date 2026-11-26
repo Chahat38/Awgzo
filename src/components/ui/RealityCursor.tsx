@@ -99,11 +99,11 @@ export function RealityCursor() {
           </svg>
           <span
             className={`absolute h-1.5 w-1.5 rounded-full transition-transform ${
-              interactive ? 'scale-150 bg-orange' : 'bg-white'
+              interactive ? 'scale-150 bg-[#e86d22]' : 'bg-white'
             }`}
           />
           {label && (
-            <span className="font-mono-tabular absolute left-12 whitespace-nowrap rounded-full border border-white/20 bg-black/90 px-2.5 py-0.5 text-[10px] font-semibold text-white">
+            <span className="font-mono-tabular absolute left-12 whitespace-nowrap rounded-full border border-white/20 bg-[#10191f]/90 px-2.5 py-0.5 text-[10px] font-semibold text-white">
               {label}
             </span>
           )}
@@ -115,13 +115,13 @@ export function RealityCursor() {
             interactive ? 'h-12 w-12' : 'h-7 w-7'
           }`}
         >
-          <span className="absolute left-0 top-0 h-2.5 w-2.5 border-l-2 border-t-2 border-orange" />
-          <span className="absolute right-0 top-0 h-2.5 w-2.5 border-r-2 border-t-2 border-orange" />
-          <span className="absolute bottom-0 left-0 h-2.5 w-2.5 border-b-2 border-l-2 border-orange" />
-          <span className="absolute bottom-0 right-0 h-2.5 w-2.5 border-b-2 border-r-2 border-orange" />
+          <span className="absolute left-0 top-0 h-2.5 w-2.5 border-l-2 border-t-2 border-[#e86d22]" />
+          <span className="absolute right-0 top-0 h-2.5 w-2.5 border-r-2 border-t-2 border-[#e86d22]" />
+          <span className="absolute bottom-0 left-0 h-2.5 w-2.5 border-b-2 border-l-2 border-[#e86d22]" />
+          <span className="absolute bottom-0 right-0 h-2.5 w-2.5 border-b-2 border-r-2 border-[#e86d22]" />
           <span className="h-1 w-1 rounded-full bg-white" />
           {label && (
-            <span className="font-mono-tabular absolute left-14 whitespace-nowrap rounded-md border border-orange/50 bg-black/90 px-2 py-0.5 text-[10px] font-semibold text-orange">
+            <span className="font-mono-tabular absolute left-14 whitespace-nowrap rounded-md border border-[#e86d22]/50 bg-[#10191f]/90 px-2 py-0.5 text-[10px] font-semibold text-[#e86d22]">
               {label}
             </span>
           )}

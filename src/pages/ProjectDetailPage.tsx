@@ -13,17 +13,17 @@ const PROJECT_META: Record<string, { title: string; description: string }> = {
   '3d-ar-ecommerce': {
     title: '3D AR E-Commerce Showcase | AWGZO',
     description:
-      'WebAR product viewer with 3D AR try-on and mobile placement for online stores. Built by AWGZO in Islamabad.',
+      'WebAR product viewer with 3D AR try-on and mobile placement for online stores. Built by AWGZO.',
   },
   'ar-bowling-game': {
     title: 'Interactive AR Bowling Game | AWGZO',
     description:
-      'Surface-tracked AR bowling game that turns any table into a playable lane. Built by AWGZO in Islamabad.',
+      'Surface-tracked AR bowling game that turns any table into a playable lane. Built by AWGZO.',
   },
-  'snap-ar-effects': {
-    title: 'Snap AR Effects | AWGZO',
+  'tiktok-ar-effects': {
+    title: 'TikTok AR Effects | AWGZO',
     description:
-      'Face-tracked Snap AR effects and branded filters made for sharing. Built by AWGZO in Islamabad.',
+      'Face-tracked TikTok AR effects and branded filters made for sharing. Built by AWGZO.',
   },
   'ar-business-card': {
     title: 'AR Business Card | AWGZO',
@@ -108,20 +108,20 @@ export default function ProjectDetailPage() {
         <div className="mx-auto max-w-[1200px] px-6 lg:px-12">
           <Link
             to="/?section=portfolio"
-            className="inline-flex items-center gap-2 font-mono-tabular text-xs font-medium text-white/60 transition hover:text-orange"
+            className="inline-flex items-center gap-2 font-mono-tabular text-xs font-medium text-[#9fa3a5] transition hover:text-[#e86d22]"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Selected AR &amp; Web Work
           </Link>
 
           <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
             <div>
-              <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-orange">
+              <span className="font-mono-tabular text-xs font-semibold uppercase tracking-[0.2em] text-[#e86d22]">
                 {project.indexLabel} · {project.category}
               </span>
               <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">
                 {project.title}
               </h1>
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/60">
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#9fa3a5]">
                 {project.shortDescription}
               </p>
             </div>
@@ -134,14 +134,14 @@ export default function ProjectDetailPage() {
               )}
               {project.has360View && (
                 <MagneticCta variant="glass" onClick={() => setPanoOpen(true)}>
-                  <Compass className="h-4 w-4 text-orange" /> Open Full 360°
+                  <Compass className="h-4 w-4 text-[#3B82F6]" /> Open Full 360°
                 </MagneticCta>
               )}
             </div>
           </div>
 
           <GlassCard className="mt-8 overflow-hidden p-3 sm:p-4">
-            <div className="overflow-hidden rounded-2xl border border-white/12 bg-black">
+            <div className="overflow-hidden rounded-2xl border border-white/12 bg-[#10191f]">
               {project.videoUrl ? (
                 <video
                   src={project.videoUrl}
@@ -172,30 +172,30 @@ export default function ProjectDetailPage() {
 
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             <GlassCard className="p-6" depth="low">
-              <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-widest text-orange">
+              <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-widest text-[#e86d22]">
                 Overview
               </span>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">{project.overview}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#9fa3a5]">{project.overview}</p>
             </GlassCard>
 
             <GlassCard className="p-6" depth="low">
-              <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-widest text-orange">
+              <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-widest text-[#e86d22]">
                 Challenge
               </span>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">{project.challenge}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#9fa3a5]">{project.challenge}</p>
             </GlassCard>
 
             <GlassCard className="p-6" depth="low">
-              <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-widest text-orange">
+              <span className="font-mono-tabular text-[11px] font-semibold uppercase tracking-widest text-[#e86d22]">
                 Solution
               </span>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">{project.solution}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#9fa3a5]">{project.solution}</p>
             </GlassCard>
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-12">
             <GlassCard className="p-6 lg:col-span-5" depth="low">
-              <div className="flex items-center gap-2 font-mono-tabular text-xs font-semibold text-orange">
+              <div className="flex items-center gap-2 font-mono-tabular text-xs font-semibold text-[#e86d22]">
                 <Layers className="h-4 w-4" /> TECHNOLOGIES USED
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -218,7 +218,7 @@ export default function ProjectDetailPage() {
                 {project.gallery.map((imgUrl, idx) => (
                   <div
                     key={`${imgUrl}-${idx}`}
-                    className="h-44 overflow-hidden rounded-xl border border-white/12 bg-black"
+                    className="h-44 overflow-hidden rounded-xl border border-white/12 bg-[#10191f]"
                   >
                     <SmartImage
                       src={imgUrl}
@@ -238,12 +238,12 @@ export default function ProjectDetailPage() {
           <div className="mt-10 flex justify-end">
             <Link
               to={`/work/${nextProject.slug}`}
-              className="awgzo-glass awgzo-glass--low inline-flex items-center gap-3 rounded-full px-6 py-3.5 text-sm font-semibold text-white transition hover:border-orange"
+              className="awgzo-glass awgzo-glass--low inline-flex items-center gap-3 rounded-full px-6 py-3.5 text-sm font-semibold text-white transition hover:border-[#e86d22]"
             >
               <span>
-                Next Project: <span className="text-orange">{nextProject.title}</span>
+                Next Project: <span className="text-[#e86d22]">{nextProject.title}</span>
               </span>
-              <ArrowRight className="h-4 w-4 text-orange" />
+              <ArrowRight className="h-4 w-4 text-[#e86d22]" />
             </Link>
           </div>
         </div>

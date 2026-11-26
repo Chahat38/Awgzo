@@ -19,7 +19,6 @@ export type ActiveSectionId =
   | 'model'
   | 'team'
   | 'testimonials'
-  | 'python-lab'
   | 'contact'
   | 'footer'
   | 'detail';
