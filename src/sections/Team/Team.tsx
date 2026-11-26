@@ -53,11 +53,6 @@ const CSS = `
 .awz-warp .lead .body h3{font-size:1.95rem}
 .awz-warp .role{font:500 .66rem var(--font-mono);letter-spacing:.14em;color:var(--o2);text-transform:uppercase;line-height:1.5}
 .awz-warp .body p{color:#8f979b;margin:10px 0 14px;font-size:.9rem;line-height:1.55}
-.awz-warp .lk{display:flex;gap:18px;flex-wrap:wrap}
-.awz-warp .lead .lk{justify-content:center}
-.awz-warp .lk a{color:var(--ink);text-decoration:none;font-size:.8rem;border-bottom:1px solid var(--o);padding-bottom:2px}
-.awz-warp .lk a:hover,.awz-warp .lk a:focus-visible{color:var(--o2);outline:none}
-
 /* runtime warp / scan layers */
 .awz-warp .awz-card{position:relative;will-change:transform,opacity;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .awz-warp .awz-holo{position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;overflow:hidden}
@@ -144,19 +139,6 @@ const fromQuat = (q: number[]): number[] => {
 
 type CardInfo = { cx: number; cy: number; w: number; h: number };
 type HoverState = { rx: number; ry: number; trx: number; try_: number };
-
-const IconLinkedIn = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M4 9.5h3.6V20H4zM5.8 4a2 2 0 110 4 2 2 0 010-4zM10 9.5h3.4v1.5h.1c.5-.9 1.7-1.8 3.4-1.8 3.6 0 4.1 2.3 4.1 5.3V20h-3.6v-4.9c0-1.2 0-2.7-1.7-2.7s-1.9 1.3-1.9 2.6V20H10z" />
-  </svg>
-);
-const IconInstagram = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
-    <circle cx="12" cy="12" r="4" />
-    <circle cx="17.2" cy="6.8" r=".6" />
-  </svg>
-);
 
 export function Team() {
   const members = useMemo(() => getTeamMembers(), []);
@@ -530,16 +512,6 @@ export function Team() {
               <h3>{m.name}</h3>
               <div className="role">{m.role}</div>
               <p>{m.bio}</p>
-              <div className="lk">
-                <a href={m.links.linkedin || '#'} target="_blank" rel="noopener noreferrer">
-                  <IconLinkedIn />
-                  LinkedIn
-                </a>
-                <a href={m.links.instagram || '#'} target="_blank" rel="noopener noreferrer">
-                  <IconInstagram />
-                  Instagram
-                </a>
-              </div>
             </div>
           </article>
         ))}
