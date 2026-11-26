@@ -53,8 +53,8 @@ export function MissionVision() {
     {
       icon: Target,
       label: 'Our Mission',
-      title: 'Make AR, VR and WebXR simple for every brand.',
-      body: 'We build immersive experiences that open straight in a phone browser, so your customers never need to download an app. From AR try-on to WebXR and TikTok effects, we turn bold ideas into products people can use today.',
+      title: 'Make all AR and VR experiences simple for every brand.',
+      body: 'We build immersive experiences that open straight in a phone browser, so your customers never need to download an app. From AR try-on to immersive browser experiences and TikTok effects, we turn bold ideas into products people can use today.',
     },
     {
       icon: Eye,
@@ -76,7 +76,7 @@ export function MissionVision() {
           eyebrow="01 · About AWGZO"
           title="Our"
           accent="Mission & Vision"
-          text="We build immersive experiences that open straight in a phone browser, so your customers never need to download an app. From AR try-on to WebXR and TikTok effects, we turn bold ideas into products people can use today."
+          text="We build immersive experiences that open straight in a phone browser, so your customers never need to download an app. From AR try-on to immersive browser experiences and TikTok effects, we turn bold ideas into products people can use today."
         />
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
           {cards.map(({ icon: Icon, label, title, body }) => (
