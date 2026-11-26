@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap, registerMotionPlugins } from '../../lib/scroll';
 
 interface BrandedLoaderProps {
-  onComplete: () => void;
+  onEnter: () => void;
 }
 
 /**
- * Under-1.2s skippable intro drawing the orange Living Lens circle
- * before handing focus smoothly to the Hero iris reveal.
+ * Branded intro gate. The visitor must tap "Enter" once: that gesture unlocks
+ * browser audio so the Hero voice recording can play on every page load.
  */
-export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
+export function BrandedLoader({ onEnter }: BrandedLoaderProps) {
+  const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const circleRef = useRef<SVGCircleElement | null>(null);
@@ -19,19 +20,13 @@ export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
     if (typeof window === 'undefined') return;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-      setDismissed(true);
-      onComplete();
+      setReady(true);
       return;
     }
 
     registerMotionPlugins();
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        onComplete: () => {
-          setDismissed(true);
-          onComplete();
-        },
-      });
+      const tl = gsap.timeline({ onComplete: () => setReady(true) });
 
       if (circleRef.current) {
         tl.fromTo(
@@ -48,18 +43,10 @@ export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
           '-=0.3'
         );
       }
-      if (rootRef.current) {
-        tl.to(rootRef.current, {
-          opacity: 0,
-          duration: 0.28,
-          ease: 'power2.out',
-          delay: 0.08,
-        });
-      }
     }, rootRef);
 
     return () => ctx.revert();
-  }, [onComplete]);
+  }, []);
 
   if (dismissed) return null;
 
@@ -89,16 +76,22 @@ export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={() => {
-          setDismissed(true);
-          onComplete();
-        }}
-        className="mt-8 font-mono-tabular text-xs tracking-[0.16em] text-[#9fa3a5] uppercase transition-colors hover:text-[#e86d22] cursor-pointer"
-      >
-        Skip Intro
-      </button>
+      {ready ? (
+        <button
+          type="button"
+          onClick={() => {
+            onEnter();
+            setDismissed(true);
+          }}
+          className="mt-8 cursor-pointer rounded-full border border-[#e86d22]/60 bg-[#e86d22]/15 px-7 py-3 font-mono-tabular text-xs font-semibold tracking-[0.18em] text-[#ff9a55] uppercase transition-colors hover:bg-[#e86d22] hover:text-[#10191f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e86d22]"
+        >
+          Enter AWGZO · sound on
+        </button>
+      ) : (
+        <p className="mt-8 font-mono-tabular text-xs tracking-[0.16em] text-[#9fa3a5] uppercase">
+          Initialising experience…
+        </p>
+      )}
     </div>
   );
 }

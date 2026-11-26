@@ -73,7 +73,14 @@ function AppShell() {
 
   return (
     <div className="relative min-h-screen bg-[#10191f] text-white selection:bg-[#e86d22] selection:text-[#10191f]">
-      {!loaded && <BrandedLoader onComplete={() => setLoaded(true)} />}
+      {!loaded && (
+        <BrandedLoader
+          onEnter={() => {
+            window.dispatchEvent(new Event('awgzo:enter'));
+            setLoaded(true);
+          }}
+        />
+      )}
 
       <RealityCursor />
 
