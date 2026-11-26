@@ -120,7 +120,7 @@ export function TeamMission() {
           eyebrow="02 · How we work"
           title="Our"
           accent="Team Mission"
-          text="One studio, no superheroes. Our mission as a team is to give every client a crew that cares about the result as much as they do."
+          text="We are a team that builds unique selling propositions for businesses and solves their problems to increase retention, drive more sales, and build greater trust. We are a crew that cares about results and is dedicated to solving problems."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {values.map(({ icon: Icon, title, body }, i) => (
