@@ -8,7 +8,7 @@ import { scrollToSection } from '../../lib/scroll';
 
 const NAV_ITEMS: { label: string; target: string; section?: ActiveSectionId; path?: string }[] = [
   { label: 'Home', target: 'hero', section: 'hero' },
-  { label: 'Services', target: 'services', section: 'services', path: '/services' },
+  { label: 'Services', target: 'services', path: '/services' },
   { label: 'Products', target: 'products', path: '/products' },
   { label: 'About', target: 'about', path: '/about' },
   { label: 'Contact', target: 'contact', section: 'contact', path: '/contact' },

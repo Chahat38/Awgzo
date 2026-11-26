@@ -266,7 +266,7 @@ export function FooterSection() {
             <div className="fcol">
               <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#ee8a52]">Quick Links</h4>
               <a href="#hero" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Home</a>
-              <a href="#services" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Services</a>
+              <a href="/services" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Services</a>
               <a href="#portfolio" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Work</a>
               <a href="#reality-lab" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">AR Lab</a>
               <a href="#team" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Team</a>
