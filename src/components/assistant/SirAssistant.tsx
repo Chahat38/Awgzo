@@ -80,15 +80,21 @@ const CSS = `
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-export default function SirAssistant({ ready = true }: { ready?: boolean }) {
+export default function SirAssistant({
+  ready = true,
+  autoVoice = true,
+}: {
+  ready?: boolean;
+  autoVoice?: boolean;
+}) {
   const readyRef = useRef(ready);
   const autoRef = useRef<(() => void) | null>(null);
 
   // the page loader finished: start the Hero recording (once)
   useEffect(() => {
     readyRef.current = ready;
-    if (ready) autoRef.current?.();
-  }, [ready]);
+    if (ready && autoVoice) autoRef.current?.();
+  }, [ready, autoVoice]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -316,7 +322,7 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
     }
 
     const runAuto = () => {
-      if (autoDone || disposed || !readyRef.current) return;
+      if (!autoVoice || autoDone || disposed || !readyRef.current) return;
       autoDone = true;
       // only when the Hero section is on screen (Home page); wait a moment for it to mount
       let tries = 0;
@@ -330,7 +336,7 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
       };
       attempt();
     };
-    autoRef.current = runAuto;
+    autoRef.current = autoVoice ? runAuto : null;
 
     const scriptFor = (id: string): { script: string; audioUrl?: string } | null => {
       const sec = ASSISTANT_SECTIONS.find((x) => x.id === id);

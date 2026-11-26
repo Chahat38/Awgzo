@@ -6,7 +6,7 @@ interface BrandedLoaderProps {
 }
 
 /**
- * Under-1.2s skippable intro drawing the orange Living Lens circle
+ * Sub-0.6s skippable intro drawing the orange Living Lens circle
  * before handing focus smoothly to the Hero iris reveal.
  */
 export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
@@ -37,23 +37,23 @@ export function BrandedLoader({ onComplete }: BrandedLoaderProps) {
         tl.fromTo(
           circleRef.current,
           { drawSVG: '0%' },
-          { drawSVG: '100%', duration: 0.55, ease: 'power2.inOut' }
+          { drawSVG: '100%', duration: 0.32, ease: 'power2.inOut' }
         );
       }
       if (wordRef.current) {
         tl.fromTo(
           wordRef.current,
           { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.3, ease: 'awgzoOut' },
-          '-=0.3'
+          { opacity: 1, y: 0, duration: 0.2, ease: 'awgzoOut' },
+          '-=0.2'
         );
       }
       if (rootRef.current) {
         tl.to(rootRef.current, {
           opacity: 0,
-          duration: 0.28,
+          duration: 0.18,
           ease: 'power2.out',
-          delay: 0.08,
+          delay: 0.05,
         });
       }
     }, rootRef);
