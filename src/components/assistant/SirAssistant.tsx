@@ -357,6 +357,7 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
         if (fellBack || token !== session) return;
         if (auto) {
           stop(); // automatic start: never fall back to the browser voice
+          armGesture(); // Safari/Firefox may report a different autoplay refusal
           return;
         }
         fellBack = true;
@@ -397,15 +398,15 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
         freqBins = null;
       }
 
-      audio.play().catch((err: unknown) => {
+      audio.play().catch(() => {
         if (!auto) {
           fallback();
           return;
         }
-        // the browser blocked sound before any interaction: wait for the first gesture instead
-        const blocked = (err as { name?: string } | null)?.name === 'NotAllowedError';
+        // Autoplay with sound is blocked until the visitor interacts. Arm the
+        // first gesture fallback for every refusal, not only NotAllowedError.
         if (token === session) stop();
-        if (blocked) armGesture();
+        armGesture();
       });
     };
 
