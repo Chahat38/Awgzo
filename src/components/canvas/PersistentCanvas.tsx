@@ -3,8 +3,6 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { useReality } from '../../context/RealityContext';
 
-const VIDEO_SRC = '/assets/video/man-interacting-with-virtual-hologram.mp4';
-
 function detectWebGLState(): { supported: boolean; isSoftwareGl: boolean } {
   if (typeof window === 'undefined') return { supported: false, isSoftwareGl: false };
   try {
@@ -57,53 +55,10 @@ const SKY_FRAG = `
 `;
 
 export default function PersistentCanvas() {
-  const { sceneStateRef, activeSection } = useReality();
+  const { sceneStateRef } = useReality();
   const [fallbackActive, setFallbackActive] = useState(false);
   const hostRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  // Scroll-scrubbed background video: the page scroll position drives the frame.
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    let raf = 0;
-
-    const seekToScroll = () => {
-      const duration = video.duration;
-      if (!duration || !Number.isFinite(duration)) return;
-      const target = Math.min(duration - 0.04, sceneStateRef.current.scrollProgress * duration);
-      if (Math.abs(target - video.currentTime) > 0.04) {
-        try {
-          video.currentTime = target;
-        } catch {
-          // Ignore seeks before metadata is ready.
-        }
-      }
-    };
-
-    const prime = () => {
-      video.pause();
-      seekToScroll();
-    };
-
-    video.addEventListener('loadedmetadata', prime);
-    video.addEventListener('canplay', prime, { once: true });
-    prime();
-
-    const tick = () => {
-      raf = requestAnimationFrame(tick);
-      if (!document.hidden) seekToScroll();
-    };
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      video.removeEventListener('loadedmetadata', prime);
-      video.removeEventListener('canplay', prime);
-      video.pause();
-    };
-  }, [sceneStateRef, fallbackActive]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -243,17 +198,6 @@ export default function PersistentCanvas() {
     };
   }, [sceneStateRef]);
 
-  const videoProps = {
-    ref: videoRef,
-    src: VIDEO_SRC,
-    muted: true,
-    playsInline: true,
-    preload: 'auto' as const,
-    className: `absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
-      activeSection === 'hero' ? 'opacity-0' : 'opacity-[0.72]'
-    }`,
-  };
-
   const shade = (
     <div
       className="absolute inset-0"
@@ -270,7 +214,6 @@ export default function PersistentCanvas() {
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#10191f]"
       >
-        <video {...videoProps} />
         {shade}
       </div>
     );
@@ -279,7 +222,6 @@ export default function PersistentCanvas() {
   return (
     <div ref={hostRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#10191f]">
       <canvas ref={canvasRef} className="block h-full w-full" />
-      <video {...videoProps} />
       {shade}
     </div>
   );
