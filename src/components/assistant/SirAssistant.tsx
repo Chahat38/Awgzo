@@ -284,10 +284,10 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
     let autoDone = false;
 
     const startHeroNow = (auto: boolean) => {
-      inject(); // make sure the Hero "i" button exists when it is already mounted
-      if (disposed) return false;
+      inject(); // make sure the Hero "i" button exists
       const hero = document.getElementById('hero');
-      const btn = hero?.querySelector<HTMLElement>(':scope > [data-assistant-trigger]') ?? null;
+      if (!hero || disposed) return false;
+      const btn = hero.querySelector<HTMLElement>(':scope > [data-assistant-trigger]');
       stop();
       if (!auto) ensureCtx();
       activeId = 'hero';
@@ -331,14 +331,6 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
       attempt();
     };
     autoRef.current = runAuto;
-
-    // The branded loader's Enter button dispatches this synchronously inside the
-    // click gesture, which is what lets the browser unlock audio on page load.
-    const onEnter = () => {
-      disarmGesture();
-      startHeroNow(false);
-    };
-    window.addEventListener('awgzo:enter', onEnter);
 
     const scriptFor = (id: string): { script: string; audioUrl?: string } | null => {
       const sec = ASSISTANT_SECTIONS.find((x) => x.id === id);
@@ -480,9 +472,6 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
         found += 1;
         if (hasBtn(el)) continue;
         addButton(el, s.id, 'section', { id: s.id });
-        if (activeId === s.id) {
-          setPressed(el.querySelector<HTMLElement>(':scope > [data-assistant-trigger]'));
-        }
       }
       hasTargets = found > 0;
       // the assistant box is shown on every page, even where no "i" button exists
@@ -571,7 +560,6 @@ export default function SirAssistant({ ready = true }: { ready?: boolean }) {
       disposed = true;
       autoRef.current = null;
       disarmGesture();
-      window.removeEventListener('awgzo:enter', onEnter);
       cancelAnimationFrame(raf);
       mo.disconnect();
       window.removeEventListener('resize', onResize);
