@@ -203,9 +203,6 @@ export function FooterSection() {
         <div className="flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
           <AwgzoLogo className="shrink-0 [&_img]:!h-[clamp(48px,4.2vw,64px)] [&_img]:!max-w-none" />
           <div className="min-w-0 lg:flex-1">
-            <span className="font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-[#ee8a52]">
-              Hey Business Tycoons
-            </span>
             <h2
               className="mt-[6px] font-display text-[clamp(1.5rem,2.5vw,2.5rem)] leading-[1.05] tracking-[0.01em] max-sm:text-[clamp(1.4rem,6.5vw,1.9rem)]"
               style={{ transformStyle: 'preserve-3d' }}
