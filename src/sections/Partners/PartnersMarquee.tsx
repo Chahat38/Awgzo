@@ -31,9 +31,9 @@ export function PartnersMarquee() {
     <section
       id="partners"
       aria-label="Our partners and supporters"
-      className="relative z-10 overflow-hidden border-t border-white/[0.08] py-12 lg:py-16"
+      className="relative z-10 overflow-hidden border-t border-white/[0.08] py-6 lg:py-8"
     >
-      <p className="mb-8 text-center font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-[#ee8a52]">
+      <p className="mb-4 text-center font-mono-tabular text-[0.75rem] uppercase tracking-[0.25em] text-[#ee8a52]">
         Trusted by &amp; worked with
       </p>
       <div className="awgzo-marquee">

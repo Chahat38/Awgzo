@@ -825,7 +825,7 @@ export function RealityLab() {
     <section
       id="reality-lab"
       ref={sectionRef}
-      className="relative z-10 border-t border-white/[0.08] py-16 lg:py-20"
+      className="relative z-10 border-t border-white/[0.08] py-8 lg:py-10"
     >
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12">
         {/* Header Bar */}
