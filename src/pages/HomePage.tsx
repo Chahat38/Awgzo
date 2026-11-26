@@ -10,6 +10,7 @@ import { FAQ } from '../sections/FAQ/FAQ';
 import { Contact } from '../sections/Contact/Contact';
 import { FAQ_PAGE_SCHEMA } from '../data/faq';
 import { ServicesSlot, TestimonialsSlot, FooterSlot } from '../components/slots/TeammateSlots';
+import { ClientOnboarding } from '../sections/ClientOnboarding/ClientOnboarding';
 import { scrollToSection } from '../lib/scroll';
 
 export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }) {
@@ -69,6 +70,7 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
         <PartnersMarquee />
         <Team />
         <TestimonialsSlot />
+        <ClientOnboarding />
         <FAQ />
         <Contact />
       </main>

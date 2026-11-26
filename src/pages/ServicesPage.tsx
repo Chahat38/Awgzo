@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ServicesSlot, FooterSlot } from '../components/slots/TeammateSlots';
+import { ClientOnboarding } from '../sections/ClientOnboarding/ClientOnboarding';
 import { useReality } from '../context/RealityContext';
 import { ScrollTrigger } from '../lib/scroll';
 
@@ -28,6 +29,7 @@ export default function ServicesPage() {
 
       <main>
         <ServicesSlot />
+        <ClientOnboarding />
       </main>
       <FooterSlot />
     </>
