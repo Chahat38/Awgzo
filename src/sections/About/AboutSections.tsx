@@ -97,7 +97,7 @@ export function MissionVision() {
   );
 }
 
-/* ---------- 02 · Team Mission ---------- */
+/* ---------- 02 · Team Vision ---------- */
 export function TeamMission() {
   const ref = useRef<HTMLElement | null>(null);
   useReveal(ref);
@@ -119,7 +119,7 @@ export function TeamMission() {
         <SectionHead
           eyebrow="02 · How we work"
           title="Our"
-          accent="Team Mission"
+          accent="Team Vision"
           text="We are a team that builds unique selling propositions for businesses and solves their problems to increase retention, drive more sales, and build greater trust. We are a crew that cares about results and is dedicated to solving problems."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
