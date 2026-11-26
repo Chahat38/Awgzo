@@ -14,7 +14,7 @@ const CSS = `
 .awz-warp .intro p{margin:0 auto;max-width:560px;color:var(--mute);line-height:1.6;font-size:.95rem}
 
 .awz-warp .awz-spacer{height:0;pointer-events:none}
-.awz-warp .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:34px 26px;width:min(1240px,calc(100% - 12vw));margin:0 auto;padding:56px 0 120px}
+.awz-warp .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:34px 26px;width:min(1240px,calc(100% - 12vw));margin:0 auto;padding:32px 0 120px}
 @media(min-width:901px){
   .awz-warp .c1{grid-column:5/span 4}.awz-warp .c2{grid-column:1/span 4}.awz-warp .c3{grid-column:5/span 4}
   .awz-warp .c4{grid-column:9/span 4}.awz-warp .c5{grid-column:1/span 4}.awz-warp .c6{grid-column:5/span 4}
@@ -223,14 +223,13 @@ export function Team() {
       vh = window.innerHeight;
       R0 = Math.min(vw, vh) * 0.42;
       spacer.style.height = '0px';
-      const SP = vh * 0.2;
+      const SP = vh * 0.08;
       spacer.style.height = `${SP}px`;
       const sy = window.scrollY, sx = window.scrollX;
       const gr = grid.getBoundingClientRect();
       gx = gr.left + sx;
       gy = gr.top + sy;
       ST = spacer.getBoundingClientRect().top + sy;
-      TRIG = Math.max(0, gy - vh * 0.8);
       info = cards.map((c) => {
         const r = c.getBoundingClientRect();
         return { cx: r.left + sx + r.width / 2, cy: r.top + sy + r.height / 2, w: r.width, h: r.height };
@@ -249,11 +248,14 @@ export function Team() {
       });
       P0 = Math.min(...startS);
       Pend = Math.max(...endS);
-      if (P0 < ST - vh * 0.35) {
-        const d = ST - vh * 0.35 - P0;
+      if (P0 < ST - vh * 0.5) {
+        const d = ST - vh * 0.5 - P0;
         for (let k = 0; k < N; k++) startS[k] += d;
         P0 += d;
       }
+      // Begin the warp exactly where the virtual scroll begins: just under the
+      // heading. This removes the dead scroll gap before the cards appear.
+      TRIG = Math.max(0, P0);
     };
 
     const frame = () => {
