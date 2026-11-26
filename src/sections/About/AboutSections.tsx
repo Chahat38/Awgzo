@@ -76,7 +76,7 @@ export function MissionVision() {
           eyebrow="01 · About AWGZO"
           title="Our"
           accent="Mission & Vision"
-          text="Your tech and marketing wizards. This is why we build, and where we are heading."
+          text="We build immersive experiences that open straight in a phone browser, so your customers never need to download an app. From AR try-on to WebXR and TikTok effects, we turn bold ideas into products people can use today."
         />
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
           {cards.map(({ icon: Icon, label, title, body }) => (
