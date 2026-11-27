@@ -4,14 +4,13 @@ import { AWGZO_SITE } from '../../data/site';
 import { SocialIcon } from '../../components/ui/SocialIcon';
 import { AwgzoLogo } from '../../components/common/AwgzoLogo';
 import { useReality } from '../../context/RealityContext';
-import { gsap, registerMotionPlugins } from '../../lib/scroll';
+import { gsap } from '../../lib/scroll';
 
 const HEADING = 'Let Us Take Care Of You';
 
 export function FooterSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const colsRef = useRef<HTMLDivElement | null>(null);
   const ctaRef = useRef<HTMLAnchorElement | null>(null);
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<string | null>(null);
@@ -20,9 +19,6 @@ export function FooterSection() {
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-
-    registerMotionPlugins();
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const sectionObserver = new IntersectionObserver(
       ([entry]) => {
@@ -34,37 +30,6 @@ export function FooterSection() {
       { threshold: 0.2 }
     );
     sectionObserver.observe(el);
-
-    const motionContext = gsap.context(() => {
-      if (reducedMotion) return;
-
-      gsap.from('.ch', {
-        z: -500,
-        rotationX: -90,
-        opacity: 0,
-        y: 60,
-        stagger: 0.025,
-        duration: 1.1,
-        ease: 'back.out(1.4)',
-        scrollTrigger: { trigger: el, start: 'top 55%', toggleActions: 'play none none reverse' },
-      });
-
-      gsap.from('.fcol', {
-        y: 50,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: colsRef.current, start: 'top 92%', toggleActions: 'play none none reverse' },
-      });
-    }, el);
-
-    if (reducedMotion) {
-      return () => {
-        motionContext.revert();
-        sectionObserver.disconnect();
-      };
-    }
 
     const canvas = canvasRef.current;
     let renderer: THREE.WebGLRenderer | null = null;
@@ -149,7 +114,6 @@ export function FooterSection() {
       window.removeEventListener('pointermove', onPointerMove);
       visibilityObserver.disconnect();
       sectionObserver.disconnect();
-      motionContext.revert();
       particleGeometry.dispose();
       particleMaterial.dispose();
       renderer?.dispose();
@@ -236,10 +200,7 @@ export function FooterSection() {
         </div>
 
         <div>
-          <div
-            ref={colsRef}
-            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-[22px] sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:gap-[24px]"
-          >
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-[18px] gap-y-[22px] sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:gap-[24px]">
             <div className="fcol">
               <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#ee8a52]">Visit Us</h4>
               <p className="text-sm leading-relaxed text-[#9fa3a5]">{AWGZO_SITE.contact.address}</p>
