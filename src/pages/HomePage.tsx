@@ -12,7 +12,7 @@ import { FAQ_PAGE_SCHEMA } from '../data/faq';
 import { ServicesSlot, TestimonialsSlot, FooterSlot } from '../components/slots/TeammateSlots';
 import { ClientOnboarding } from '../sections/ClientOnboarding/ClientOnboarding';
 import { PortfolioShowcase } from '../sections/Portfolio/PortfolioShowcase';
-import { scrollToSection } from '../lib/scroll';
+import { scrollToSectionWhenReady } from '../lib/scroll';
 
 export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }) {
   const location = useLocation();
@@ -20,11 +20,9 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const target = params.get('section');
-    if (target) {
-      const timer = window.setTimeout(() => scrollToSection(target), 120);
-      return () => window.clearTimeout(timer);
-    }
-  }, [location.search]);
+    if (!target || !loaderDone) return;
+    return scrollToSectionWhenReady(target);
+  }, [location.search, loaderDone]);
 
   return (
     <>

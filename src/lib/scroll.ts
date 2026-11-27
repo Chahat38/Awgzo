@@ -83,16 +83,62 @@ export function initSmoothScroll(
   };
 }
 
-export function scrollToSection(sectionId: string) {
+export function scrollToSection(sectionId: string, immediate = false) {
   const cleanId = sectionId.replace(/^#/, '');
   const el = document.getElementById(cleanId);
   if (!el) return;
 
   if (activeLenis) {
-    activeLenis.scrollTo(el, { offset: 0, duration: 1.1 });
+    activeLenis.scrollTo(el, {
+      offset: 0,
+      duration: immediate ? 0 : 1.1,
+      immediate,
+    });
   } else {
-    el.scrollIntoView({ behavior: 'smooth' });
+    el.scrollIntoView({ behavior: immediate ? 'auto' : 'smooth' });
   }
+}
+
+/**
+ * Cross-page section links: lazy sections, images and pinned ScrollTriggers can
+ * move the target after the first jump. Keep re-aligning briefly so the link
+ * always lands on the requested section instead of an old scroll position.
+ */
+export function scrollToSectionWhenReady(sectionId: string, durationMs = 2200) {
+  const cleanId = sectionId.replace(/^#/, '');
+  let raf = 0;
+  let stopped = false;
+  const start = performance.now();
+
+  const stop = () => {
+    if (stopped) return;
+    stopped = true;
+    cancelAnimationFrame(raf);
+    window.removeEventListener('wheel', stop);
+    window.removeEventListener('touchstart', stop);
+    window.removeEventListener('keydown', stop);
+  };
+
+  window.addEventListener('wheel', stop, { passive: true });
+  window.addEventListener('touchstart', stop, { passive: true });
+  window.addEventListener('keydown', stop);
+  ScrollTrigger.refresh();
+
+  const align = () => {
+    if (stopped) return;
+    const el = document.getElementById(cleanId);
+    if (el && Math.abs(el.getBoundingClientRect().top) > 2) {
+      scrollToSection(cleanId, true);
+    }
+    if (performance.now() - start < durationMs) {
+      raf = requestAnimationFrame(align);
+    } else {
+      stop();
+    }
+  };
+
+  raf = requestAnimationFrame(align);
+  return stop;
 }
 
 export function scrollPageBy(deltaY: number) {

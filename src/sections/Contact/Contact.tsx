@@ -271,8 +271,7 @@ export function Contact() {
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g., Ahmad Khan"
-                      className="mt-2 w-full rounded-xl border border-white/15 bg-[#10191f]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#e86d22] focus:outline-none"
+                      className="mt-2 w-full rounded-xl border border-white/15 bg-[#10191f]/80 px-4 py-3 text-sm text-white focus:border-[#e86d22] focus:outline-none"
                     />
                   </div>
                   <div>
@@ -285,8 +284,7 @@ export function Contact() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@company.com"
-                      className="mt-2 w-full rounded-xl border border-white/15 bg-[#10191f]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#e86d22] focus:outline-none"
+                      className="mt-2 w-full rounded-xl border border-white/15 bg-[#10191f]/80 px-4 py-3 text-sm text-white focus:border-[#e86d22] focus:outline-none"
                     />
                   </div>
                 </div>
@@ -319,8 +317,7 @@ export function Contact() {
                     required
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Share your goal — AR try-on, VR experience, WebXR, website or marketing..."
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-[#10191f]/80 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-[#e86d22] focus:outline-none"
+                    className="mt-2 w-full rounded-xl border border-white/15 bg-[#10191f]/80 px-4 py-3 text-sm text-white focus:border-[#e86d22] focus:outline-none"
                   />
                 </div>
 

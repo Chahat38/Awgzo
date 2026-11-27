@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent } from 'react';
+import { Link } from 'react-router-dom';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AWGZO_SITE } from '../../data/site';
@@ -332,12 +333,12 @@ export function FooterSection() {
 
             <div className="fcol">
               <h4 className="mb-[10px] text-xs uppercase tracking-[0.2em] text-[#ee8a52]">Quick Links</h4>
-              <a href="#hero" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Home</a>
-              <a href="/services" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Services</a>
-              <a href="#portfolio" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Work</a>
-              <a href="#reality-lab" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">AR Lab</a>
-              <a href="#team" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Team</a>
-              <a href="#contact" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Contact</a>
+              <Link to="/?section=hero" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Home</Link>
+              <Link to="/services" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Services</Link>
+              <Link to="/?section=portfolio" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Work</Link>
+              <Link to="/products" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">AR Lab</Link>
+              <Link to="/?section=team" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Team</Link>
+              <Link to="/contact" className="block text-sm leading-[1.8] text-[#9fa3a5] no-underline">Contact</Link>
             </div>
 
             <div className="fcol">
@@ -351,9 +352,8 @@ export function FooterSection() {
                   required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder="you@company.com"
                   aria-label="Email address for AWGZO updates"
-                  className="min-w-0 flex-1 rounded-full border border-white/[0.18] bg-white/[0.06] px-[14px] py-[11px] text-sm text-white outline-none transition-all duration-300 placeholder:text-white/40 focus:border-[#ee8a52] focus:shadow-[0_0_0_4px_rgba(232,109,34,0.22)]"
+                  className="min-w-0 flex-1 rounded-full border border-white/[0.18] bg-white/[0.06] px-[14px] py-[11px] text-sm text-white outline-none transition-all duration-300 focus:border-[#ee8a52] focus:shadow-[0_0_0_4px_rgba(232,109,34,0.22)]"
                 />
                 <button
                   type="submit"
