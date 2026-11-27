@@ -26,7 +26,7 @@ const SCROLL_PER_PROJECT = 0.7;
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-export function PortfolioShowcase() {
+export function PortfolioShowcase({ id = 'portfolio' }: { id?: string }) {
   const { setActiveSection, sceneStateRef } = useReality();
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -164,9 +164,9 @@ export function PortfolioShowcase() {
 
   return (
     <section
-      id="portfolio"
+      id={id}
       ref={sectionRef}
-      aria-label="Portfolio section"
+      aria-label="Portfolio showcase section"
       className="relative z-10 border-t border-white/[0.08]"
       style={{
         background:

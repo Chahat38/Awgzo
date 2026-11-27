@@ -11,6 +11,7 @@ import { Contact } from '../sections/Contact/Contact';
 import { FAQ_PAGE_SCHEMA } from '../data/faq';
 import { ServicesSlot, TestimonialsSlot, FooterSlot } from '../components/slots/TeammateSlots';
 import { ClientOnboarding } from '../sections/ClientOnboarding/ClientOnboarding';
+import { PortfolioShowcase } from '../sections/Portfolio/PortfolioShowcase';
 import { scrollToSection } from '../lib/scroll';
 
 export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }) {
@@ -65,6 +66,7 @@ export default function HomePage({ loaderDone = true }: { loaderDone?: boolean }
       <main>
         <Hero loaderDone={loaderDone} />
         <ServicesSlot />
+        <PortfolioShowcase id="portfolio-showcase" />
         <Portfolio />
         <RealityLab />
         <PartnersMarquee />
