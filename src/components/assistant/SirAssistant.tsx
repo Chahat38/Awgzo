@@ -9,12 +9,12 @@ import {
 import { scrollToSection } from '../../lib/scroll';
 
 /**
- * Drop-in 3D talking assistant (sir_model.glb).
+ * Drop-in 3D brand mark with voice (awgzo_logo.glb).
  *
  * - Adds one small "i" info button only to the Hero section (the only section listed in
  *   assistantScripts.ts). Cards and other sections have no recording button.
  * - The assistant lives permanently (on every page) in a small "XR / VR" box in the bottom-left corner and
- *   only rotates inside that box. It never moves around the page.
+ *   only tilts a few degrees inside that box. It never spins 360 degrees.
  * - Click "i": the page scrolls to that section and the recording plays (the box glows while
  *   it talks). Click again to stop.
  * - When the Home page opens, the Hero recording starts by itself. Browsers can block sound before
@@ -22,7 +22,7 @@ import { scrollToSection } from '../../lib/scroll';
  * - Voice: /audio/<id>.mp3 (ElevenLabs) plays to its end; if missing, browser voice reads the script.
  */
 
-const MODEL_URL = '/assets/sir_model.glb';
+const MODEL_URL = '/assets/awgzo_logo.glb';
 const ACCENT = 0xe86d22;
 /** Set to Math.PI if the model appears to face away from the screen. */
 const FRONT_YAW = 0;
@@ -509,8 +509,21 @@ export default function SirAssistant({
     let raf = 0;
     let last = performance.now();
     let level = 0;
-    let spin = FRONT_YAW + 0.35;
-    const TAU = Math.PI * 2;
+    let pointerX = 0;
+    let pointerY = 0;
+    const onPointerMove = (event: PointerEvent) => {
+      pointerX = THREE.MathUtils.clamp(
+        (event.clientX / Math.max(1, window.innerWidth)) * 2 - 1,
+        -1,
+        1
+      );
+      pointerY = THREE.MathUtils.clamp(
+        (event.clientY / Math.max(1, window.innerHeight)) * 2 - 1,
+        -1,
+        1
+      );
+    };
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
 
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
@@ -539,22 +552,21 @@ export default function SirAssistant({
 
       const motion = reduced ? 0.3 : 1;
       body.position.y = Math.sin(t * 2.2) * 0.012 * motion;
-      // the model only ever turns inside its box: slow turntable when idle,
-      // a gentle sway facing the viewer while it is talking
-      if (speaking) {
-        const front = Math.round((spin - FRONT_YAW) / TAU) * TAU + FRONT_YAW;
-        spin = THREE.MathUtils.damp(spin, front + Math.sin(t * 1.6) * 0.45, 4, dt);
-      } else {
-        spin += dt * (reduced ? 0.15 : 0.7);
-      }
-      body.rotation.y = spin;
-      box.classList.toggle('is-speaking', speaking);
-      body.rotation.x = THREE.MathUtils.damp(
-        body.rotation.x,
-        speaking ? Math.sin(t * 8) * 0.035 * level * motion : 0,
-        10,
+      // Fixed front-facing logo: only a small cursor-driven tilt, never a full spin.
+      const maxTilt = reduced ? 0.03 : 0.14; // ~8 degrees max
+      body.rotation.y = THREE.MathUtils.damp(
+        body.rotation.y,
+        FRONT_YAW + pointerX * maxTilt,
+        5,
         dt
       );
+      body.rotation.x = THREE.MathUtils.damp(
+        body.rotation.x,
+        -pointerY * maxTilt * 0.6,
+        5,
+        dt
+      );
+      box.classList.toggle('is-speaking', speaking);
       body.scale.set(1 - level * 0.012, 1 + level * 0.03 * motion, 1 - level * 0.012);
 
       renderer.render(scene, camera);
@@ -568,6 +580,7 @@ export default function SirAssistant({
       disarmGesture();
       cancelAnimationFrame(raf);
       mo.disconnect();
+      window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('orientationchange', onResize);
       stop();
