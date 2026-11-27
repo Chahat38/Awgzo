@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AWGZO_SITE } from '../../data/site';
 import { SocialIcon } from '../../components/ui/SocialIcon';
 import { AwgzoLogo } from '../../components/common/AwgzoLogo';
@@ -11,6 +12,7 @@ const HEADING = 'Let Us Take Care Of You';
 export function FooterSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const logoSlotRef = useRef<HTMLDivElement | null>(null);
   const ctaRef = useRef<HTMLAnchorElement | null>(null);
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<string | null>(null);
@@ -19,6 +21,7 @@ export function FooterSection() {
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
+    let disposed = false;
 
     const sectionObserver = new IntersectionObserver(
       ([entry]) => {
@@ -47,6 +50,55 @@ export function FooterSection() {
     camera.position.z = 6;
     scene.add(camera);
 
+    // The footer reuses the same canvas for the 3D AWGZO logo. It stays
+    // front-facing and only leans a few degrees with the cursor.
+    const logoScene = new THREE.Scene();
+    const logoCamera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    logoCamera.position.z = 2.1;
+    logoScene.add(new THREE.AmbientLight(0xffffff, 1.5));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    keyLight.position.set(2, 3, 4);
+    logoScene.add(keyLight);
+    const rimLight = new THREE.DirectionalLight(0xee8a52, 1.4);
+    rimLight.position.set(-3, 1, -2);
+    logoScene.add(rimLight);
+
+    const logoBot = new THREE.Group();
+    logoBot.rotation.order = 'YXZ';
+    logoScene.add(logoBot);
+    let logoReady = false;
+    let logoViewport = { x: 0, y: 0, width: 0, height: 0 };
+
+    const loadLogo = (attempt: number) => {
+      new GLTFLoader().load(
+        '/assets/awgzo_logo.glb',
+        (gltf) => {
+          if (disposed) return;
+          const model = gltf.scene;
+          const box = new THREE.Box3().setFromObject(model);
+          const size = box.getSize(new THREE.Vector3());
+          const center = box.getCenter(new THREE.Vector3());
+          model.position.sub(center);
+          const holder = new THREE.Group();
+          holder.add(model);
+          holder.scale.setScalar(1 / Math.max(size.y, 0.0001));
+          model.traverse((o) => {
+            o.frustumCulled = false;
+          });
+          logoBot.add(holder);
+          logoReady = true;
+          const fallback = logoSlotRef.current?.querySelector('img, svg');
+          if (fallback) (fallback as HTMLElement).style.opacity = '0';
+          resize();
+        },
+        undefined,
+        () => {
+          if (!disposed && attempt < 3) window.setTimeout(() => loadLogo(attempt + 1), 1500 * attempt);
+        }
+      );
+    };
+    loadLogo(1);
+
     const particleCount = 900;
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i += 1) {
@@ -71,8 +123,24 @@ export function FooterSection() {
       renderer?.setSize(width, height, false);
       camera.aspect = width / Math.max(1, height);
       camera.updateProjectionMatrix();
+
+      const slot = logoSlotRef.current;
+      if (slot) {
+        const footerRect = el.getBoundingClientRect();
+        const slotRect = slot.getBoundingClientRect();
+        logoViewport = {
+          x: slotRect.left - footerRect.left,
+          y: footerRect.bottom - slotRect.bottom,
+          width: slotRect.width,
+          height: slotRect.height,
+        };
+        logoCamera.aspect = slotRect.width / Math.max(1, slotRect.height);
+        logoCamera.updateProjectionMatrix();
+      }
     };
     resize();
+    const logoResizeObserver = new ResizeObserver(resize);
+    if (logoSlotRef.current) logoResizeObserver.observe(logoSlotRef.current);
     window.addEventListener('resize', resize);
 
     let pointerX = 0;
@@ -93,9 +161,15 @@ export function FooterSection() {
     visibilityObserver.observe(el);
 
     let frame = 0;
-    const loop = () => {
+    let lastFrame = performance.now();
+    const loop = (now: number) => {
       frame = requestAnimationFrame(loop);
-      if (!visible || !renderer) return;
+      if (!visible || !renderer) {
+        lastFrame = now;
+        return;
+      }
+      const dt = Math.min((now - lastFrame) / 1000, 0.05);
+      lastFrame = now;
 
       const max = document.documentElement.scrollHeight - window.innerHeight || 1;
       const pageProgress = window.scrollY / max;
@@ -104,18 +178,43 @@ export function FooterSection() {
       camera.position.y += (-pointerY * 0.8 - camera.position.y) * 0.05;
       particles.rotation.z += 0.0003;
 
+      renderer.setScissorTest(false);
+      renderer.setViewport(0, 0, el.clientWidth, el.clientHeight);
       renderer.render(scene, camera);
+
+      if (logoReady && logoViewport.width > 0 && logoViewport.height > 0) {
+        logoBot.rotation.y = THREE.MathUtils.damp(logoBot.rotation.y, pointerX * 0.28, 5, dt);
+        logoBot.rotation.x = THREE.MathUtils.damp(logoBot.rotation.x, -pointerY * 0.16, 5, dt);
+        renderer.setScissorTest(true);
+        renderer.setViewport(logoViewport.x, logoViewport.y, logoViewport.width, logoViewport.height);
+        renderer.setScissor(logoViewport.x, logoViewport.y, logoViewport.width, logoViewport.height);
+        renderer.render(logoScene, logoCamera);
+        renderer.setScissorTest(false);
+      }
     };
     frame = requestAnimationFrame(loop);
 
     return () => {
+      disposed = true;
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
       window.removeEventListener('pointermove', onPointerMove);
+      logoResizeObserver.disconnect();
       visibilityObserver.disconnect();
       sectionObserver.disconnect();
       particleGeometry.dispose();
       particleMaterial.dispose();
+      logoScene.traverse((o) => {
+        const mesh = o as THREE.Mesh;
+        if (mesh.geometry) mesh.geometry.dispose();
+        const mat = mesh.material as THREE.Material | THREE.Material[] | undefined;
+        const mats = Array.isArray(mat) ? mat : mat ? [mat] : [];
+        mats.forEach((m) => {
+          const map = (m as THREE.MeshStandardMaterial).map;
+          if (map) map.dispose();
+          m.dispose();
+        });
+      });
       renderer?.dispose();
     };
   }, [sceneStateRef, setActiveSection]);
@@ -165,7 +264,14 @@ export function FooterSection() {
 
       <div className="relative z-10 flex flex-col gap-[clamp(20px,2.5vw,32px)]">
         <div className="flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-          <AwgzoLogo className="shrink-0 [&_img]:!h-[clamp(48px,4.2vw,64px)] [&_img]:!max-w-none" />
+          <div
+            ref={logoSlotRef}
+            role="img"
+            aria-label="AWGZO 3D logo"
+            className="relative h-[clamp(48px,4.2vw,64px)] w-[clamp(48px,4.2vw,64px)] shrink-0"
+          >
+            <AwgzoLogo className="absolute inset-0 [&_img]:!h-full [&_img]:!max-w-none [&_img]:!object-contain" />
+          </div>
           <div className="min-w-0 lg:flex-1">
             <h2
               className="mt-[6px] font-display text-[clamp(1.5rem,2.5vw,2.5rem)] leading-[1.05] tracking-[0.01em] max-sm:text-[clamp(1.4rem,6.5vw,1.9rem)]"
